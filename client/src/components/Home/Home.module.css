@@ -1,0 +1,146 @@
+
+.main{
+    
+    margin: 20px 40px;
+    width: 48vw;
+    padding-left: 20px;
+   
+   float: left;
+}
+.uptext{
+    color:white;
+    font-size: 2rem;
+    font-weight: 300;
+    margin: 20px 30px;
+    margin-top: 80px;
+    margin-left: 0px;
+    padding-left: 0px;
+}
+.textContainer {
+    font-size: 4rem;
+    color: white;
+    position: relative;
+    /* Required for absolute positioning of animated text */
+    overflow: hidden;
+    /* Hide overflowing content */
+    
+}
+#beforePart,#afterPart{
+    color: white;
+    font-weight: 900;
+}
+#beforePart{
+    display: inline-block;
+}
+
+#changingPart {
+    display: inline-block;
+    color: green; 
+    position: absolute;
+    /* Positioning to allow animation */
+    opacity: 0;
+    animation: fadeInOut 3s infinite;
+}
+
+@keyframes fadeInOut {
+
+    0%,
+    100% {
+        opacity: 0;
+        transform: translateY(20px);
+        /* Start and end with a small vertical offset */
+    }
+
+    50% {
+        opacity: 1;
+        transform: translateY(0);
+        /* Fully visible and centered */
+    }
+}
+.sideRoller{
+    margin: 10px 20px;
+    border: 2px solid white;
+    float:right;
+    width:40vw;
+    height:80vh;
+    overflow: hidden;
+}
+
+
+
+@media screen and (max-width: 768px) {
+    .main {
+        width: 90vw;
+        margin: 10px auto;
+        float: none;
+    }
+
+    .sideRoller {
+        width: 100%;
+        height: 40vh;
+        margin: 10px 0;
+    }
+
+    .textContainer {
+        font-size: 2rem;
+    }
+
+    .uptext {
+        font-size: 1.5rem;
+        text-align: center;
+        margin-top: 40px;
+    }
+
+    #changingPart {
+        animation: fadeInOut 2s infinite; /* Faster for smaller screens */
+    }
+}
+
+
+
+
+
+
+
+.parentContainer {
+    /* Full viewport width */
+    height: 120vh;
+    overflow: hidden; /* Hide the overflowing part of the content */
+    white-space: nowrap;
+  }
+  
+  /* Scrolling content container */
+  .scrollingContent {
+    display: flex;
+    flex-direction: column;
+    animation: scroll 5s linear infinite; /* Continuous scrolling animation */
+  }
+  
+  @keyframes scroll {
+    0% {
+      transform: translateY(0); /* Start position */
+    }
+    100% {
+      transform: translateY(-20%); /* Move all the way to the left */
+    }
+  }
+  
+  /* Each card */
+  .card {
+    min-width: 200px;
+    height: 150px;
+    margin: 10px;
+    background-color: grey;
+    border: 3px solid black;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    border-radius: 10px;
+   
+  }
+  
+  .scrollingContent:hover {
+    animation-play-state: paused;
+  }

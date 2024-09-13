@@ -1,0 +1,94 @@
+
+
+.navbar{
+    
+    
+    width: 95%;
+    margin: auto;
+    padding: 10px 0;
+    display:flex;
+    align-items:center;
+    justify-content: space-between;
+    
+}
+.navbar ul img{
+    margin-right: 90px;
+}
+.navbar ul li{
+    list-style: none;
+    display: inline-block;
+    margin:0 20px;
+    font-size: large;
+    position :relative;
+}
+
+.navbar ul li a{
+    text-decoration: none;
+    font-weight: bold;
+    color: aliceblue;
+    text-transform: uppercase;
+}
+
+.navbar ul li::after{
+    content: '';
+    height: 3px;
+    width:0%;
+                /* can change bg color of navbar here */
+    background: 009688;
+    position: absolute;
+    left:0;
+    bottom:-10px;
+    transition: 0.5s;
+}
+.navbar ul li:hover::after{
+    width: 100%;
+    background: white;
+}
+.content{
+    
+    position: relative;
+    top:40px;
+   
+    transform: translateY(-50%);
+    text-align: center;
+    color: aliceblue;
+}
+button{
+    min-width: 100px;
+    padding: 10px 0;
+    text-align: center;
+    margin: 20px;
+    border-radius: 25px;
+    font-weight: bolder;
+    font-size: 15px;
+    border: 2px solid white;
+    color:aliceblue;
+    cursor: pointer;
+    background:transparent;
+    overflow: hidden;
+    position: relative;
+    
+}
+
+span{
+    background: white;
+    height: 100%;
+    width: 0;
+    border-radius: 25px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    z-index: -1;
+    transition: 0.5s;
+    overflow: hidden;
+
+}
+button:hover span{
+    width: 100%;
+    background: white;
+}
+button:hover{
+    border: none;
+    color: black;
+
+}
