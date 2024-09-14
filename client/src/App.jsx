@@ -6,9 +6,6 @@ import Layout from './Layout.jsx'
 import Home from "./components/Home/Home.jsx"
 import AboutUs from './components/AboutUs/AboutUs.jsx'
 
-
-
-function App() {
   const router = createBrowserRouter([
     {
       path: '/',
@@ -34,12 +31,12 @@ import RoomPage from './Pages/VideoCallPages/Room'
 function App() {
   return (
     <>
-      <RouterProvider router={router} />
+      <RouterProvider router={router} />  
+      {/* <Routes>
+        <Route path="/call" element={<HomePage />} />
+        <Route path="/room/:roomId" element={<RoomPage />} />
+      </Routes> */}
     </>
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/room/:roomId" element={<RoomPage />} />
-    </Routes>
   )
 }
 
