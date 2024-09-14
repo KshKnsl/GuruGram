@@ -19,9 +19,15 @@ const RoomPage = () => {
         });
     }
     return (
+<<<<<<< HEAD
         <div>
             <div ref={mentorMeeting}/>
         </div>
+=======
+        <>
+            <div ref={mentorMeeting} style={{ width: '100%', height: '100%' }}/>
+        </>
+>>>>>>> 4b36aee (tAILWIND ADDED)
     )
 }
 
