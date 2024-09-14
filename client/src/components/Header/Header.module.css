@@ -4,11 +4,13 @@
     
     
     width: 95%;
+    height: 80px;
     margin: auto;
     padding: 10px 0;
     display:flex;
     align-items:center;
     justify-content: space-between;
+    border-bottom: 4px solid  #385170;
     
 }
 .navbar ul img{
@@ -25,7 +27,7 @@
 .navbar ul li a{
     text-decoration: none;
     font-weight: bold;
-    color: aliceblue;
+    color: #ececec;
     text-transform: uppercase;
 }
 
@@ -47,11 +49,11 @@
 .content{
     
     position: relative;
-    top:40px;
+    top:38px;
    
     transform: translateY(-50%);
     text-align: center;
-    color: aliceblue;
+    color: #ececec;
 }
 button{
     min-width: 100px;
@@ -62,7 +64,7 @@ button{
     font-weight: bolder;
     font-size: 15px;
     border: 2px solid white;
-    color:aliceblue;
+    color:#ececec;
     cursor: pointer;
     background:transparent;
     overflow: hidden;
