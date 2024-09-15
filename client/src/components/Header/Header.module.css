@@ -1,18 +1,19 @@
-.navbar
-{    
-    position: absolute;
+.navbar 
+{
+    position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 80px;
     padding: 10px 20px;
     display: flex;
-    align-items:center;
+    align-items: center;
     justify-content: space-between;
-    border-bottom: 4px solid  #385170;
+    border-bottom: 4px solid #385170;
     z-index: 1000;
     background-color: black;
 }
+
 .navbar ul img
 {
     margin-right: 90px;
