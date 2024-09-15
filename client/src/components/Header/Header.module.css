@@ -1,19 +1,20 @@
-
-
-.navbar{
-    
-    
-    width: 95%;
+.navbar
+{    
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
     height: 80px;
-    margin: auto;
-    padding: 10px 0;
-    display:flex;
+    padding: 10px 20px;
+    display: flex;
     align-items:center;
     justify-content: space-between;
     border-bottom: 4px solid  #385170;
-    
+    z-index: 1000;
+    background-color: black;
 }
-.navbar ul img{
+.navbar ul img
+{
     margin-right: 90px;
 }
 .navbar ul li{
@@ -35,7 +36,6 @@
     content: '';
     height: 3px;
     width:0%;
-                /* can change bg color of navbar here */
     background: 009688;
     position: absolute;
     left:0;

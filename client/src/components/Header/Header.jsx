@@ -11,13 +11,12 @@ function Header() {
                     <li><Link to=''>Home</Link></li>
                     <li><Link to='About'>About</Link></li>
                     <li><Link to='Contact'>Contact</Link></li>
-
+                    <li><Link to='call'>Call</Link></li>
+                    <li><Link to='profile'>Profile</Link></li>
                 </ul>
                 <div className={styles.content}>
-
                     <button type="button"><span></span>Sign In</button>
                     <button type="button"><span></span>Log In</button>
-
                 </div>
 
             </div>

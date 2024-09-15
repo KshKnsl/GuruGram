@@ -1,12 +1,14 @@
-import { useState } from 'react'
 import './App.css'
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Layout from './Layout.jsx'
 import Home from "./components/Home/Home.jsx"
 import AboutUs from './components/AboutUs/AboutUs.jsx'
+import MainLayout from './components/ProfileComponents/MainLayout.jsx'
+import HomePage from './Pages/VideoCallPages/Home'
+import RoomPage from './Pages/VideoCallPages/Room'
 
-  const router = createBrowserRouter([
+const router = createBrowserRouter([
     {
       path: '/',
       element: <Layout />,
@@ -18,24 +20,29 @@ import AboutUs from './components/AboutUs/AboutUs.jsx'
         {
           path: 'about',
           element:<AboutUs/>
+        },
+        {
+          path: 'profile',
+          element: <MainLayout />
+        },
+        {
+          path: 'call',
+          element: <HomePage />
+        },
+        {
+          path: 'room/:roomId',
+          element: <RoomPage />
         }
       ]
     }
   ])
-import { Routes, Route } from 'react-router-dom'
 import './App.css'
 
-import HomePage from './Pages/VideoCallPages/Home'
-import RoomPage from './Pages/VideoCallPages/Room'
 
 function App() {
   return (
     <>
       <RouterProvider router={router} />  
-      {/* <Routes>
-        <Route path="/call" element={<HomePage />} />
-        <Route path="/room/:roomId" element={<RoomPage />} />
-      </Routes> */}
     </>
   )
 }
