@@ -47,13 +47,14 @@
     display: inline-block;
 }
 
-#changingPart {
-   background-color: transparent;
-
+#changingPart 
+{   
+    transform: translateX(10px);
+    background-color: transparent;
     display: inline-block;
-    color: #9fd3c7; 
+    color: #429c87; 
+    font-weight: 800;
     position: absolute;
-    /* Positioning to allow animation */
     opacity: 0;
     animation: fadeInOut 3s infinite;
 }
@@ -67,7 +68,7 @@
         /* Start and end with a small vertical offset */
     }
 
-    50% {
+    50%,70% {
         opacity: 1;
         transform: translateY(0);
         /* Fully visible and centered */
