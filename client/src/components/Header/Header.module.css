@@ -1,4 +1,4 @@
-.navbar 
+navbar 
 {
     position: fixed;
     top: 0;
@@ -38,7 +38,8 @@
     color: #ececec;
     text-transform: uppercase;
 }
-.navbar ul li::after{
+.navbar ul li::after
+{
     content: '';
     height: 3px;
     width:0%;

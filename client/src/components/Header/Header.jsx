@@ -2,7 +2,8 @@ import React from 'react'
 import styles from "./Header.module.css"
 import { Link } from 'react-router-dom'
 import Logo_img from '../../assets/Logo.gif'
-function Header() {
+function Header() 
+{
     return (
         <>
             <div className={styles.navbar}>
@@ -18,10 +19,8 @@ function Header() {
                     <button type="button"><span></span>Sign In</button>
                     <button type="button"><span></span>Log In</button>
                 </div>
-
             </div>
         </>
     )
 }
-
 export default Header
