@@ -55,8 +55,31 @@ function Home() {
           </div>
         </div>
       </div>
+
+      <div className={styles.reasonsContainer}>
+        <div className={styles.reason}>
+          <h2>Enjoy on your TV</h2>
+          <p>Watch on smart TVs, PlayStation, Xbox, Chromecast, Apple TV, Blu-ray players and more.</p>
+          <img src="https://i.imgur.com/89tN78f.png" alt="TV" />
+        </div>
+        <div className={styles.reason}>
+          <h2>Download your shows to watch offline</h2>
+          <p>Save your favourites easily and always have something to watch.</p>
+          <img src="https://i.imgur.com/YjW2v2r.png" alt="Download" />
+        </div>
+        <div className={styles.reason}>
+          <h2>Watch everywhere</h2>
+          <p>Stream unlimited movies and TV shows on your phone, tablet, laptop and TV.</p>
+          <img src="https://i.imgur.com/t0v885p.png" alt="Everywhere" />
+        </div>
+        <div className={styles.reason}>
+          <h2>Create profiles for kids</h2>
+          <p>Send kids on adventures with their favourite characters in a space made just for them - free with your membership.</p>
+          <img src="https://i.imgur.com/gV2v47Z.png" alt="Kids" />
+        </div>
+      </div>
     </div>
   );
 }
 
-export default Home;
+export default Home; 
