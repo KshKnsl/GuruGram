@@ -3,15 +3,17 @@
     background-size: cover;
     background-repeat: no-repeat;
     width: 100vw;
-    padding: 10px;
+    padding: 50px;
+    display: flex;
+    justify-content: space-between;
+    overflow-x: hidden;
 }
-.main{
-    
-    margin: 20px 40px;
-    width: 48vw;
-    padding-left: 20px;
+.main
+{
+   margin: 20px 40px;
+   width: 48vw;
+   padding-left: 20px;
    background-color: transparent;
-   float: left;
 }
 .uptext{
    background-color: transparent;
@@ -114,12 +116,6 @@
         animation: fadeInOut 2s infinite; /* Faster for smaller screens */
     }
 }
-
-
-
-
-
-
 
 .parentContainer {
     /* Full viewport width */
