@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './Home.module.css';
 import Card from '../Card/Card';
+import Testimonial from './Textimonial';
 
 function Home() {
   const texts = ["Marketing", "AWS", "Career", "Web Development", "Data Science", "UI/UX Design", "Finance", "Healthcare", "Education", "Art", "Music"];
@@ -20,7 +21,7 @@ function Home() {
     alert(`Card for ${text} clicked!`);
   };
 
-  return (
+  return (<>
     <div className={styles.container}>
       <div className={styles.bgdiv}>
         <div className={styles.main}>
@@ -79,7 +80,10 @@ function Home() {
           <img src="https://i.imgur.com/gV2v47Z.png" alt="Kids" />
         </div>
       </div>
+     
     </div>
+     <Testimonial/>
+     </>
   );
 }
 
