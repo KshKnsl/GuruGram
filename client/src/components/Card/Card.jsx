@@ -1,23 +1,23 @@
-import React from 'react'
-import styles from "./Card.module.css"
-function Card({ name, description, image, onClick }) {
-    return (
-        <>
-            {/* <div className={styles.card}>
-                    <div className={styles.profilePic}>
+import React from 'react';
+import styles from './Card.module.css';
 
-                    </div>
-                    
-            </div> */}
-            <div className={styles.card} onClick={onClick}>
-                {image && <img src={image} alt={name} className={styles.cardImage} />}
-                <div className={styles.cardContent}>
-                    <h3 className={styles.cardName}>{name}</h3>
-                    <p className={styles.cardDescription}>{description}</p>
-                </div>
+const Card = ({ name, description, domainStatement, image, onClick, style }) => {
+  return (
+    <div className={styles.parentContainer}>
+      <div className={styles.scrollingContent}>
+        <div className={styles.mentorContainer}>
+          <div className={styles.card}>
+            <img src={image} alt={name} className={styles.cardImage} />
+            <div className={styles.cardContent}>
+              <h2 className={styles.cardName}>{name}</h2>
+              <p className={styles.cardDescription}>{description}</p>
+              <p className={styles.domainStatement}>{domainStatement}</p>
             </div>
-        </>
-    )
-}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
-export default Card
+export default Card;

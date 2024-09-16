@@ -42,8 +42,9 @@ function Home() {
             {texts.map((text, index) => (
               <Card
                 key={index}
-                name="John Doe"
-                description="A passionate software developer."
+                name="Mentor 1"
+                description="Expert in Marketing"
+                domainStatement="Specialized in Marketing"
                 image="https://via.placeholder.com/300x150"
                 onClick={() => handleClick(text)}
                 style={{
