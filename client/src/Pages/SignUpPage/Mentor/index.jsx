@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import axios from "axios";
-import './index.css';
 
 const SignUpMentor = () => {
   const [formData, setFormData] = useState({
@@ -41,117 +40,122 @@ const SignUpMentor = () => {
     }
   };
 
-  const buttonStyle = {
-    backgroundColor: '#000',
-    color: 'white',
-    padding: '14px 20px',
-    borderRadius: '5px',
-    margin: '7px 0',
-    width: '100%',
-    fontSize: '18px',
-    border: 'none',
-    cursor: 'pointer'
-  };
-
   return (
-    <div className="container">
-      <h2>Mentor Registration Form</h2>
+    <div className="container max-w-xl bg-white p-8 rounded-xl shadow-lg animate-fadeIn">
+      <h2 className="text-2xl text-black text-center mb-5 tracking-wide relative">
+        Mentor Registration Form
+        <span className="block w-20 h-1 bg-green-500 mx-auto mt-2 rounded-sm"></span>
+      </h2>
 
-      {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
-      {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+      {successMessage && <p className="text-center text-green-500 font-bold mb-4">{successMessage}</p>}
+      {errorMessage && <p className="text-center text-red-500 font-bold mb-4">{errorMessage}</p>}
 
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label>First Name:</label>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="form-group flex items-center">
+          <label className="flex-1 font-bold text-gray-800 text-sm mr-4">First Name:</label>
           <input
             type="text"
             name="firstName"
             value={formData.firstName}
             onChange={handleChange}
+            className="flex-2 p-3 border border-gray-300 rounded-lg focus:border-green-500 focus:ring-1 focus:ring-green-500"
             required
           />
         </div>
 
-        <div className="form-group">
-          <label>Last Name:</label>
+        <div className="form-group flex items-center">
+          <label className="flex-1 font-bold text-gray-800 text-sm mr-4">Last Name:</label>
           <input
             type="text"
             name="lastName"
             value={formData.lastName}
             onChange={handleChange}
+            className="flex-2 p-3 border border-gray-300 rounded-lg focus:border-green-500 focus:ring-1 focus:ring-green-500"
             required
           />
         </div>
 
-        <div className="form-group">
-          <label>Email:</label>
+        <div className="form-group flex items-center">
+          <label className="flex-1 font-bold text-gray-800 text-sm mr-4">Email:</label>
           <input
             type="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
+            className="flex-2 p-3 border border-gray-300 rounded-lg focus:border-green-500 focus:ring-1 focus:ring-green-500"
             required
           />
         </div>
 
-        <div className="form-group">
-          <label>Phone:</label>
+        <div className="form-group flex items-center">
+          <label className="flex-1 font-bold text-gray-800 text-sm mr-4">Phone:</label>
           <input
             type="tel"
             name="phone"
             value={formData.phone}
             onChange={handleChange}
+            className="flex-2 p-3 border border-gray-300 rounded-lg focus:border-green-500 focus:ring-1 focus:ring-green-500"
             required
           />
         </div>
 
-        <div className="form-group">
-          <label>Address:</label>
+        <div className="form-group flex items-center">
+          <label className="flex-1 font-bold text-gray-800 text-sm mr-4">Address:</label>
           <input
             type="text"
             name="address"
             value={formData.address}
             onChange={handleChange}
+            className="flex-2 p-3 border border-gray-300 rounded-lg focus:border-green-500 focus:ring-1 focus:ring-green-500"
             required
           />
         </div>
 
-        <div className="form-group">
-          <label>City:</label>
+        <div className="form-group flex items-center">
+          <label className="flex-1 font-bold text-gray-800 text-sm mr-4">City:</label>
           <input
             type="text"
             name="city"
             value={formData.city}
             onChange={handleChange}
+            className="flex-2 p-3 border border-gray-300 rounded-lg focus:border-green-500 focus:ring-1 focus:ring-green-500"
             required
           />
         </div>
 
-        <div className="form-group">
-          <label>State:</label>
+        <div className="form-group flex items-center">
+          <label className="flex-1 font-bold text-gray-800 text-sm mr-4">State:</label>
           <input
             type="text"
             name="state"
             value={formData.state}
             onChange={handleChange}
+            className="flex-2 p-3 border border-gray-300 rounded-lg focus:border-green-500 focus:ring-1 focus:ring-green-500"
             required
           />
         </div>
 
-        <div className="form-group">
-          <label>Date of Birth:</label>
+        <div className="form-group flex items-center">
+          <label className="flex-1 font-bold text-gray-800 text-sm mr-4">Date of Birth:</label>
           <input
             type="date"
             name="dob"
             value={formData.dob}
             onChange={handleChange}
+            className="flex-2 p-3 border border-gray-300 rounded-lg focus:border-green-500 focus:ring-1 focus:ring-green-500"
             required
           />
         </div>
 
-        <div className="form-group">
-          <label>Gender:</label>
-          <select name="gender" value={formData.gender} onChange={handleChange} required>
+        <div className="form-group flex items-center">
+          <label className="flex-1 font-bold text-gray-800 text-sm mr-4">Gender:</label>
+          <select
+            name="gender"
+            value={formData.gender}
+            onChange={handleChange}
+            className="flex-2 p-3 border border-gray-300 rounded-lg focus:border-green-500 focus:ring-1 focus:ring-green-500"
+            required
+          >
             <option value="">Select Gender</option>
             <option value="Male">Male</option>
             <option value="Female">Female</option>
@@ -159,44 +163,47 @@ const SignUpMentor = () => {
           </select>
         </div>
 
-        <div className="form-group">
-          <label>Field:</label>
+        <div className="form-group flex items-center">
+          <label className="flex-1 font-bold text-gray-800 text-sm mr-4">Field:</label>
           <input
             type="text"
-            name="course"
+            name="field"
             value={formData.field}
             onChange={handleChange}
+            className="flex-2 p-3 border border-gray-300 rounded-lg focus:border-green-500 focus:ring-1 focus:ring-green-500"
             required
           />
         </div>
 
-        <div className="form-group">
-          <label>Work Experience:</label>
+        <div className="form-group flex items-center">
+          <label className="flex-1 font-bold text-gray-800 text-sm mr-4">Work Experience:</label>
           <input
             type="text"
-            name="studentId"
+            name="workExperience"
             value={formData.workExperience}
             onChange={handleChange}
+            className="flex-2 p-3 border border-gray-300 rounded-lg focus:border-green-500 focus:ring-1 focus:ring-green-500"
             required
           />
         </div>
 
-        <div className="form-group">
-          <label>Working At:</label>
+        <div className="form-group flex items-center">
+          <label className="flex-1 font-bold text-gray-800 text-sm mr-4">Working At:</label>
           <input
             type="text"
-            name="instituteName"
+            name="workingAt"
             value={formData.workingAt}
             onChange={handleChange}
+            className="flex-2 p-3 border border-gray-300 rounded-lg focus:border-green-500 focus:ring-1 focus:ring-green-500"
             required
           />
         </div>
 
-        <div className="form-group">
+        <div className="form-group mt-6">
           <button
             id="button"
             type="submit"
-            style={buttonStyle}
+            className="w-full p-4 bg-black text-white rounded-lg hover:opacity-75 transition-opacity"
           >
             Submit
           </button>

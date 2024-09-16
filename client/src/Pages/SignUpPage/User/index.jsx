@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import axios from "axios";
-import './index.css';
 
 const SignUpUser = () => {
   const [formData, setFormData] = useState({
@@ -41,29 +40,20 @@ const SignUpUser = () => {
     }
   };
 
-  const buttonStyle = {
-    backgroundColor: '#000',
-    color: 'white',
-    padding: '14px 20px',
-    borderRadius: '5px',
-    margin: '7px 0',
-    width: '100%',
-    fontSize: '18px',
-    border: 'none',
-    cursor: 'pointer'
-  };
-
   return (
-    <div className="container">
-      <h2>Student Registration Form</h2>
+    <div className="max-w-xl mx-auto text-whitesmoke bg-[rgba(11,15,13,0.582)] rounded-lg border border-white/10 backdrop-blur-md backdrop-saturate-[180%] p-6">
+      <h2 className="text-center text-2xl font-bold mb-6 text-black tracking-wide relative after:content-[''] after:block after:h-1 after:w-20 after:bg-green-600 after:mx-auto after:mt-2 after:rounded-md">
+        Student Registration Form
+      </h2>
 
-      {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
-      {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+      {successMessage && <p className="text-center font-bold text-sm text-green-500 mb-4">{successMessage}</p>}
+      {errorMessage && <p className="text-center font-bold text-sm text-red-500 mb-4">{errorMessage}</p>}
 
       <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label>First Name:</label>
+        <div className="flex items-center mb-4">
+          <label className="flex-1 mr-4 font-bold text-gray-800 text-sm">First Name:</label>
           <input
+            className="flex-2 p-3 border border-gray-300 rounded-md text-base focus:border-green-600 focus:ring-0 focus:outline-none"
             type="text"
             name="firstName"
             value={formData.firstName}
@@ -72,9 +62,10 @@ const SignUpUser = () => {
           />
         </div>
 
-        <div className="form-group">
-          <label>Last Name:</label>
+        <div className="flex items-center mb-4">
+          <label className="flex-1 mr-4 font-bold text-gray-800 text-sm">Last Name:</label>
           <input
+            className="flex-2 p-3 border border-gray-300 rounded-md text-base focus:border-green-600 focus:ring-0 focus:outline-none"
             type="text"
             name="lastName"
             value={formData.lastName}
@@ -83,9 +74,10 @@ const SignUpUser = () => {
           />
         </div>
 
-        <div className="form-group">
-          <label>Email:</label>
+        <div className="flex items-center mb-4">
+          <label className="flex-1 mr-4 font-bold text-gray-800 text-sm">Email:</label>
           <input
+            className="flex-2 p-3 border border-gray-300 rounded-md text-base focus:border-green-600 focus:ring-0 focus:outline-none"
             type="email"
             name="email"
             value={formData.email}
@@ -94,9 +86,10 @@ const SignUpUser = () => {
           />
         </div>
 
-        <div className="form-group">
-          <label>Phone:</label>
+        <div className="flex items-center mb-4">
+          <label className="flex-1 mr-4 font-bold text-gray-800 text-sm">Phone:</label>
           <input
+            className="flex-2 p-3 border border-gray-300 rounded-md text-base focus:border-green-600 focus:ring-0 focus:outline-none"
             type="tel"
             name="phone"
             value={formData.phone}
@@ -105,9 +98,10 @@ const SignUpUser = () => {
           />
         </div>
 
-        <div className="form-group">
-          <label>Address:</label>
+        <div className="flex items-center mb-4">
+          <label className="flex-1 mr-4 font-bold text-gray-800 text-sm">Address:</label>
           <input
+            className="flex-2 p-3 border border-gray-300 rounded-md text-base focus:border-green-600 focus:ring-0 focus:outline-none"
             type="text"
             name="address"
             value={formData.address}
@@ -116,9 +110,10 @@ const SignUpUser = () => {
           />
         </div>
 
-        <div className="form-group">
-          <label>City:</label>
+        <div className="flex items-center mb-4">
+          <label className="flex-1 mr-4 font-bold text-gray-800 text-sm">City:</label>
           <input
+            className="flex-2 p-3 border border-gray-300 rounded-md text-base focus:border-green-600 focus:ring-0 focus:outline-none"
             type="text"
             name="city"
             value={formData.city}
@@ -127,9 +122,10 @@ const SignUpUser = () => {
           />
         </div>
 
-        <div className="form-group">
-          <label>State:</label>
+        <div className="flex items-center mb-4">
+          <label className="flex-1 mr-4 font-bold text-gray-800 text-sm">State:</label>
           <input
+            className="flex-2 p-3 border border-gray-300 rounded-md text-base focus:border-green-600 focus:ring-0 focus:outline-none"
             type="text"
             name="state"
             value={formData.state}
@@ -138,9 +134,10 @@ const SignUpUser = () => {
           />
         </div>
 
-        <div className="form-group">
-          <label>Date of Birth:</label>
+        <div className="flex items-center mb-4">
+          <label className="flex-1 mr-4 font-bold text-gray-800 text-sm">Date of Birth:</label>
           <input
+            className="flex-2 p-3 border border-gray-300 rounded-md text-base focus:border-green-600 focus:ring-0 focus:outline-none"
             type="date"
             name="dob"
             value={formData.dob}
@@ -149,9 +146,15 @@ const SignUpUser = () => {
           />
         </div>
 
-        <div className="form-group">
-          <label>Gender:</label>
-          <select name="gender" value={formData.gender} onChange={handleChange} required>
+        <div className="flex items-center mb-4">
+          <label className="flex-1 mr-4 font-bold text-gray-800 text-sm">Gender:</label>
+          <select
+            className="flex-2 p-3 border border-gray-300 rounded-md text-base focus:border-green-600 focus:ring-0 focus:outline-none"
+            name="gender"
+            value={formData.gender}
+            onChange={handleChange}
+            required
+          >
             <option value="">Select Gender</option>
             <option value="Male">Male</option>
             <option value="Female">Female</option>
@@ -159,9 +162,10 @@ const SignUpUser = () => {
           </select>
         </div>
 
-        <div className="form-group">
-          <label>Course:</label>
+        <div className="flex items-center mb-4">
+          <label className="flex-1 mr-4 font-bold text-gray-800 text-sm">Course:</label>
           <input
+            className="flex-2 p-3 border border-gray-300 rounded-md text-base focus:border-green-600 focus:ring-0 focus:outline-none"
             type="text"
             name="course"
             value={formData.course}
@@ -170,9 +174,10 @@ const SignUpUser = () => {
           />
         </div>
 
-        <div className="form-group">
-          <label>Student ID:</label>
+        <div className="flex items-center mb-4">
+          <label className="flex-1 mr-4 font-bold text-gray-800 text-sm">Student ID:</label>
           <input
+            className="flex-2 p-3 border border-gray-300 rounded-md text-base focus:border-green-600 focus:ring-0 focus:outline-none"
             type="text"
             name="studentId"
             value={formData.studentId}
@@ -181,9 +186,10 @@ const SignUpUser = () => {
           />
         </div>
 
-        <div className="form-group">
-          <label>Institute Name:</label>
+        <div className="flex items-center mb-4">
+          <label className="flex-1 mr-4 font-bold text-gray-800 text-sm">Institute Name:</label>
           <input
+            className="flex-2 p-3 border border-gray-300 rounded-md text-base focus:border-green-600 focus:ring-0 focus:outline-none"
             type="text"
             name="instituteName"
             value={formData.instituteName}
@@ -192,11 +198,11 @@ const SignUpUser = () => {
           />
         </div>
 
-        <div className="form-group bg-red">
+        <div className="mt-6">
           <button
             id="button"
             type="submit"
-            style={buttonStyle}
+            className="bg-black text-white py-4 px-5 rounded-md w-full text-lg hover:opacity-60 focus:ring-0 focus:outline-none"
           >
             Submit
           </button>
