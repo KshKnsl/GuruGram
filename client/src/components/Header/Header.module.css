@@ -51,6 +51,7 @@
     
     position: relative;
     top:38px;
+
    
     transform: translateY(-50%);
     text-align: center;
@@ -61,16 +62,17 @@ button{
     padding: 10px 0;
     text-align: center;
     margin: 20px;
-    border-radius: 25px;
+    border-radius: 50px !important;
     font-weight: bolder;
     font-size: 15px;
-    border: 2px solid white;
+    /* border: 2px solid white; */
     color:#ececec;
     cursor: pointer;
     background:transparent;
     overflow: hidden;
     position: relative;
-    
+    border: 2px solid yellow;
+    margin-left: 10px !important;
 }
 
 span{
@@ -89,6 +91,7 @@ span{
 button:hover span{
     width: 100%;
     background: white;
+
 }
 button:hover{
     border: none;
