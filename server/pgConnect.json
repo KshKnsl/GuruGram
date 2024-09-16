@@ -1,0 +1,13 @@
+{
+    "Servers": {
+        "1": {
+            "Name": "CONNECTION_NAME",
+            "Group": "GROUP_TEST",
+            "Host": "pg-1bb9fbad-vivekkumarsingh4545-99d6.c.aivencloud.com",
+            "Port": 20358,
+            "MaintenanceDB": "defaultdb",
+            "Username": "avnadmin",
+            "SSLMode": "require"
+        }
+    }
+}

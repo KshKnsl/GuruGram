@@ -1,0 +1,151 @@
+.bgdiv{
+    background-image: url(../../assets/bg-img.jpg);
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+.main{
+    
+    margin: 20px 40px;
+    width: 48vw;
+    padding-left: 20px;
+   background-color: transparent;
+   float: left;
+}
+.uptext{
+   background-color: transparent;
+
+    color:#ececec;
+    font-size: 2rem;
+    font-weight: 300;
+    margin: 20px 30px;
+    margin-top: 80px;
+    margin-left: 0px;
+    padding-left: 0px;
+}
+.textContainer {
+   background-color: transparent;
+
+    font-size: 4rem;
+    color: #ececec;
+    position: relative;
+    /* Required for absolute positioning of animated text */
+    overflow: hidden;
+    /* Hide overflowing content */
+    
+}
+#beforePart,#afterPart{
+   background-color: transparent;
+
+    color: #ececec;
+    font-weight: 900;
+}
+#beforePart{
+   background-color: transparent;
+
+    display: inline-block;
+}
+
+#changingPart {
+   background-color: transparent;
+
+    display: inline-block;
+    color: #9fd3c7; 
+    position: absolute;
+    /* Positioning to allow animation */
+    opacity: 0;
+    animation: fadeInOut 3s infinite;
+}
+
+@keyframes fadeInOut {
+
+    0%,
+    100% {
+        opacity: 0;
+        transform: translateY(20px);
+        /* Start and end with a small vertical offset */
+    }
+
+    50% {
+        opacity: 1;
+        transform: translateY(0);
+        /* Fully visible and centered */
+    }
+}
+.sideRoller{
+   background-color: transparent;
+
+    margin: 10px 20px;
+    border: 2px solid #ececec;
+    float:right;
+    width:40vw;
+    height:80vh;
+    overflow: hidden;
+}
+
+
+
+@media screen and (max-width: 768px) {
+    .main {
+        width: 90vw;
+        margin: 10px auto;
+        float: none;
+    }
+
+    .sideRoller {
+        width: 100%;
+        height: 40vh;
+        margin: 10px 0;
+    }
+
+    .textContainer {
+        font-size: 2rem;
+    }
+
+    .uptext {
+        font-size: 1.5rem;
+        text-align: center;
+        margin-top: 40px;
+    }
+
+    #changingPart {
+        animation: fadeInOut 2s infinite; /* Faster for smaller screens */
+    }
+}
+
+
+
+
+
+
+
+.parentContainer {
+    /* Full viewport width */
+    height: 120vh;
+    overflow: hidden; /* Hide the overflowing part of the content */
+    white-space: nowrap;
+    background-color: transparent;
+  }
+  
+  /* Scrolling content container */
+  .scrollingContent {
+    display: flex;
+    flex-direction: column;
+    animation: scroll 15s linear infinite; /* Continuous scrolling animation */
+    background-color: transparent;
+  }
+  
+  @keyframes scroll {
+    0% {
+      transform: translateY(0); /* Start position */
+    }
+    100% {
+      transform: translateY(-100%); /* Move all the way to the left */
+    }
+  }
+  
+  /* Each card */
+
+  
+  .scrollingContent:hover {
+    animation-play-state: paused;
+  }
