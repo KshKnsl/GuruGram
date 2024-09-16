@@ -4,11 +4,11 @@ import Layout from './Layout.jsx'
 import Home from "./components/Home/Home.jsx"
 import AboutUs from './components/AboutUs/AboutUs.jsx'
 import MainLayout from './components/ProfileComponents/MainLayout.jsx'
-import HomePage from './Pages/VideoCallPages/Home'
 import RoomPage from './Pages/VideoCallPages/Room'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import SignUpUser from './Pages/SignUpPage/User';
 import SignUpMentor from './Pages/SignUpPage/Mentor';
+import VideoHome from './Pages/VideoCallPages/Home'
 
 const router = createBrowserRouter([
     {
@@ -29,7 +29,7 @@ const router = createBrowserRouter([
         },
         {
           path: 'call',
-          element: <HomePage />
+          element: <VideoHome />
         },
         {
           path: 'room/:roomId',
