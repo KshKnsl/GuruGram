@@ -1,18 +1,33 @@
 import React from 'react';
-import styles from './Card.module.css';
 
-const Card = ({ name, description, domainStatement, image, onClick, style }) => {
+const Card = ({ name, description, domainStatement, image, onClick }) => {
   return (
-    <div className={styles.parentContainer}>
-      <div className={styles.scrollingContent}>
-        <div className={styles.mentorContainer}>
-          <div className={styles.card}>
-            <img src={image} alt={name} className={styles.cardImage} />
-            <div className={styles.cardContent}>
-              <h2 className={styles.cardName}>{name}</h2>
-              <p className={styles.cardDescription}>{description}</p>
-              <p className={styles.domainStatement}>{domainStatement}</p>
-            </div>
+    <div 
+      className="w-full max-w-md mx-auto bg-gradient-to-br from-orange-500 to-yellow-600 rounded-xl shadow-2xl overflow-hidden transform transition-all duration-300 ease-in-out hover:scale-105 cursor-pointer"
+      onClick={onClick}
+    >
+      <div className="md:flex">
+        <div className="md:flex-shrink-0 flex items-center justify-center px-4 py-2 rounded-lg">
+          <img 
+            className="h-48 w-full object-cover md:w-48 rounded-lg" 
+            src={image} 
+            alt={name} 
+          />
+        </div>
+        <div className="p-8">
+          <div className="uppercase tracking-wide text-sm text-indigo-100 font-semibold">
+            {domainStatement}
+          </div>
+          <h2 className="mt-2 text-xl leading-tight font-bold text-white">
+            {name}
+          </h2>
+          <p className="mt-2 text-gray-100">
+            {description}
+          </p>
+          <div className="mt-4">
+            <button className="inline-block px-6 py-2 text-xs font-medium leading-6 text-center text-white uppercase transition bg-blue-700 rounded shadow ripple hover:shadow-lg hover:bg-blue-800 focus:outline-none">
+              Connect
+            </button>
           </div>
         </div>
       </div>
