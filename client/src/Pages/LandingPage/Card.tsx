@@ -1,13 +1,6 @@
+import React from 'react';
 
-interface CardProps {
-  name: string;
-  description: string;
-  domainStatement: string;
-  image: string;
-  onClick: () => void;
-}
-
-const Card: React.FC<CardProps> = ({ name, description, domainStatement, image, onClick }) => {
+const Card = ({ name, description, domainStatement, image, onClick }) => {
   return (
     <div 
       className="w-full max-w-md mx-auto bg-gradient-to-br from-orange-500 to-yellow-600 rounded-xl shadow-2xl overflow-hidden transform transition-all duration-300 ease-in-out hover:scale-105 cursor-pointer"

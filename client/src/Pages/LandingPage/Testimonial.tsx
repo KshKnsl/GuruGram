@@ -1,3 +1,4 @@
+import React from 'react';
 import { StarIcon } from '@heroicons/react/24/solid';
 
 const testimonials = [
@@ -45,28 +46,21 @@ function Testimonial() {
     </section>
   );
 }
-interface TestimonialCardProps {
-  image: string;
-  quote: string;
-  name: string;
-  title: string;
-  color: string;
-}
 
-const TestimonialCard = ({ image, quote, name, title, color }: TestimonialCardProps) => {
+const TestimonialCard = ({ image, quote, name, title, color }) => {
   return (
-    <div className={`bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-xl relative`}>
+    <div className={`bg-white shadow-lg rounded-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-xl relative`}>
       <div className={`absolute top-0 left-0 w-full h-2 bg-gradient-to-r ${color}`}></div>
       <div className="p-6">
-        <div className="w-24 h-24 rounded-full overflow-hidden mx-auto mb-6 border-4 border-white dark:border-gray-700 shadow-lg">
+        <div className="w-24 h-24 rounded-full overflow-hidden mx-auto mb-6 border-4 border-white shadow-lg">
           <img src={image} alt={name} className="w-full h-full object-cover" />
         </div>
         <div className="relative">
-          <p className="text-gray-600 dark:text-gray-300 mb-6 italic text-sm md:text-base relative z-10">"{quote}"</p>
+          <p className="text-gray-600 mb-6 italic text-sm md:text-base relative z-10">"{quote}"</p>
         </div>
-        <div className="border-t pt-4 border-gray-200 dark:border-gray-700">
-          <h3 className="text-lg font-semibold mb-1 text-gray-800 dark:text-gray-100">{name}</h3>
-          <p className="text-sm text-gray-500 dark:text-gray-400">{title}</p>
+        <div className="border-t pt-4">
+          <h3 className="text-lg font-semibold mb-1 text-gray-800">{name}</h3>
+          <p className="text-sm text-gray-500">{title}</p>
         </div>
         <div className="mt-4 flex justify-center">
           {[...Array(5)].map((_, i) => (

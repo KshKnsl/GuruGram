@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   ChatBubbleLeftRightIcon,
   ShieldCheckIcon,
@@ -12,6 +12,7 @@ import {
   CpuChipIcon,
   StarIcon,
   UserGroupIcon,
+  ClockIcon,
 } from "@heroicons/react/24/outline";
 import Card from "../Card/Card.js";
 import Testimonial from "./Testimonial.js";
@@ -216,11 +217,12 @@ function Home() {
     return () => clearInterval(interval);
   }, []);
 
-  const handleClick = (text: string) => {
+  const handleClick = (text) => {
     alert(`Card for ${text} clicked!`);
   };
+
   return (
-    <div className="bg-gray-100 dark:bg-gray-900 min-h-screen">
+    <div className="bg-gray-100 min-h-screen">
       <section className="bg-gradient-to-r from-blue-500 to-purple-600 text-white py-12 md:py-20">
         <div className="container mx-auto px-4 pt-20">
           <div className="flex flex-col md:flex-row items-center justify-between">
@@ -244,6 +246,7 @@ function Home() {
             <div className="md:w-1/2 relative h-64 md:h-96 w-full">
               <div className="absolute inset-0 overflow-hidden">
                 {cardData.map((data, index) => (
+                  
                   <div
                     key={index}
                     className="absolute inset-0 transition-all duration-500 ease-in-out"
@@ -298,7 +301,7 @@ function Home() {
         </div>
       </section>
 
-      <section className="bg-blue-50 dark:bg-gray-800 py-12 md:py-20">
+      <section className="bg-blue-50 py-12 md:py-20">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-8 md:mb-12">
             How It Works
@@ -357,7 +360,7 @@ function Home() {
             {features.map((feature, index) => (
               <div
                 key={index}
-                className={`bg-white dark:bg-gray-700 rounded-lg shadow-md p-6 flex items-start ${feature.color} bg-opacity-20 hover:bg-opacity-30 transition duration-300`}
+                className={`bg-white rounded-lg shadow-md p-6 flex items-start ${feature.color} bg-opacity-20 hover:bg-opacity-30 transition duration-300`}
               >
                 <div className="mr-4">
                   <div className={`${feature.color} rounded-full p-3`}>
@@ -368,7 +371,7 @@ function Home() {
                   <h3 className="text-xl font-semibold mb-2">
                     {feature.title}
                   </h3>
-                  <p className="text-gray-600 dark:text-gray-300">{feature.description}</p>
+                  <p className="text-gray-600">{feature.description}</p>
                 </div>
               </div>
             ))}
@@ -376,7 +379,7 @@ function Home() {
         </div>
       </section>
 
-      <section className="bg-gray-50 dark:bg-gray-800 py-12 md:py-20">
+      <section className="bg-gray-50 py-12 md:py-20">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-8 md:mb-12">
             Top Mentors
@@ -385,7 +388,7 @@ function Home() {
             {topMentors.map((mentor, index) => (
               <div
                 key={index}
-                className="bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden transform hover:scale-105 transition duration-300"
+                className="bg-white rounded-lg shadow-md overflow-hidden transform hover:scale-105 transition duration-300"
               >
                 <img
                   src={mentor.image}
@@ -394,12 +397,12 @@ function Home() {
                 />
                 <div className="p-4">
                   <h3 className="text-xl font-semibold mb-1">{mentor.name}</h3>
-                  <p className="text-gray-600 dark:text-gray-300 mb-2">{mentor.expertise}</p>
+                  <p className="text-gray-600 mb-2">{mentor.expertise}</p>
                   <div className="flex items-center mb-2">
                     <StarIcon className="w-5 h-5 text-yellow-400 mr-1" />
                     <span className="font-semibold">{mentor.rating}</span>
                   </div>
-                  <div className="flex items-center text-gray-600 dark:text-gray-300">
+                  <div className="flex items-center text-gray-600">
                     <UserGroupIcon className="w-5 h-5 mr-1" />
                     <span>{mentor.sessions} sessions</span>
                   </div>
@@ -448,6 +451,7 @@ function Home() {
           </div>
         </div>
       </section>
+
     </div>
   );
 }

@@ -1,4 +1,3 @@
-import './css/dark-mode.css'
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import MenteeProfileHeader from './MenteeProfileHeader.tsx';
 import MenteeSkills from './MenteeSkills.tsx';
@@ -51,12 +50,11 @@ function MenteeProfile()
       },
     ],
   };
-
   return (
-    <Container fluid className="bg-dark text-light vh-100"  style={{ marginTop: '80px' }}>
+    <Container fluid className="bg-dark text-light vh-100 dark:bg-gray-900 dark:text-white" style={{ marginTop: '80px' }}>
       <Row className="mt-5">
         <Col md={4}>
-          <Card className="shadow-sm p-3 mb-5 bg-dark text-light rounded">
+          <Card className="shadow-sm p-3 mb-5 bg-dark text-light rounded dark:bg-gray-800 dark:text-white">
             <MenteeProfileHeader
               name={mentee.name}
               bio={mentee.bio}
@@ -65,15 +63,15 @@ function MenteeProfile()
           </Card>
         </Col>
         <Col md={8}>
-          <Card className="shadow-sm p-3 mb-4 bg-dark text-light rounded">
+          <Card className="shadow-sm p-3 mb-4 bg-dark text-light rounded dark:bg-gray-800 dark:text-white">
             <MenteeSkills skills={mentee.skills} />
           </Card>
-          <Card className="shadow-sm p-3 mb-4 bg-dark text-light rounded">
-            <MenteeGoals goals={mentee.goals} className="mt-4" />
+          <Card className="shadow-sm p-3 mb-4 bg-dark text-light rounded dark:bg-gray-800 dark:text-white">
+            <MenteeGoals goals={mentee.goals} />
           </Card>
 
           {/* Scrollable Mentor Section */}
-          <Card className="shadow-sm p-3 mt-4 bg-dark text-light rounded">
+          <Card className="shadow-sm p-3 mt-4 bg-dark text-light rounded dark:bg-gray-800 dark:text-white">
             <div className="mentor-list">
               {mentee.mentors.map((mentor, index) => (
                 <MentorInfo key={index} mentor={mentor} />
