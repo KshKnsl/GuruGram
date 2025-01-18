@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Eye, EyeOff, UserPlus } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { AuthContext } from "../context/AuthContext.tsx";
+import { GoogleLogin } from "@react-oauth/google";
 
 const Signup: React.FC = () => {
   const [name, setName] = useState('');
@@ -12,6 +14,9 @@ const Signup: React.FC = () => {
   const [interests, setInterests] = useState<string[]>([]);
   const [role, setRole] = useState<'mentee' | 'mentor'>('mentee');
   const [showPassword, setShowPassword] = useState(false);
+
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,6 +35,48 @@ const Signup: React.FC = () => {
     } catch (error) {
       console.error('Signup error:', error);
       toast.error('An error occurred. Please try again.');
+    }
+  };
+
+  const handleGoogleLogin = async (response: any) => {
+    try {
+      const endpoint =
+        role === "mentee"
+          ? `${import.meta.env.VITE_BACKEND_URL}/api/mentee/google-login`
+          : `${import.meta.env.VITE_BACKEND_URL}/api/mentor/google-login`;
+
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token: response.credential }),
+      });
+      if (res.ok) {
+        const { token, ...rest } = await res.json();
+        console.log(rest);
+        if (role === "mentee") {
+          login(token, rest.mentee._id, rest.mentee.email);
+        } else {
+          login(token, rest.mentor._id, rest.mentor.email);
+        }
+        toast.success("Google login successful!", {
+          position: "top-right",
+          autoClose: 4000,
+        });
+      } else {
+        toast.error(
+          `Google login failed. Please try again.${await res.text()}`,
+          {
+            position: "top-right",
+            autoClose: 4000,
+          }
+        );
+      }
+    } catch (error) {
+      console.error("Google login error:", error);
+      toast.error("An error occurred during Google login.", {
+        position: "top-right",
+        autoClose: 4000,
+      });
     }
   };
 
@@ -158,6 +205,22 @@ const Signup: React.FC = () => {
                 </button>
               </div>
             </div>
+          </div>
+
+          <div>
+            <GoogleLogin
+              onSuccess={handleGoogleLogin}
+              onError={() =>
+                toast.error("Google login failed. Please try again.", {
+                  position: "top-right",
+                  autoClose: 4000,
+                })
+              }
+              type="standard"
+              theme="filled_black"
+              size="large"
+              text="signin_with"
+            />
           </div>
 
           <div>
