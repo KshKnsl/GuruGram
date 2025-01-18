@@ -23,11 +23,10 @@ function ThemeBtn()
 
     return ( <motion.button
         onClick={handleClick}
-        className="p-2 rounded-full focus:outline-none transition-colors duration-300 ease-in-out
-                    dark:bg-gray-700 dark:hover:bg-gray-600"
+        className="p-2 rounded-full focus:outline-none duration-300 ease-in-out
+                     dark:text-white"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        aria-label={themeMode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
       >
         <motion.div
           variants={variants}
