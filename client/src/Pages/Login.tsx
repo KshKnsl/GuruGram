@@ -12,7 +12,7 @@ const Login: React.FC = () => {
         e.preventDefault();
         try {
             // Dummy API endpoint
-            const response = await fetch('https://api.gurugram.com/login', {
+            const response = await fetch('http://localhost:5000/api/mentee/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password, role }),
