@@ -30,7 +30,7 @@ async function sendMail(name, toEmail, purpose) {
     .cta-button { display: inline-block; padding: 10px 20px; background-color: #F59E0B; color: #ffffff; text-decoration: none; border-radius: 8px; font-weight: bold; }
     .cta-button:hover { background-color: #D97706; }
     .footer { margin-top: 20px; padding-top: 20px; border-top: 1px solid #F59E0B; font-size: 12px; color: #78350F; }
-  `;F
+  `;
 
   async function sendMail(name, toEmail, purpose) {
     let content = '';
@@ -135,3 +135,6 @@ async function sendMail(name, toEmail, purpose) {
   }
   
 }  
+
+
+module.exports = { sendMail };

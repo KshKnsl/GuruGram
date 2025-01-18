@@ -21,6 +21,7 @@ async function createMentee(data) {
   } 
   catch (error) 
   {
+    console.log(error);
     return { success: false, message: `Error while creating mentee ${error}` };
   }
 }
@@ -59,6 +60,7 @@ async function updateMentee(data)
 }
 
 async function loginMentee(data) {
+  console.log(data);
   try 
   {
     const { email, password } = data;

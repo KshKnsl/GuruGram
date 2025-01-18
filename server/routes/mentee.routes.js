@@ -4,7 +4,7 @@ const { OAuth2Client } = require("google-auth-library");
 const { upload } = require("../middlewares/multer.js");
 const uploadImage  = require("../utils/uploadImage.js");
 const { createMentee, findMentee, updateMentee, loginMentee, googleLogin, findMenteeByEmail
-} = require("mentee.controllers.js");
+} = require("../controllers/mentee.controllers.js");
 const router = express.Router();
 const Mentee = require("../models/Mentee.model.js");
 
@@ -13,6 +13,7 @@ router.get("/", async (req, res) => {
 }
 );
 router.post("/addMentee", async (req, res) => {
+  console.log(req.body);
   let result = await createMentee(req.body);
   if (result.success) 
     res.status(201).send(result);
@@ -21,6 +22,7 @@ router.post("/addMentee", async (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
+  console.log(req.body);
   let result = await loginMentee(req.body);
   if (result.success) 
     res.status(200).send(result);

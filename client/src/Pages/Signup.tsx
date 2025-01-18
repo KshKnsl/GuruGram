@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Eye, EyeOff, UserPlus } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Signup: React.FC = () => {
   const [name, setName] = useState('');
@@ -13,20 +15,21 @@ const Signup: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const endpoint = role === 'mentee' ? 'api/mentee/addMentee' : 'api/mentor/addMentor';
     try {
-      const response = await fetch('http://localhost:5000/api/mentee/addMentee', {
+      const response = await fetch(`http://localhost:5000/${endpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, password, bio, interests, role }),
       });
       if (response.ok) {
-        alert('Account created successfully!');
+        toast.success('Account created successfully!');
       } else {
-        alert('Signup failed. Please try again.');
+        toast.error('Signup failed. Please try again.');
       }
     } catch (error) {
       console.error('Signup error:', error);
-      alert('An error occurred. Please try again.');
+      toast.error('An error occurred. Please try again.');
     }
   };
 
@@ -178,6 +181,7 @@ const Signup: React.FC = () => {
           </p>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };
