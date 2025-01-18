@@ -1,12 +1,12 @@
-const User = require("../models/User.model.js");
+const Mentor = require("../models/Mentor.model.js");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { OAuth2Client } = require("google-auth-library");
 const { sendMail } = require("../utils/mail.util.js");
 
-async function createUser(data) {
+async function createMentor(data) {
   try {
-    const newUser = new User({
+    const newMentor = new Mentor({
       name: data.name,
       email: data.email,
       password: data.password,
@@ -16,28 +16,28 @@ async function createUser(data) {
       interests: data.interests || [],
     });
 
-    await newUser.save();
+    await newMentor.save();
     await sendMail(data.name, data.email, 'CreateAccount');
-    return { success: true, message: "User created successfully" };
+    return { success: true, message: "Mentor created successfully" };
   } 
   catch (error) 
   {
-    return { success: false, message: `Error while creating user ${error}` };
+    return { success: false, message: `Error while creating mentor ${error}` };
   }
 }
-async function findUser(id) {
+async function findMentor(id) {
   try {
-    const user = await User.findById(id)
+    const mentor = await Mentor.findById(id)
     .populate('articles')
     .populate('readArticles')
     .populate('lastRead');
-    return user;
+    return mentor;
   } catch (error) {
     return null;
   }
 }
 
-async function updateUser(data) 
+async function updateMentor(data) 
 {
   const update = 
   {
@@ -50,33 +50,33 @@ async function updateUser(data)
   };
   try 
   {
-    let result = await User.findByIdAndUpdate(data._id, update);
-    return { success: true, message: "User updated successfully" };
+    let result = await Mentor.findByIdAndUpdate(data._id, update);
+    return { success: true, message: "Mentor updated successfully" };
   } 
   catch (error) 
   {
-    return { success: false, message: `Error while updating user ${error}` };
+    return { success: false, message: `Error while updating mentor ${error}` };
   }
 }
 
-async function loginUser(data) {
+async function loginMentor(data) {
   try 
   {
     const { email, password } = data;
-    const user = await User.findOne({ email }).select("+password");
-    if (!user) 
+    const mentor = await Mentor.findOne({ email }).select("+password");
+    if (!mentor) 
     {
-      return { success: false, message: "User not found" };
+      return { success: false, message: "Mentor not found" };
     }
-    const isRight = await bcrypt.compare(password, user.password);
+    const isRight = await bcrypt.compare(password, mentor.password);
     if (!isRight) 
     {
       return { success: false, message: "Invalid credentials" };
     }
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ id: mentor._id }, process.env.JWT_SECRET, {
       expiresIn: "1d",
     });
-    const { password: pass, ...rest } = user;
+    const { password: pass, ...rest } = mentor;
     
     await sendMail(data.name, data.email, 'Login');
     return { success: true, token, rest};
@@ -103,34 +103,34 @@ async function googleLogin(token)
     const name = payload.name;
     const avatar = payload.picture;
 
-    let user = await User.findOne({ email });
-    if (!user) 
+    let mentor = await Mentor.findOne({ email });
+    if (!mentor) 
     {
-      user = new User({
+      mentor = new Mentor({
         name,
         email,
         avatar,
         password: "GooGleAuthAccount",
       });
       await sendMail(name, email, 'CreateAccount');   
-      await user.save();
+      await mentor.save();
     }
 
-    const jwtToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+    const jwtToken = jwt.sign({ id: mentor._id }, process.env.JWT_SECRET, {
       expiresIn: "1d",
     });
     
-    const { ...userWithoutPassword } = user.toObject();
+    const { ...mentorWithoutPassword } = mentor.toObject();
     await sendMail(name, email, 'Login');
-    return { success: true, token: jwtToken, user: userWithoutPassword };
+    return { success: true, token: jwtToken, mentor: mentorWithoutPassword };
   } catch (error) {
     return { success: false, message: "Error during Google login" };
   }
 }
 
-function findUserByEmail(email) 
+function findMentorByEmail(email) 
 {
-  return User.findOne({ email});
+  return Mentor.findOne({ email});
 }
 
-module.exports = { createUser, findUser, updateUser, loginUser, googleLogin, findUserByEmail };
+module.exports = { createMentor, findMentor, updateMentor, loginMentor, googleLogin, findMentorByEmail };

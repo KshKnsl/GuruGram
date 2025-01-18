@@ -1,15 +1,15 @@
 const express = require("express");
 const { OAuth2Client } = require("google-auth-library");
 
-const { upload } = require("../middlewares/multer");
-const uploadImage  = require("../utils/uploadImage");
-const { createUser, findUser, updateUser, loginUser, googleLogin, findUserByEmail
-} = require("../controllers/user.controllers");
+const { upload } = require("../middlewares/multer.js");
+const uploadImage  = require("../utils/uploadImage.js");
+const { createMentee, findMentee, updateMentee, loginMentee, googleLogin, findMenteeByEmail
+} = require("../controllers/mentee.controllers.js");
 const router = express.Router();
-const User = require("../models/User.model.js");
+const Mentee = require("../models/Mentee.model.js");
 
-router.post("/addUser", async (req, res) => {
-  let result = await createUser(req.body);
+router.post("/addMentee", async (req, res) => {
+  let result = await createMentee(req.body);
   if (result.success) 
     res.status(201).send(result);
   else
@@ -17,15 +17,15 @@ router.post("/addUser", async (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
-  let result = await loginUser(req.body);
+  let result = await loginMentee(req.body);
   if (result.success) 
     res.status(200).send(result);
   else
-    res.status(404).send({message: "User not found"});
+    res.status(404).send({message: "Mentee not found"});
 });
 
-router.put("/updateUser", async (req, res) => {
-  let result = await updateUser(req.body);
+router.put("/updateMentee", async (req, res) => {
+  let result = await updateMentee(req.body);
   if (result.success) {
     res.status(201).send(result);
   } else {
@@ -34,33 +34,33 @@ router.put("/updateUser", async (req, res) => {
 });
 
 router.get("/:id", async (req, res) => {
-  let foundUser = await findUser(req.params.id);
-  res.send(foundUser);
+  let foundMentee = await findMentee(req.params.id);
+  res.send(foundMentee);
 });
 
 router.get("/email/:email", async (req, res) => {
-  let foundUser = await findUserByEmail(req.params.email);
-  res.send(foundUser);
+  let foundMentee = await findMenteeByEmail(req.params.email);
+  res.send(foundMentee);
 });
 
 router.post("/reading", async (req, res) => {
-  let foundUser = await User.findById(req.body.userId);
+  let foundMentee = await Mentee.findById(req.body.menteeId);
   const articleId = req.body.articleId;
-  foundUser.readArticles = [...new Set([...foundUser?.readArticles || [], articleId])];
-  foundUser.lastRead = articleId;
-  await foundUser.save();
+  foundMentee.readArticles = [...new Set([...foundMentee?.readArticles || [], articleId])];
+  foundMentee.lastRead = articleId;
+  await foundMentee.save();
   res.send({ success: true, message: "Article added to reading list" });
 });
 
 router.post("/:id/uploadAvatar", upload.single("image"), async (req, res) => {
   try {
-    const userId = req.params.id;
-    const foundUser = await findUser(userId);
-    if (!foundUser || !req.file) 
+    const menteeId = req.params.id;
+    const foundMentee = await findMentee(menteeId);
+    if (!foundMentee || !req.file) 
       return res.status(404).send({ success: false, message: "Not found" });
-    foundUser.avatar = await  uploadImage(`uploads/${req.params.id}_${req.file.originalname}`,req.params.id);
-    await updateUser(foundUser);
-    res.status(200).send({success: true, message: "Avatar uploaded successfully",newAvatar : foundUser.avatar});
+    foundMentee.avatar = await  uploadImage(`uploads/${req.params.id}_${req.file.originalname}`,req.params.id);
+    await updateMentee(foundMentee);
+    res.status(200).send({success: true, message: "Avatar uploaded successfully",newAvatar : foundMentee.avatar});
   } 
   catch (error) {
     res.status(500).send({ success: false, message: `Internal server error${error}`, });

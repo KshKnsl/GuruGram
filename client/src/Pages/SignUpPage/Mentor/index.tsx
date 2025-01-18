@@ -1,216 +1,281 @@
-import React, { useState } from "react";
-import axios from "axios";
+'use client'
 
-const SignUpMentor = () => {
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    address: "",
-    city: "",
-    state: "",
-    dob: "",
-    gender: "",
-    field: "",
-    workExperience: "",
-    workingAt: "",
-  });
+import React, { useState } from "react"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import * as z from "zod"
+import axios from "axios"
 
-  const [successMessage, setSuccessMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+import { Button } from "@/components/ui/button"
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useToast } from "@/components/ui/use-toast"
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
+const formSchema = z.object({
+  firstName: z.string().min(2, {
+    message: "First name must be at least 2 characters.",
+  }),
+  lastName: z.string().min(2, {
+    message: "Last name must be at least 2 characters.",
+  }),
+  email: z.string().email({
+    message: "Please enter a valid email address.",
+  }),
+  phone: z.string().min(10, {
+    message: "Please enter a valid phone number.",
+  }),
+  address: z.string().min(5, {
+    message: "Address must be at least 5 characters.",
+  }),
+  city: z.string().min(2, {
+    message: "City must be at least 2 characters.",
+  }),
+  state: z.string().min(2, {
+    message: "State must be at least 2 characters.",
+  }),
+  dob: z.string().refine((date) => {
+    return new Date(date) < new Date()
+  }, {
+    message: "Date of birth must be in the past.",
+  }),
+  gender: z.enum(["male", "female", "other"], {
+    required_error: "Please select a gender.",
+  }),
+  field: z.string().min(2, {
+    message: "Field must be at least 2 characters.",
+  }),
+  workExperience: z.string().min(1, {
+    message: "Please enter your work experience in years.",
+  }),
+  workingAt: z.string().min(2, {
+    message: "Please enter your current workplace.",
+  }),
+})
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+export function SignUpMentor() {
+  const { toast } = useToast()
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      address: "",
+      city: "",
+      state: "",
+      dob: "",
+      gender: undefined,
+      field: "",
+      workExperience: "",
+      workingAt: "",
+    },
+  })
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const response = await axios.post("http://localhost:5000/api/signup", formData);
-      setSuccessMessage("Form submitted successfully!");
-      setErrorMessage("");
+      const response = await axios.post("http://localhost:5000/api/signup", values)
+      toast({
+        title: "Registration Successful",
+        description: "Your mentor account has been created.",
+      })
     } catch (error) {
-      console.error("Error submitting form:", error);
-      setErrorMessage("Error submitting form. Please try again.");
-      setSuccessMessage("");
+      console.error("Error submitting form:", error)
+      toast({
+        title: "Registration Failed",
+        description: "There was an error creating your account. Please try again.",
+        variant: "destructive",
+      })
     }
-  };
+  }
 
   return (
-    <div className="container max-w-xl bg-white p-8 rounded-xl shadow-lg animate-fadeIn">
-      <h2 className="text-2xl text-black text-center mb-5 tracking-wide relative">
-        Mentor Registration Form
-        <span className="block w-20 h-1 bg-green-500 mx-auto mt-2 rounded-sm"></span>
-      </h2>
-
-      {successMessage && <p className="text-center text-green-500 font-bold mb-4">{successMessage}</p>}
-      {errorMessage && <p className="text-center text-red-500 font-bold mb-4">{errorMessage}</p>}
-
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="form-group flex items-center">
-          <label className="flex-1 font-bold text-gray-800 text-sm mr-4">First Name:</label>
-          <input
-            type="text"
-            name="firstName"
-            value={formData.firstName}
-            onChange={handleChange}
-            className="flex-2 p-3 border border-gray-300 rounded-lg focus:border-green-500 focus:ring-1 focus:ring-green-500"
-            required
-          />
-        </div>
-
-        <div className="form-group flex items-center">
-          <label className="flex-1 font-bold text-gray-800 text-sm mr-4">Last Name:</label>
-          <input
-            type="text"
-            name="lastName"
-            value={formData.lastName}
-            onChange={handleChange}
-            className="flex-2 p-3 border border-gray-300 rounded-lg focus:border-green-500 focus:ring-1 focus:ring-green-500"
-            required
-          />
-        </div>
-
-        <div className="form-group flex items-center">
-          <label className="flex-1 font-bold text-gray-800 text-sm mr-4">Email:</label>
-          <input
-            type="email"
+    <div className="container max-w-2xl mx-auto p-8">
+      <h2 className="text-3xl font-bold text-center mb-6 text-primary-600">Mentor Registration</h2>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <div className="grid grid-cols-2 gap-4">
+            <FormField
+              control={form.control}
+              name="firstName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>First Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="John" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="lastName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Last Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Doe" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <FormField
+            control={form.control}
             name="email"
-            value={formData.email}
-            onChange={handleChange}
-            className="flex-2 p-3 border border-gray-300 rounded-lg focus:border-green-500 focus:ring-1 focus:ring-green-500"
-            required
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input type="email" placeholder="john.doe@example.com" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-        </div>
-
-        <div className="form-group flex items-center">
-          <label className="flex-1 font-bold text-gray-800 text-sm mr-4">Phone:</label>
-          <input
-            type="tel"
+          <FormField
+            control={form.control}
             name="phone"
-            value={formData.phone}
-            onChange={handleChange}
-            className="flex-2 p-3 border border-gray-300 rounded-lg focus:border-green-500 focus:ring-1 focus:ring-green-500"
-            required
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Phone</FormLabel>
+                <FormControl>
+                  <Input type="tel" placeholder="(123) 456-7890" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-        </div>
-
-        <div className="form-group flex items-center">
-          <label className="flex-1 font-bold text-gray-800 text-sm mr-4">Address:</label>
-          <input
-            type="text"
+          <FormField
+            control={form.control}
             name="address"
-            value={formData.address}
-            onChange={handleChange}
-            className="flex-2 p-3 border border-gray-300 rounded-lg focus:border-green-500 focus:ring-1 focus:ring-green-500"
-            required
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Address</FormLabel>
+                <FormControl>
+                  <Input placeholder="123 Main St" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-        </div>
-
-        <div className="form-group flex items-center">
-          <label className="flex-1 font-bold text-gray-800 text-sm mr-4">City:</label>
-          <input
-            type="text"
-            name="city"
-            value={formData.city}
-            onChange={handleChange}
-            className="flex-2 p-3 border border-gray-300 rounded-lg focus:border-green-500 focus:ring-1 focus:ring-green-500"
-            required
-          />
-        </div>
-
-        <div className="form-group flex items-center">
-          <label className="flex-1 font-bold text-gray-800 text-sm mr-4">State:</label>
-          <input
-            type="text"
-            name="state"
-            value={formData.state}
-            onChange={handleChange}
-            className="flex-2 p-3 border border-gray-300 rounded-lg focus:border-green-500 focus:ring-1 focus:ring-green-500"
-            required
-          />
-        </div>
-
-        <div className="form-group flex items-center">
-          <label className="flex-1 font-bold text-gray-800 text-sm mr-4">Date of Birth:</label>
-          <input
-            type="date"
+          <div className="grid grid-cols-2 gap-4">
+            <FormField
+              control={form.control}
+              name="city"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>City</FormLabel>
+                  <FormControl>
+                    <Input placeholder="New York" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="state"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>State</FormLabel>
+                  <FormControl>
+                    <Input placeholder="NY" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <FormField
+            control={form.control}
             name="dob"
-            value={formData.dob}
-            onChange={handleChange}
-            className="flex-2 p-3 border border-gray-300 rounded-lg focus:border-green-500 focus:ring-1 focus:ring-green-500"
-            required
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Date of Birth</FormLabel>
+                <FormControl>
+                  <Input type="date" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-        </div>
-
-        <div className="form-group flex items-center">
-          <label className="flex-1 font-bold text-gray-800 text-sm mr-4">Gender:</label>
-          <select
+          <FormField
+            control={form.control}
             name="gender"
-            value={formData.gender}
-            onChange={handleChange}
-            className="flex-2 p-3 border border-gray-300 rounded-lg focus:border-green-500 focus:ring-1 focus:ring-green-500"
-            required
-          >
-            <option value="">Select Gender</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-            <option value="Other">Other</option>
-          </select>
-        </div>
-
-        <div className="form-group flex items-center">
-          <label className="flex-1 font-bold text-gray-800 text-sm mr-4">Field:</label>
-          <input
-            type="text"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Gender</FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select your gender" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="male">Male</SelectItem>
+                    <SelectItem value="female">Female</SelectItem>
+                    <SelectItem value="other">Other</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
             name="field"
-            value={formData.field}
-            onChange={handleChange}
-            className="flex-2 p-3 border border-gray-300 rounded-lg focus:border-green-500 focus:ring-1 focus:ring-green-500"
-            required
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Field of Expertise</FormLabel>
+                <FormControl>
+                  <Input placeholder="e.g., Software Engineering" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-        </div>
-
-        <div className="form-group flex items-center">
-          <label className="flex-1 font-bold text-gray-800 text-sm mr-4">Work Experience:</label>
-          <input
-            type="text"
+          <FormField
+            control={form.control}
             name="workExperience"
-            value={formData.workExperience}
-            onChange={handleChange}
-            className="flex-2 p-3 border border-gray-300 rounded-lg focus:border-green-500 focus:ring-1 focus:ring-green-500"
-            required
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Work Experience (years)</FormLabel>
+                <FormControl>
+                  <Input type="number" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-        </div>
-
-        <div className="form-group flex items-center">
-          <label className="flex-1 font-bold text-gray-800 text-sm mr-4">Working At:</label>
-          <input
-            type="text"
+          <FormField
+            control={form.control}
             name="workingAt"
-            value={formData.workingAt}
-            onChange={handleChange}
-            className="flex-2 p-3 border border-gray-300 rounded-lg focus:border-green-500 focus:ring-1 focus:ring-green-500"
-            required
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Current Workplace</FormLabel>
+                <FormControl>
+                  <Input placeholder="e.g., Google" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-        </div>
-
-        <div className="form-group mt-6">
-          <button
-            id="button"
-            type="submit"
-            className="w-full p-4 bg-black text-white rounded-lg hover:opacity-75 transition-opacity"
-          >
-            Submit
-          </button>
-        </div>
-      </form>
+          <Button type="submit" className="w-full">Submit Registration</Button>
+        </form>
+      </Form>
     </div>
-  );
-};
+  )
+}
 
-export default SignUpMentor;
