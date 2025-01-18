@@ -1,31 +1,21 @@
-const {
-  createArticle,
-  updateArticle,
-  deleteArticle,
-  generateAiArticles,
-  generateAiDesc,
-} = require("../controllers/article.controllers.js");
-
 const express = require("express");
 const router = express.Router();
 
+const {
+  createArticle,
+  deleteArticle,
+  getArticlesByTags,
+  getArticlesByAuthor,
+  getArticlesAll,
+  getArticleById
+} = require("../controllers/article.controllers.js");
+
 router.post("/createArticle", async (req, res) => {
-  let desc = await generateAiDesc(req.body);
-  req.body.desc = desc;
   let result = await createArticle(req.body);
   if (result.success) {
     res.status(200).json(result);
   } else {
     res.status(401).json(result);
-  }
-});
-
-router.post("/updateArticle", async (req, res) => {
-  let result = await updateArticle(req.body);
-  if (result.success) {
-    res.status(200).json(result);
-  } else {
-    res.status(400).json(result);
   }
 });
 
@@ -38,15 +28,37 @@ router.post("/deleteArticle", async (req, res) => {
   }
 });
 
-router.post("/generateAiArticle", async (req, res) => {
-  const resu = await generateAiArticles(req.body.search, req.body.tags);
-  if (resu.success) {
-    res.status(200).json(resu);
+router.get("/tags/:tag", async (req, res) => {
+  let result = await getArticlesByTags(req, res);
+  if (result.success) {
+    res.status(200).json(result);
   } else {
-    res.status(400).json(resu);
+    res.status(400).json(result);
   }
 });
 
+router.get("/author/:author", async (req, res) => {
+  const authorID = req.params.author;
+  let result = await getArticlesByAuthor(authorID);
+  if (result.success) {
+    res.status(200).json(result);
+  } else {
+    res.status(400).json(result);
+  }
+});
 
+router.get("/all", async (req, res) => {
+  let result = await getArticlesAll(req, res);
+  if (result) {
+    res.status(200).json(result);
+  } else {
+    res.status(400).json(result);
+  }
+});
+
+router.get("/:id", async (req, res) => {
+  let result = await getArticleById(req.params.id);
+  res.status(200).json(result);
+});
 
 module.exports = router;

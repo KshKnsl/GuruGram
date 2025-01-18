@@ -1,7 +1,6 @@
-// Import Mongoose
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
-// User Schema
+
 const userSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
@@ -15,12 +14,6 @@ const userSchema = new mongoose.Schema(
     badges: { type: [String], default: ["First Steps"] },
     interests: { type: [String], default: ["Reading"] },
     articles: [{ type: mongoose.Schema.Types.ObjectId, ref: "Article" }],
-    contributions: [
-      {
-        articleId: { type: mongoose.Schema.Types.ObjectId, ref: "Article" },
-        points: { type: Number },
-      },
-    ],
     readArticles: { type: [mongoose.Schema.Types.ObjectId], ref: "Article", default: [] },
     lastRead: {
       type: mongoose.Schema.Types.ObjectId,
@@ -37,39 +30,6 @@ userSchema.pre("save", async function (next)
     next();
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
-
-  
-  const user = this;
-  const newBadges = [];
-  if (user.articles.length == 1 && !user.badges.includes("Rising Blogger")) {
-    newBadges.push("Rising Blogger");
-    user.points += 50;
-  }
-  if (user.articles.length >= 10 && !user.badges.includes("Pro Contributor")) {
-    newBadges.push("Pro Contributor");
-    user.points += 100;
-  }
-  if (user.articles.length >= 25 && !user.badges.includes("Tech Guru")) {
-    newBadges.push("Tech Guru");
-    user.points += 200;
-  }
-  if (user.readArticles.length >= 5 && !user.badges.includes("Avid Reader")) {
-    newBadges.push("Avid Reader");
-    user.points += 30;
-  }
-  if (user.readArticles.length >= 10 && !user.badges.includes("Deep Diver")) {
-    newBadges.push("Deep Diver");
-    user.points += 60;
-  }
-  if (user.contributions.length >= 10 && !user.badges.includes("Top Critic")) {
-    newBadges.push("Top Critic");
-    user.points += 80;
-  }
-  if (user.contributions.length >= 5 && !user.badges.includes("Community Builder")) {
-    newBadges.push("Community Builder");
-    user.points += 40;
-  }
-  user.badges = [...user.badges, ...newBadges];
 
   next();
 });
