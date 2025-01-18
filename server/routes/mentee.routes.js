@@ -4,10 +4,14 @@ const { OAuth2Client } = require("google-auth-library");
 const { upload } = require("../middlewares/multer.js");
 const uploadImage  = require("../utils/uploadImage.js");
 const { createMentee, findMentee, updateMentee, loginMentee, googleLogin, findMenteeByEmail
-} = require("../controllers/mentee.controllers.js");
+} = require("mentee.controllers.js");
 const router = express.Router();
 const Mentee = require("../models/Mentee.model.js");
 
+router.get("/", async (req, res) => {
+  res.send("Mentee");
+}
+);
 router.post("/addMentee", async (req, res) => {
   let result = await createMentee(req.body);
   if (result.success) 

@@ -1,73 +1,42 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import Layout from './Layout'
-import Home from "./components/Home/Home.js"
-import AboutUs from './components/AboutUs/AboutUs.js'
-import MainLayout from './components/ProfileComponents/MainLayout.tsx'
-import RoomPage from './Pages/VideoCallPages/Room/index.tsx'
-import SignUpUser from './Pages/SignUpPage/User/index.tsx';
-import SignUpMentor from './Pages/SignUpPage/Mentor/index.tsx';
-import VideoHome from './Pages/VideoCallPages/Home/index.tsx'
-import { ThemeProvider } from './context/ThemeContext'
 import { useState, useEffect } from 'react'
+import { Route, Routes } from 'react-router-dom'
+import { ThemeProvider } from './context/ThemeContext'
+import Navbar from './components/Header'
+import Footer from './components/Footer'
+import Home from './Pages/LandingPage/Home'
+import Login from './Pages/Login'
+import Signup from './Pages/Signup'
+import NotFound from './Pages/NotFound'
 
-const router = createBrowserRouter([
-    {
-      path: '/',
-      element: <Layout />,
-      children: [
-        {
-          path: '',
-          element: <Home />
-        },
-        {
-          path: 'about',
-          element:<AboutUs/>
-        },
-        {
-          path: 'profile',
-          element: <MainLayout />
-        },
-        {
-          path: 'call',
-          element: <VideoHome />
-        },
-        {
-          path: 'room/:roomId',
-          element: <RoomPage />
-        },
-        {
-          path: '/signUpMentor',
-          element: <SignUpMentor />
-        },
-        {
-          path: '/signUpUser',
-          element: <SignUpUser />
-        }
-      ]
-    }
-  ])
 function App() {
   const [themeMode, setThemeMode] = useState('light')
-  const darkTheme = ()=>
-  {
+  const darkTheme = () => {
     setThemeMode('dark')
   }
-  const lightTheme = ()=>
-  {
+  const lightTheme = () => {
     setThemeMode('light')
   }
   useEffect(() => {
-    document.querySelector('html')?.classList.remove('dark','light')
+    document.querySelector('html')?.classList.remove('dark', 'light')
     document.querySelector('html')?.classList.add(themeMode)
-  }
-  , [themeMode])
+  }, [themeMode])
 
   return (
-    <>
-    <ThemeProvider value={{themeMode, darkTheme, lightTheme}}>
-      <RouterProvider router={router} />  
-      </ThemeProvider>
-    </>
+    <ThemeProvider value={{ themeMode, darkTheme, lightTheme }}>
+      <div className='h-full w-full'>
+        <Navbar />
+        <div className='mx-auto'>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </div>
+        <Footer />
+      </div>
+    </ThemeProvider>
   )
 }
-export default App;
+
+export default App

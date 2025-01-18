@@ -10,7 +10,6 @@ async function createMentee(data) {
       name: data.name,
       email: data.email,
       password: data.password,
-      dob: data.dob,
       avatar: data.avatar || "https://avatar.iran.liara.run/public/boy",
       bio: data.bio,
       interests: data.interests || [],

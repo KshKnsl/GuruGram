@@ -4,7 +4,7 @@ import { Facebook, Twitter, Linkedin, Instagram, Mail, Phone, MapPin } from 'luc
 const Footer = () => {
   return (
     <div className="bg-gradient-to-br from-stone-900 to-slate-900 text-white py-12 w-screen">
-      <div className="mx-auto px-4">
+      <div className="mx-auto px-4  md:px-14">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div className="space-y-4">
             <h5 className="text-2xl font-bold mb-4">GuruGram</h5>
