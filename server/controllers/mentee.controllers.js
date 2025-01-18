@@ -125,6 +125,7 @@ async function googleLogin(token)
     await sendMail(name, email, 'Login');
     return { success: true, token: jwtToken, mentee: menteeWithoutPassword };
   } catch (error) {
+    console.log(error);
     return { success: false, message: "Error during Google login" };
   }
 }
