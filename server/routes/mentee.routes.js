@@ -74,6 +74,7 @@ router.post("/:id/uploadAvatar", upload.single("image"), async (req, res) => {
 });
 
 router.post("/google-login", async (req, res) => {
+  console.log("Google login request:", req.body);
   const { token } = req.body;
   try {
     const googleResponse = await googleLogin(token);
