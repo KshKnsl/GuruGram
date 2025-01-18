@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   ChatBubbleLeftRightIcon,
   ShieldCheckIcon,
@@ -11,11 +11,10 @@ import {
   AcademicCapIcon,
   CpuChipIcon,
   StarIcon,
-  UserGroupIcon,
-  ClockIcon,
+  UserGroupIcon
 } from "@heroicons/react/24/outline";
-import Card from "../Card/Card.js";
-import Testimonial from "./Testimonial.js";
+import Card from "./Card.tsx";
+import Testimonial from "./Testimonial.tsx";
 
 const texts = [
   "Marketing",
@@ -217,14 +216,14 @@ function Home() {
     return () => clearInterval(interval);
   }, []);
 
-  const handleClick = (text) => {
+  const handleClick = (text: string) => {
     alert(`Card for ${text} clicked!`);
   };
 
   return (
     <div className="bg-gray-100 min-h-screen">
       <section className="bg-gradient-to-r from-blue-500 to-purple-600 text-white py-12 md:py-20">
-        <div className="container mx-auto px-4 pt-20">
+        <div className="container mx-auto px-4 pt-20 md:px-14">
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="md:w-1/2 mb-8 md:mb-0">
               <h1 className="text-3xl md:text-5xl font-bold mb-4">
@@ -273,7 +272,7 @@ function Home() {
       </section>
 
       <section className="py-12 md:py-20">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 md:px-14">
           <h2 className="text-3xl font-bold text-center mb-8 md:mb-12">
             Why Choose Our Platform?
           </h2>
@@ -302,7 +301,7 @@ function Home() {
       </section>
 
       <section className="bg-blue-50 py-12 md:py-20">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 md:px-14">
           <h2 className="text-3xl font-bold text-center mb-8 md:mb-12">
             How It Works
           </h2>
@@ -352,7 +351,7 @@ function Home() {
       </section>
 
       <section className="py-12 md:py-20">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4  md:px-14">
           <h2 className="text-3xl font-bold text-center mb-8 md:mb-12">
             Platform Features
           </h2>
@@ -380,7 +379,7 @@ function Home() {
       </section>
 
       <section className="bg-gray-50 py-12 md:py-20">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4  md:px-14">
           <h2 className="text-3xl font-bold text-center mb-8 md:mb-12">
             Top Mentors
           </h2>
@@ -416,7 +415,7 @@ function Home() {
       <Testimonial />
 
       <section className="py-12 md:py-20">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4  md:px-14">
           <h2 className="text-3xl font-bold text-center mb-8 md:mb-12">
             Popular Categories
           </h2>
@@ -424,7 +423,7 @@ function Home() {
             {categories.map((category, index) => (
               <button
                 key={index}
-                className={`${category.color} font-semibold py-3 px-4 rounded-lg shadow transition duration-300 flex items-center justify-center hover:opacity-80`}
+                className={`${category.color} font-semibold py-3 px-4  md:px-14 rounded-lg shadow transition duration-300 flex items-center justify-center hover:opacity-80`}
                 onClick={() => handleClick(category.name)}
               >
                 <span className="mr-2">{category.emoji}</span>
@@ -436,7 +435,7 @@ function Home() {
       </section>
 
       <section className="bg-gradient-to-r from-blue-500 to-purple-600 text-white py-12 md:py-20">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4  md:px-14">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-3xl font-bold mb-6">
               Ready to Accelerate Your Growth?

@@ -47,7 +47,15 @@ function Testimonial() {
   );
 }
 
-const TestimonialCard = ({ image, quote, name, title, color }) => {
+interface TestimonialCardProps {
+  image: string;
+  quote: string;
+  name: string;
+  title: string;
+  color: string;
+}
+
+const TestimonialCard: React.FC<TestimonialCardProps> = ({ image, quote, name, title, color }) => {
   return (
     <div className={`bg-white shadow-lg rounded-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-xl relative`}>
       <div className={`absolute top-0 left-0 w-full h-2 bg-gradient-to-r ${color}`}></div>
