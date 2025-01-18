@@ -3,9 +3,9 @@ const app = express();
 const cors = require("cors");
 const dot = require("dotenv").config();
 const { connect } = require("./db/Connect");
-const userRoutes = require("./routes/user.routes");
+const mentorRoutes = require("./routes/mentor.routes");
+const menteeRoutes = require("./routes/mentee.routes");
 const articleRoutes = require("./routes/article.routes");
-const forumRoutes = require("./routes/forum.routes");
 const puppet = require("puppeteer");
 
 // const {protect}= require("./middlewares/authMiddleware");
@@ -18,9 +18,9 @@ app.get("/", (req, res) => {
   res.send("Welcome to the API");
 });
 
-app.use("/api/user", userRoutes);
+app.use("/api/mentor", mentorRoutes);
+app.use("/api/mentee", menteeRoutes);
 app.use("/api/article", articleRoutes);
-app.use("/api/forum", forumRoutes);
 
 connect()
   .then(() => {

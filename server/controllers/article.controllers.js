@@ -1,4 +1,4 @@
-const User = require("../models/User.model");
+const Mentor = require("../models/Mentor.model");
 const Article = require("../models/Article.model");
 
 async function createArticle(data) {
@@ -14,7 +14,7 @@ async function createArticle(data) {
 
     await newArticle.save();
 
-    const user = await User.findById(data.author);
+    const user = await Mentor.findById(data.author);
     if (user) {
       try {
         user.articles.push(newArticle._id);
