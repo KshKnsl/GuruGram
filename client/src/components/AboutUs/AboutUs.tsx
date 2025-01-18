@@ -51,6 +51,7 @@ interface FeatureCardProps {
 
 const FeatureCard = ({ icon, title, description, link }: FeatureCardProps) => {
   return (
+    
     <div className="bg-white shadow-md rounded-lg p-4 text-center">
       <i className={`fa ${icon} text-4xl text-gray-800 mb-4`}></i>
       <h3 className="text-xl font-semibold mb-2">{title}</h3>
