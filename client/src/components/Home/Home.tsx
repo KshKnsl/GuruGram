@@ -13,7 +13,6 @@ import {
   StarIcon,
   UserGroupIcon,
 } from "@heroicons/react/24/outline";
-import Card from "../Card/Card.js";
 import Testimonial from "./Testimonial.js";
 
 const texts = [
@@ -254,13 +253,13 @@ function Home() {
                       opacity: index === currentTextIndex ? 1 : 0,
                     }}
                   >
-                    <Card
+                    {/* <Card
                       name={data.name}
                       description={data.description}
                       domainStatement={data.domainStatement}
                       image={data.image}
                       onClick={() => handleClick(data.name)}
-                    />
+                    /> */}
                   </div>
                 ))}
               </div>

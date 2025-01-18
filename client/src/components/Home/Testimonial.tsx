@@ -30,12 +30,11 @@ const testimonials = [
     color: "from-purple-400 to-indigo-500"
   }
 ];
-
 function Testimonial() {
   return (
-    <section className="bg-gradient-to-br from-blue-50 to-purple-50 py-16">
+    <section className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-800 dark:to-gray-900 py-16">
       <div className="container mx-auto px-4">
-        <h2 className="text-4xl font-bold text-center mb-12 text-gray-800">What Our Mentees Say</h2>
+        <h2 className="text-4xl font-bold text-center mb-12 text-gray-800 dark:text-gray-100">What Our Mentees Say</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {testimonials.map((testimonial, index) => (
             <TestimonialCard key={index} {...testimonial} />
