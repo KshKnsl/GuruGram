@@ -5,9 +5,9 @@ import { BookX, Home } from 'lucide-react';
 
 const NotFound: React.FC = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-amber-50 to-orange-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center px-4">
+    <div className="min-h-screen dark:from-gray-900 dark:to-gray-800 flex items-center justify-center px-4">
       <motion.div 
-        className="text-center"
+        className="text-center flex flex-col items-center space-y-4"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}

@@ -219,9 +219,8 @@ function Home() {
   const handleClick = (text: string) => {
     alert(`Card for ${text} clicked!`);
   };
-
   return (
-    <div className="bg-gray-100 min-h-screen">
+    <div className="bg-gray-100 dark:bg-gray-900 min-h-screen">
       <section className="bg-gradient-to-r from-blue-500 to-purple-600 text-white py-12 md:py-20">
         <div className="container mx-auto px-4 pt-20 md:px-14">
           <div className="flex flex-col md:flex-row items-center justify-between">
@@ -245,7 +244,6 @@ function Home() {
             <div className="md:w-1/2 relative h-64 md:h-96 w-full">
               <div className="absolute inset-0 overflow-hidden">
                 {cardData.map((data, index) => (
-                  
                   <div
                     key={index}
                     className="absolute inset-0 transition-all duration-500 ease-in-out"
@@ -273,7 +271,7 @@ function Home() {
 
       <section className="py-12 md:py-20">
         <div className="container mx-auto px-4 md:px-14">
-          <h2 className="text-3xl font-bold text-center mb-8 md:mb-12">
+          <h2 className="text-3xl font-bold text-center mb-8 md:mb-12 dark:text-white">
             Why Choose Our Platform?
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
@@ -300,9 +298,9 @@ function Home() {
         </div>
       </section>
 
-      <section className="bg-blue-50 py-12 md:py-20">
+      <section className="bg-blue-50 dark:bg-gray-800 py-12 md:py-20">
         <div className="container mx-auto px-4 md:px-14">
-          <h2 className="text-3xl font-bold text-center mb-8 md:mb-12">
+          <h2 className="text-3xl font-bold text-center mb-8 md:mb-12 dark:text-white">
             How It Works
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
@@ -352,14 +350,14 @@ function Home() {
 
       <section className="py-12 md:py-20">
         <div className="container mx-auto px-4  md:px-14">
-          <h2 className="text-3xl font-bold text-center mb-8 md:mb-12">
+          <h2 className="text-3xl font-bold text-center mb-8 md:mb-12 dark:text-white">
             Platform Features
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {features.map((feature, index) => (
               <div
                 key={index}
-                className={`bg-white rounded-lg shadow-md p-6 flex items-start ${feature.color} bg-opacity-20 hover:bg-opacity-30 transition duration-300`}
+                className={`bg-white dark:bg-gray-700 rounded-lg shadow-md p-6 flex items-start ${feature.color} bg-opacity-20 hover:bg-opacity-30 transition duration-300`}
               >
                 <div className="mr-4">
                   <div className={`${feature.color} rounded-full p-3`}>
@@ -367,10 +365,12 @@ function Home() {
                   </div>
                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold mb-2">
+                  <h3 className="text-xl font-semibold mb-2 dark:text-white">
                     {feature.title}
                   </h3>
-                  <p className="text-gray-600">{feature.description}</p>
+                  <p className="text-gray-600 dark:text-gray-300">
+                    {feature.description}
+                  </p>
                 </div>
               </div>
             ))}
@@ -378,16 +378,16 @@ function Home() {
         </div>
       </section>
 
-      <section className="bg-gray-50 py-12 md:py-20">
+      <section className="bg-gray-50 dark:bg-gray-800 py-12 md:py-20">
         <div className="container mx-auto px-4  md:px-14">
-          <h2 className="text-3xl font-bold text-center mb-8 md:mb-12">
+          <h2 className="text-3xl font-bold text-center mb-8 md:mb-12 dark:text-white">
             Top Mentors
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
             {topMentors.map((mentor, index) => (
               <div
                 key={index}
-                className="bg-white rounded-lg shadow-md overflow-hidden transform hover:scale-105 transition duration-300"
+                className="bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden transform hover:scale-105 transition duration-300"
               >
                 <img
                   src={mentor.image}
@@ -395,13 +395,19 @@ function Home() {
                   className="w-full h-48 object-cover"
                 />
                 <div className="p-4">
-                  <h3 className="text-xl font-semibold mb-1">{mentor.name}</h3>
-                  <p className="text-gray-600 mb-2">{mentor.expertise}</p>
+                  <h3 className="text-xl font-semibold mb-1 dark:text-white">
+                    {mentor.name}
+                  </h3>
+                  <p className="text-gray-600 dark:text-gray-300 mb-2">
+                    {mentor.expertise}
+                  </p>
                   <div className="flex items-center mb-2">
                     <StarIcon className="w-5 h-5 text-yellow-400 mr-1" />
-                    <span className="font-semibold">{mentor.rating}</span>
+                    <span className="font-semibold dark:text-white">
+                      {mentor.rating}
+                    </span>
                   </div>
-                  <div className="flex items-center text-gray-600">
+                  <div className="flex items-center text-gray-600 dark:text-gray-300">
                     <UserGroupIcon className="w-5 h-5 mr-1" />
                     <span>{mentor.sessions} sessions</span>
                   </div>
@@ -416,7 +422,7 @@ function Home() {
 
       <section className="py-12 md:py-20">
         <div className="container mx-auto px-4  md:px-14">
-          <h2 className="text-3xl font-bold text-center mb-8 md:mb-12">
+          <h2 className="text-3xl font-bold text-center mb-8 md:mb-12 dark:text-white">
             Popular Categories
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -450,7 +456,6 @@ function Home() {
           </div>
         </div>
       </section>
-
     </div>
   );
 }

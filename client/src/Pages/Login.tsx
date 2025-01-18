@@ -1,34 +1,85 @@
-import React, { useState } from 'react';
-import { Eye, EyeOff, LogIn } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import React, { useState, useContext } from "react";
+import { Eye, EyeOff, LogIn } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import { AuthContext } from "../context/AuthContext.tsx";
+import { GoogleLogin } from "@react-oauth/google";
 
 const Login: React.FC = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [role, setRole] = useState<'mentee' | 'mentor'>('mentee');
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [role, setRole] = useState<"mentee" | "mentor">("mentee");
     const [showPassword, setShowPassword] = useState(false);
+    const { login } = useContext(AuthContext);
+    const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            // Dummy API endpoint
-            const response = await fetch('http://localhost:5000/api/mentee/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+            const endpoint =
+                role === "mentee"
+                    ? "http://localhost:5000/api/mentee/login"
+                    : "http://localhost:5000/api/mentor/login";
+
+            const response = await fetch(endpoint, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, password, role }),
             });
             if (response.ok) {
-                alert('Login successful!');
-                // Handle successful login (e.g., store token, redirect)
+                toast.success("Login successful!");
+
+                const { token, rest } = await response.json();
+                login(token, rest._doc._id, rest._doc.email);
+
+                navigate("/dashboard");
+
             } else {
-                alert('Login failed. Please check your credentials.');
+                toast.error("Login failed. Please check your credentials.");
             }
         } catch (error) {
-            console.error('Login error:', error);
-            alert('An error occurred. Please try again.');
+            console.error("Login error:", error);
+            toast.error("An error occurred. Please try again.");
         }
     };
 
+    
+    const handleGoogleLogin = async (response: any) => {
+        try {
+        const endpoint =
+            role === "mentee"
+                ? `${import.meta.env.VITE_BACKEND_URL}/api/mentee/google-login`
+                : `${import.meta.env.VITE_BACKEND_URL}/api/mentor/google-login`;
+
+        const res = await fetch(endpoint, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ token: response.credential }),
+        });
+            if (res.ok) {
+                const { token, ...rest } = await res.json();
+                login(token, rest.user._id, rest.user.email);
+                toast.success("Google login successful!", {
+                    position: "top-right",
+                    autoClose: 4000,
+                });
+            } else {
+                toast.error(
+                    `Google login failed. Please try again.${await res.text()}`,
+                    {
+                        position: "top-right",
+                        autoClose: 4000,
+                    }
+                );
+            }
+        } catch (error) {
+            toast.error("An error occurred during Google login.", {
+                position: "top-right",
+                autoClose: 4000,
+            });
+        }
+    };
+    
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-md w-full space-y-8">
@@ -62,7 +113,7 @@ const Login: React.FC = () => {
                             <input
                                 id="password"
                                 name="password"
-                                type={showPassword ? 'text' : 'password'}
+                                type={showPassword ? "text" : "password"}
                                 autoComplete="current-password"
                                 required
                                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-gray-100 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm bg-white dark:bg-gray-900"
@@ -92,46 +143,70 @@ const Login: React.FC = () => {
                                 type="checkbox"
                                 className="h-4 w-4 text-indigo-600 dark:text-indigo-400 focus:ring-indigo-500 border-gray-300 dark:border-gray-700 rounded"
                             />
-                            <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900 dark:text-gray-100">
+                            <label
+                                htmlFor="remember-me"
+                                className="ml-2 block text-sm text-gray-900 dark:text-gray-100"
+                            >
                                 Remember me
                             </label>
                         </div>
 
                         <div className="text-sm">
-                            <a href="#" className="font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300">
+                            <a
+                                href="#"
+                                className="font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300"
+                            >
                                 Forgot your password?
                             </a>
                         </div>
                     </div>
 
                     <div>
-                        <label className="text-sm font-medium text-gray-700 dark:text-gray-300">I am a:</label>
+                        <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                            I am a:
+                        </label>
                         <div className="mt-2">
                             <div className="flex items-center justify-center">
                                 <button
                                     type="button"
                                     className={`${
-                                        role === 'mentee'
-                                            ? 'bg-indigo-600 text-white'
-                                            : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
+                                        role === "mentee"
+                                            ? "bg-indigo-600 text-white"
+                                            : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
                                     } px-3 py-2 rounded-l-md border border-gray-300 dark:border-gray-700 text-sm font-medium focus:outline-none`}
-                                    onClick={() => setRole('mentee')}
+                                    onClick={() => setRole("mentee")}
                                 >
                                     Mentee
                                 </button>
                                 <button
                                     type="button"
                                     className={`${
-                                        role === 'mentor'
-                                            ? 'bg-indigo-600 text-white'
-                                            : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
+                                        role === "mentor"
+                                            ? "bg-indigo-600 text-white"
+                                            : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
                                     } px-3 py-2 rounded-r-md border border-gray-300 dark:border-gray-700 text-sm font-medium focus:outline-none`}
-                                    onClick={() => setRole('mentor')}
+                                    onClick={() => setRole("mentor")}
                                 >
                                     Mentor
                                 </button>
                             </div>
                         </div>
+                    </div>
+
+                    <div>
+                        <GoogleLogin
+                            onSuccess={handleGoogleLogin}
+                            onError={() =>
+                                toast.error("Google login failed. Please try again.", {
+                                    position: "top-right",
+                                    autoClose: 4000,
+                                })
+                            }
+                            type="standard"
+                            theme="filled_black"
+                            size="large"
+                            text="signin_with"
+                        />
                     </div>
 
                     <div>
@@ -148,13 +223,17 @@ const Login: React.FC = () => {
                 </form>
                 <div className="text-center">
                     <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                        Don't have an account?{' '}
-                        <Link to="/signup" className="font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300">
+                        Don't have an account?{" "}
+                        <Link
+                            to="/signup"
+                            className="font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300"
+                        >
                             Sign up
                         </Link>
                     </p>
                 </div>
             </div>
+            <ToastContainer />
         </div>
     );
 };

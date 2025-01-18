@@ -19,7 +19,7 @@ const NavbarLinks = ({ onClick }: { onClick: () => void }) => {
         <Link
           key={link.to}
           to={link.to}
-          className="text-foreground hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300"
+          className="text-foreground dark:text-dark-foreground hover:text-primary dark:hover:text-dark-primary px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300"
           onClick={onClick}
         >
           {link.label}
@@ -44,7 +44,7 @@ const Navbar = () => {
   const toggleMenu = useCallback(() => setIsOpen((prev) => !prev), [])
 
   return (
-    <nav className={`absolute top-0 left-0 right-0 z-50 transition-all duration-300 bg-transparent`}>
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-transparent ${scrolled ? 'bg-white dark:bg-dark-background' : 'bg-transparent'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
@@ -59,8 +59,8 @@ const Navbar = () => {
           </div>
           <div className="hidden md:block">
             <div className="ml-4 flex items-center md:ml-6 space-x-2">
-              <Link to="/signup" className="text-foreground hover:text-primary px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 border border-primary">Sign Up</Link>
-              <Link to="/login" className="text-foreground hover:text-primary px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 bg-primary">Log In</Link>
+              <Link to="/signup" className="text-foreground dark:text-dark-foreground hover:text-primary dark:hover:text-dark-primary px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 border border-primary dark:border-dark-primary">Sign Up</Link>
+              <Link to="/login" className="text-foreground dark:text-dark-foreground hover:text-primary dark:hover:text-dark-primary px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 bg-primary dark:bg-dark-primary">Log In</Link>
               <ThemeBtn />
             </div>
           </div>
@@ -79,14 +79,14 @@ const Navbar = () => {
       </div>
 
       {isOpen && (
-        <div className="md:hidden bg-background">
+        <div className="md:hidden bg-background dark:bg-dark-background">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             <NavbarLinks onClick={() => setIsOpen(false)} />
           </div>
-          <div className="pt-4 pb-3 border-t border-border">
+          <div className="pt-4 pb-3 border-t border-border dark:border-dark-border">
             <div className="flex items-center justify-between px-5 space-x-2">
-                <Link to="/signup" className="w-full text-foreground hover:text-primary px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 border border-primary">Sign Up</Link>
-                <Link to="/login" className="w-full text-foreground hover:text-primary px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 bg-primary">Log In</Link>
+                <Link to="/signup" className="w-full text-foreground dark:text-dark-foreground hover:text-primary dark:hover:text-dark-primary px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 border border-primary dark:border-dark-primary">Sign Up</Link>
+                <Link to="/login" className="w-full text-foreground dark:text-dark-foreground hover:text-primary dark:hover:text-dark-primary px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 bg-primary dark:bg-dark-primary">Log In</Link>
             </div>
             <div className="mt-3 px-5">
               <ThemeBtn />

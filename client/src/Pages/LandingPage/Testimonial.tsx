@@ -34,9 +34,9 @@ const testimonials = [
 
 function Testimonial() {
   return (
-    <section className="bg-gradient-to-br from-blue-50 to-purple-50 py-16">
+    <section className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-800 dark:to-gray-900 py-16">
       <div className="container mx-auto px-4">
-        <h2 className="text-4xl font-bold text-center mb-12 text-gray-800">What Our Mentees Say</h2>
+        <h2 className="text-4xl font-bold text-center mb-12 text-gray-800 dark:text-gray-200">What Our Mentees Say</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {testimonials.map((testimonial, index) => (
             <TestimonialCard key={index} {...testimonial} />
@@ -57,18 +57,18 @@ interface TestimonialCardProps {
 
 const TestimonialCard: React.FC<TestimonialCardProps> = ({ image, quote, name, title, color }) => {
   return (
-    <div className={`bg-white shadow-lg rounded-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-xl relative`}>
+    <div className={`bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-xl relative`}>
       <div className={`absolute top-0 left-0 w-full h-2 bg-gradient-to-r ${color}`}></div>
       <div className="p-6">
-        <div className="w-24 h-24 rounded-full overflow-hidden mx-auto mb-6 border-4 border-white shadow-lg">
+        <div className="w-24 h-24 rounded-full overflow-hidden mx-auto mb-6 border-4 border-white dark:border-gray-800 shadow-lg">
           <img src={image} alt={name} className="w-full h-full object-cover" />
         </div>
         <div className="relative">
-          <p className="text-gray-600 mb-6 italic text-sm md:text-base relative z-10">"{quote}"</p>
+          <p className="text-gray-600 dark:text-gray-300 mb-6 italic text-sm md:text-base relative z-10">"{quote}"</p>
         </div>
-        <div className="border-t pt-4">
-          <h3 className="text-lg font-semibold mb-1 text-gray-800">{name}</h3>
-          <p className="text-sm text-gray-500">{title}</p>
+        <div className="border-t pt-4 dark:border-gray-700">
+          <h3 className="text-lg font-semibold mb-1 text-gray-800 dark:text-gray-200">{name}</h3>
+          <p className="text-sm text-gray-500 dark:text-gray-400">{title}</p>
         </div>
         <div className="mt-4 flex justify-center">
           {[...Array(5)].map((_, i) => (
