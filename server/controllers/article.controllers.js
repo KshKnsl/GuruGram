@@ -54,40 +54,6 @@ async function getArticleById(id) {
   }
 }
 
-// Update an existing articlevs
-async function updateArticle(data) {
-  try {
-    const update = {
-      title: data.title,
-      desc: data.desc,
-      content: data.content,
-      author: data.author,
-      tags: data.tags,
-      status: data.status || "draft",
-      publishedAt: data.publishedAt || null,
-    };
-
-    const updatedArticle = await Article.findByIdAndUpdate(
-      data._id,
-      update,
-      { new: true, upsert: true, setDefaultsOnInsert: true } 
-    );
-
-    return {
-      success: true,
-      message: updatedArticle.isNew
-        ? "New article created successfully"
-        : "Article updated successfully",
-      article: updatedArticle,
-    };
-  } catch (error) {
-    return {
-      success: false,
-      message: `Error while updating/creating article: ${error.message}`,
-    };
-  }
-}
-
 async function deleteArticle(id) {
   try {
     const deletedArticle = await Article.findByIdAndDelete(id);
@@ -144,7 +110,6 @@ async function getArticlesAll() {
 module.exports = {
   createArticle,
   getArticleById,
-  updateArticle,
   deleteArticle,
   getArticlesByTags,
   getArticlesByAuthor,

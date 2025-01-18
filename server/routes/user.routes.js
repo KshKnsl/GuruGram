@@ -24,7 +24,6 @@ router.post("/login", async (req, res) => {
     res.status(404).send({message: "User not found"});
 });
 
-
 router.put("/updateUser", async (req, res) => {
   let result = await updateUser(req.body);
   if (result.success) {
@@ -81,6 +80,5 @@ router.post("/google-login", async (req, res) => {
     res.status(400).send("Invalid Google token.");
   }
 });
-
 
 module.exports = router;
