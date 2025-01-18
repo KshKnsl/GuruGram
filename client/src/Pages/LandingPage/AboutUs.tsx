@@ -1,3 +1,5 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 function AboutUs() {
   return (
@@ -42,14 +44,7 @@ function AboutUs() {
   );
 }
 
-interface FeatureCardProps {
-  icon: string;
-  title: string;
-  description: string;
-  link: string;
-}
-
-const FeatureCard = ({ icon, title, description, link }: FeatureCardProps) => {
+const FeatureCard = ({ icon, title, description, link }) => {
   return (
     <div className="bg-white shadow-md rounded-lg p-4 text-center">
       <i className={`fa ${icon} text-4xl text-gray-800 mb-4`}></i>
