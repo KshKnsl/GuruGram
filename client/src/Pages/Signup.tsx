@@ -1,10 +1,11 @@
-import React, { useContext, useState } from 'react';
-import { Eye, EyeOff, UserPlus } from 'lucide-react';
+import React, { useContext, useState, useEffect } from 'react';
+import { Eye, EyeOff, UserPlus, Search } from 'lucide-react';
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AuthContext } from "../context/AuthContext.tsx";
 import { GoogleLogin } from "@react-oauth/google";
+import { INTERESTS } from "../constants";
 
 const Signup: React.FC = () => {
   const [name, setName] = useState('');
@@ -14,12 +15,33 @@ const Signup: React.FC = () => {
   const [interests, setInterests] = useState<string[]>([]);
   const [role, setRole] = useState<'mentee' | 'mentor'>('mentee');
   const [showPassword, setShowPassword] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredInterests, setFilteredInterests] = useState<string[]>(INTERESTS);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    setFilteredInterests(
+      INTERESTS.filter((interest) =>
+        interest.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    );
+  }, [searchTerm]);
+
+  const handleInterestToggle = (interest: string) => (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setInterests((prevInterests) =>
+      prevInterests.includes(interest)
+        ? prevInterests.filter((i) => i !== interest)
+        : [...prevInterests, interest]
+    );
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
     const endpoint = role === 'mentee' ? 'api/mentee/addMentee' : 'api/mentor/addMentor';
     try {
       const response = await fetch(`http://localhost:5000/${endpoint}`, {
@@ -29,12 +51,17 @@ const Signup: React.FC = () => {
       });
       if (response.ok) {
         toast.success('Account created successfully!');
+        setTimeout(() => {
+          navigate('/login');
+        }, 2000);
       } else {
         toast.error('Signup failed. Please try again.');
       }
     } catch (error) {
       console.error('Signup error:', error);
       toast.error('An error occurred. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -161,20 +188,6 @@ const Signup: React.FC = () => {
                 onChange={(e) => setBio(e.target.value)}
               />
             </div>
-            <div>
-              <label htmlFor="interests" className="sr-only">
-                Interests
-              </label>
-              <input
-                id="interests"
-                name="interests"
-                type="text"
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Interests (comma separated)"
-                value={interests.join(', ')}
-                onChange={(e) => setInterests(e.target.value.split(',').map(interest => interest.trim()))}
-              />
-            </div>
           </div>
 
           <div>
@@ -227,14 +240,62 @@ const Signup: React.FC = () => {
             <button
               type="submit"
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              disabled={isLoading}
             >
               <span className="absolute left-0 inset-y-0 flex items-center pl-3">
                 <UserPlus className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" />
               </span>
-              Sign up
+              {isLoading ? 'Signing up...' : 'Sign up'}
             </button>
           </div>
         </form>
+
+        <div className="mt-8">
+          <h3 className="text-lg leading-6 font-medium text-gray-900">
+            {role === 'mentee' ? 'Interests' : 'Field of Expertise'}
+          </h3>
+          <div className="mt-2 relative">
+            <input
+              type="text"
+              className="w-full p-2 pl-10 rounded-md border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              placeholder="Search field..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+          </div>
+          <div className="mt-2 flex flex-wrap gap-2 max-h-48 overflow-y-scroll scrollbar-hidden">
+            {filteredInterests.map((interest) => (
+              <button
+                key={interest}
+                onClick={(e) => {
+                  handleInterestToggle(interest)(e);
+                }}
+                className={`px-3 py-1 rounded-full text-sm font-medium ${
+                  interests.includes(interest)
+                    ? "bg-indigo-100 text-indigo-800 border-2 border-indigo-500"
+                    : "bg-gray-100 text-gray-700 border-2 border-transparent hover:border-gray-300"
+                } cursor-pointer`}
+              >
+                {interest}
+              </button>
+            ))}
+          </div>
+          <div className="mt-4">
+            <h4 className="text-md font-medium text-gray-900">Selected Interests:</h4>
+            <div className="flex flex-wrap gap-1 mt-2">
+              {interests.map((interest) => (
+                <span
+                  key={interest}
+                  className="text-sm font-medium  text-indigo-800 "
+                >
+                  {interest},
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+
         <div className="text-center">
           <p className="mt-2 text-sm text-gray-600">
             Already have an account?{' '}

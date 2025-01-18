@@ -1,16 +1,18 @@
-import React, { useState, useEffect, useCallback } from 'react'
-import { Menu, X } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { useState, useEffect, useCallback, useContext } from 'react'
+import { Menu, X, Home, Users, Calendar, BookOpen, Info, User, LogIn, LogOut, UserPlus } from 'lucide-react'
+import { Link, useLocation } from 'react-router-dom'
 import Logo from '../assets/Logo.gif'
 import ThemeBtn from './ui/ThemeBtn'
+import { AuthContext } from "../context/AuthContext";
 
 const NavbarLinks = ({ onClick }: { onClick: () => void }) => {
+  const location = useLocation();
   const links = [
-    { to: '/', label: 'Home' },
-    { to: '/mentors', label: 'Mentors' },
-    { to: '/sessions', label: 'Sessions' },
-    { to: '/resources', label: 'Resources' },
-    { to: '/about', label: 'About' },
+    { to: '/', label: 'Home', icon: Home },
+    { to: '/mentors', label: 'Mentors', icon: Users },
+    { to: '/sessions', label: 'Sessions', icon: Calendar },
+    { to: '/resources', label: 'Resources', icon: BookOpen },
+    { to: '/about', label: 'About', icon: Info },
   ]
 
   return (
@@ -19,9 +21,10 @@ const NavbarLinks = ({ onClick }: { onClick: () => void }) => {
         <Link
           key={link.to}
           to={link.to}
-          className="text-foreground dark:text-dark-foreground hover:text-primary dark:hover:text-dark-primary px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300"
+          className={`text-foreground dark:text-dark-foreground hover:text-primary dark:hover:text-dark-primary px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300 flex items-center ${location.pathname === link.to ? 'bg-primary dark:bg-dark-primary' : ''}`}
           onClick={onClick}
         >
+          <link.icon className="mr-2 h-4 w-4" />
           {link.label}
         </Link>
       ))}
@@ -33,6 +36,9 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
 
+  const { logout } = useContext(AuthContext);
+  const auth = useContext(AuthContext);
+
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20)
@@ -42,9 +48,8 @@ const Navbar = () => {
   }, [])
 
   const toggleMenu = useCallback(() => setIsOpen((prev) => !prev), [])
-
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-transparent ${scrolled ? 'bg-white dark:bg-dark-background' : 'bg-transparent'}`}>
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-white dark:bg-dark-background' : 'bg-transparent dark:text-white'} `}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
@@ -59,8 +64,29 @@ const Navbar = () => {
           </div>
           <div className="hidden md:block">
             <div className="ml-4 flex items-center md:ml-6 space-x-2">
-              <Link to="/signup" className="text-foreground dark:text-dark-foreground hover:text-primary dark:hover:text-dark-primary px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 border border-primary dark:border-dark-primary">Sign Up</Link>
-              <Link to="/login" className="text-foreground dark:text-dark-foreground hover:text-primary dark:hover:text-dark-primary px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 bg-primary dark:bg-dark-primary">Log In</Link>
+              {auth.user ? (
+                <>
+                  <Link to="/profile" className={`text-foreground dark:text-dark-foreground hover:text-primary dark:hover:text-dark-primary px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 flex items-center ${location.pathname === '/profile' ? 'bg-primary dark:bg-dark-primary' : ''}`}>
+                    <User className="mr-2 h-4 w-4" />
+                    Profile
+                  </Link>
+                  <button onClick={logout} className="text-foreground dark:text-dark-foreground hover:text-primary dark:hover:text-dark-primary px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 flex items-center">
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link to="/signup" className={`text-foreground dark:text-dark-foreground hover:text-primary dark:hover:text-dark-primary px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 border border-primary dark:border-dark-primary flex items-center ${location.pathname === '/signup' ? 'bg-primary dark:bg-dark-primary' : ''}`}>
+                    <UserPlus className="mr-2 h-4 w-4" />
+                    Sign Up
+                  </Link>
+                  <Link to="/login" className={`text-foreground dark:text-dark-foreground hover:text-primary dark:hover:text-dark-primary px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 bg-primary dark:bg-dark-primary flex items-center ${location.pathname === '/login' ? 'bg-primary dark:bg-dark-primary' : ''}`}>
+                    <LogIn className="mr-2 h-4 w-4" />
+                    Log In
+                  </Link>
+                </>
+              )}
               <ThemeBtn />
             </div>
           </div>
@@ -85,8 +111,29 @@ const Navbar = () => {
           </div>
           <div className="pt-4 pb-3 border-t border-border dark:border-dark-border">
             <div className="flex items-center justify-between px-5 space-x-2">
-                <Link to="/signup" className="w-full text-foreground dark:text-dark-foreground hover:text-primary dark:hover:text-dark-primary px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 border border-primary dark:border-dark-primary">Sign Up</Link>
-                <Link to="/login" className="w-full text-foreground dark:text-dark-foreground hover:text-primary dark:hover:text-dark-primary px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 bg-primary dark:bg-dark-primary">Log In</Link>
+              {auth.user ? (
+                <>
+                  <Link to="/profile" className={`w-full text-foreground dark:text-dark-foreground hover:text-primary dark:hover:text-dark-primary px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 flex items-center ${location.pathname === '/profile' ? 'bg-primary dark:bg-dark-primary' : ''}`}>
+                    <User className="mr-2 h-4 w-4" />
+                    Profile
+                  </Link>
+                  <button onClick={logout} className="w-full text-foreground dark:text-dark-foreground hover:text-primary dark:hover:text-dark-primary px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 flex items-center">
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link to="/signup" className={`w-full text-foreground dark:text-dark-foreground hover:text-primary dark:hover:text-dark-primary px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 border border-primary dark:border-dark-primary flex items-center ${location.pathname === '/signup' ? 'bg-primary dark:bg-dark-primary' : ''}`}>
+                    <UserPlus className="mr-2 h-4 w-4" />
+                    Sign Up
+                  </Link>
+                  <Link to="/login" className={`w-full text-foreground dark:text-dark-foreground hover:text-primary dark:hover:text-dark-primary px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 bg-primary dark:bg-dark-primary flex items-center ${location.pathname === '/login' ? 'bg-primary dark:bg-dark-primary' : ''}`}>
+                    <LogIn className="mr-2 h-4 w-4" />
+                    Log In
+                  </Link>
+                </>
+              )}
             </div>
             <div className="mt-3 px-5">
               <ThemeBtn />
