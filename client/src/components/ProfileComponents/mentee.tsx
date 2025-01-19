@@ -4,7 +4,7 @@ import MenteeProfile from './mentee_profile'
 export default function MenteePage() {
   const menteeData = {
     name: "Alex Johnson",
-    avatar: "/placeholder.svg?height=96&width=96",
+    avatar: "https://avatar.iran.liara.run/public/boy",
     location: "San Francisco, CA",
     occupation: "Junior Developer",
     education: "B.S. Computer Science",

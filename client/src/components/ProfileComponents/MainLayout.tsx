@@ -9,7 +9,7 @@ function MenteeProfile()
   const mentee = {
     name: 'John Doe',
     bio: 'I am an aspiring software developer with a passion for technology and problem-solving. Currently pursuing a degree in Computer Science, I have a growing interest in web development, data science, and cloud computing. I’m familiar with languages like Python, JavaScript, and SQL, and I am continuously expanding my skill set through projects and coursework. In addition to my technical abilities, I am eager to learn from experienced professionals and gain hands-on experience through mentorship. My goal is to build a strong foundation in coding, software engineering principles, and project management while working on innovative solutions that positively impact the world.',
-    profileImage: 'https://via.placeholder.com/150',
+    profileImage: 'https://avatar.iran.liara.run/public/boy',
     skills: ['JavaScript', 'React', 'Node.js', 'HTML/CSS', 'Algorithms'],
     goals: ['Build a personal portfolio', 'Learn backend development', 'Prepare for technical interviews'],
     mentors: [
