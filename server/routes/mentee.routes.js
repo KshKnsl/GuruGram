@@ -1,17 +1,16 @@
-const express = require("express");
-const { OAuth2Client } = require("google-auth-library");
+import express from "express";
+import { OAuth2Client } from "google-auth-library";
+import { upload } from "../middlewares/multer.js";
+import uploadImage from "../utils/uploadImage.js";
+import { createMentee, findMentee, updateMentee, loginMentee, googleLogin, findMenteeByEmail } from "../controllers/mentee.controllers.js";
+import Mentee from "../models/Mentee.model.js";
 
-const { upload } = require("../middlewares/multer.js");
-const uploadImage  = require("../utils/uploadImage.js");
-const { createMentee, findMentee, updateMentee, loginMentee, googleLogin, findMenteeByEmail
-} = require("../controllers/mentee.controllers.js");
 const router = express.Router();
-const Mentee = require("../models/Mentee.model.js");
 
 router.get("/", async (req, res) => {
   res.send("Mentee");
-}
-);
+});
+
 router.post("/addMentee", async (req, res) => {
   console.log(req.body);
   let result = await createMentee(req.body);
@@ -40,6 +39,7 @@ router.put("/updateMentee", async (req, res) => {
 });
 
 router.get("/:id", async (req, res) => {
+  console.log(req.params.id);
   let foundMentee = await findMentee(req.params.id);
   res.send(foundMentee);
 });
@@ -64,9 +64,9 @@ router.post("/:id/uploadAvatar", upload.single("image"), async (req, res) => {
     const foundMentee = await findMentee(menteeId);
     if (!foundMentee || !req.file) 
       return res.status(404).send({ success: false, message: "Not found" });
-    foundMentee.avatar = await  uploadImage(`uploads/${req.params.id}_${req.file.originalname}`,req.params.id);
+    foundMentee.avatar = await uploadImage(`uploads/${req.params.id}_${req.file.originalname}`, req.params.id);
     await updateMentee(foundMentee);
-    res.status(200).send({success: true, message: "Avatar uploaded successfully",newAvatar : foundMentee.avatar});
+    res.status(200).send({success: true, message: "Avatar uploaded successfully", newAvatar: foundMentee.avatar});
   } 
   catch (error) {
     res.status(500).send({ success: false, message: `Internal server error${error}`, });
@@ -88,4 +88,4 @@ router.post("/google-login", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

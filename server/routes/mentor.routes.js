@@ -1,15 +1,22 @@
-const express = require("express");
-const { OAuth2Client } = require("google-auth-library");
+import express from "express";
+import { OAuth2Client } from "google-auth-library";
+import { upload } from "../middlewares/multer.js";
+import uploadImage from "../utils/uploadImage.js";
+import { createMentor, findMentor, updateMentor, loginMentor, googleLogin, findMentorByEmail, insertBulk } from "../controllers/mentor.controllers.js";
+import Mentor from "../models/Mentor.model.js";
 
-const { upload } = require("../middlewares/multer.js");
-const uploadImage  = require("../utils/uploadImage.js");
-const { createMentor, findMentor, updateMentor, loginMentor, googleLogin, findMentorByEmail
-} = require("../controllers/mentor.controllers.js");
 const router = express.Router();
-const Mentor = require("../models/Mentor.model.js");
 
 router.post("/addMentor", async (req, res) => {
   let result = await createMentor(req.body);
+  if (result.success) 
+    res.status(201).send(result);
+  else
+    res.status(400).send(result);
+});
+
+router.post("/addMentor/bulk", async (req, res) => {
+  let result = await insertBulk(req.body);
   if (result.success) 
     res.status(201).send(result);
   else
@@ -58,9 +65,9 @@ router.post("/:id/uploadAvatar", upload.single("image"), async (req, res) => {
     const foundMentor = await findMentor(mentorId);
     if (!foundMentor || !req.file) 
       return res.status(404).send({ success: false, message: "Not found" });
-    foundMentor.avatar = await  uploadImage(`uploads/${req.params.id}_${req.file.originalname}`,req.params.id);
+    foundMentor.avatar = await uploadImage(`uploads/${req.params.id}_${req.file.originalname}`, req.params.id);
     await updateMentor(foundMentor);
-    res.status(200).send({success: true, message: "Avatar uploaded successfully",newAvatar : foundMentor.avatar});
+    res.status(200).send({success: true, message: "Avatar uploaded successfully", newAvatar: foundMentor.avatar});
   } 
   catch (error) {
     res.status(500).send({ success: false, message: `Internal server error${error}`, });
@@ -82,4 +89,10 @@ router.post("/google-login", async (req, res) => {
   }
 });
 
-module.exports = router;
+router.get("/", async (req, res) => {
+  console.log("Getting all mentors");
+  const mentors = await Mentor.find({});
+  res.send(mentors);
+});
+
+export default router;

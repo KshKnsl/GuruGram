@@ -1,8 +1,8 @@
-const Mentor = require("../models/Mentor.model.js");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const { OAuth2Client } = require("google-auth-library");
-const { sendMail } = require("../utils/mail.util.js");
+import Mentor from "../models/Mentor.model.js";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import { OAuth2Client } from "google-auth-library";
+import { sendMail } from "../utils/mail.util.js";
 
 async function createMentor(data) {
   try {
@@ -10,9 +10,23 @@ async function createMentor(data) {
       name: data.name,
       email: data.email,
       password: data.password,
+      dob: data.dob,
       avatar: data.avatar || "https://avatar.iran.liara.run/public/boy",
       bio: data.bio,
-      interests: data.interests || [],
+      socialLinks: data.socialLinks,
+      points: data.points || 100,
+      badges: data.badges,
+      interests: data.interests || ["Reading"],
+      articles: data.articles,
+      readArticles: data.readArticles || [],
+      lastRead: data.lastRead,
+      location: data.location,
+      occupation: data.occupation,
+      education: data.education,
+      skills: data.skills,
+      specialties: data.specialties,
+      ranking: data.ranking,
+      totalMentees: data.totalMentees,
     });
 
     await newMentor.save();
@@ -24,12 +38,16 @@ async function createMentor(data) {
     return { success: false, message: `Error while creating mentor ${error}` };
   }
 }
+
 async function findMentor(id) {
-  try {
-    const mentor = await Mentor.findById(id)
-    .populate('articles')
-    .populate('readArticles')
-    .populate('lastRead');
+  try{
+  const mentor = await Mentor.findById(id)
+  .populate('articles')
+  .populate('readArticles')
+  .populate('lastRead')
+  .populate('socialLinks')
+  .populate('skills')
+  .populate('specialties');
     return mentor;
   } catch (error) {
     return null;
@@ -45,7 +63,19 @@ async function updateMentor(data)
     avatar: data.avatar || "https://avatar.iran.liara.run/public",
     bio: data.bio,
     socialLinks: data.socialLinks || [],
+    points: data.points,
+    badges: data.badges,
     interests: data.interests || [],
+    articles: data.articles,
+    readArticles: data.readArticles,
+    lastRead: data.lastRead,
+    location: data.location,
+    occupation: data.occupation,
+    education: data.education,
+    skills: data.skills || [],
+    specialties: data.specialties || [],
+    ranking: data.ranking,
+    totalMentees: data.totalMentees,
   };
   try 
   {
@@ -132,4 +162,13 @@ function findMentorByEmail(email)
   return Mentor.findOne({ email});
 }
 
-module.exports = { createMentor, findMentor, updateMentor, loginMentor, googleLogin, findMentorByEmail };
+async function insertBulk(data)
+{
+  const results = [];
+  for (const mentorData of data) {
+    const result = await createMentor(mentorData);
+    results.push(result);
+  }
+  return results;
+}
+export { createMentor, findMentor, updateMentor, loginMentor, googleLogin, findMentorByEmail, insertBulk };
