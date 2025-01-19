@@ -2,6 +2,7 @@ import { Route, Routes } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { ThemeProvider } from './context/ThemeContext'
 import { AuthProvider } from './context/AuthContext'
+import ProfileCompletion from './components/ProfileComponents/ProfileCompletion'
 
 // Layout Components
 import Header from './components/Header'
@@ -24,6 +25,8 @@ import ArticleEditor from './components/Articles/ArticleEditor'
 // Profile Components
 import MenteeProfile from './components/ProfileComponents/mentee'
 import MentorProfile from './components/ProfileComponents/mentor'
+import ViewMenteeProfile from './components/ProfileComponents/ViewMenteeProfile'
+import ViewMentorProfile from './components/ProfileComponents/ViewMentorProfile'
 
 // Types
 interface ArticleType {
@@ -140,6 +143,9 @@ export default function App() {
               {/* Profile Routes */}
               <Route path="/profile" element={<MenteeProfile />} />
               <Route path="/profile/mentor" element={<MentorProfile />} />
+              <Route path="/profile/mentee/:id" element={<ViewMenteeProfile />} />
+              <Route path="/profile/mentor/:id" element={<ViewMentorProfile />} />
+              <Route path="/complete-profile" element={<ProfileCompletion />} />
               
               {/* Feature Routes */}
               <Route path="/call" element={<Call />} />
