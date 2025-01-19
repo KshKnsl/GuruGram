@@ -37,16 +37,17 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         const _id = localStorage.getItem("_id");
         const email = localStorage.getItem("email");
         const profileCompleted = localStorage.getItem("profileCompleted");
-
-        if (token && _id && email  && role) {
-          setUser({ 
-            token, 
-            _id, 
-            email, 
-             role: role,
-            profileCompleted: profileCompleted ? JSON.parse(profileCompleted) : false 
-          });
         const role = localStorage.getItem("role");
+
+        if (token && _id && email && role) {
+        setUser({ 
+          token, 
+          _id, 
+          email, 
+          role,
+          profileCompleted: profileCompleted ? JSON.parse(profileCompleted) : false 
+        });
+        }
       } catch (error) {
         console.error("Failed to fetch user:", error);
       } finally {

@@ -3,6 +3,13 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import ArticlePage from '../../components/Articles/ArticlePage';
 
+interface ArticleType {
+  id: string;
+  title: string;
+  content: string;
+  comments: { id: string; author: string; content: string; date: string; userId: string }[];
+}
+
 const Article = () => {
   const { id } = useParams<{ id: string }>();
   const [article, setArticle] = useState<ArticleType | null>(null);
@@ -10,7 +17,7 @@ const Article = () => {
   useEffect(() => {
     const fetchArticle = async () => {
       try {
-        const response = await axios.get(`localhost:5000/api/articles/${id}`);
+        const response = await axios.get(`http://localhost:5000/api/articles/${id}`);
         setArticle(response.data);
       } catch (error) {
         console.error('Error fetching article:', error);
@@ -23,15 +30,16 @@ const Article = () => {
   if (!article) return <p>Loading...</p>;
 
   const handleAddComment = async (content: string) => {
+    const userId = localStorage.getItem('email');
     try {
-      const response = await axios.post(`localhost:5000/api/articles/${id}/comments`, { content });
+      const response = await axios.post(`http://localhost:5000/api/articles/${id}/comments`, { content, userId });
       setArticle({ ...article, comments: [...article.comments, response.data] });
     } catch (error) {
       console.error('Error adding comment:', error);
     }
   };
 
-  return <ArticlePage {...article} onAddComment={handleAddComment} />;
+  return <ArticlePage author={''} date={''} {...article} onAddComment={handleAddComment} />;
 };
 
 export default Article;

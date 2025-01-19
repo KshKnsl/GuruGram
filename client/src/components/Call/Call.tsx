@@ -8,8 +8,8 @@ function Call() {
   ZoomMtg.prepareWebSDK();
   const authEndpoint = "http://localhost:5000/generateSignature";
   const sdkKey = "79Qt0lnLTCSLN8z8Q8vHWw";
-  const meetingNumber = "75784511133";
-  const passWord = "nbAK0v";
+  const meetingNumber = "79545907036";
+  const passWord = "UA2s9u";
   const role = 0;
   const userName = "React";
   const userEmail = "";

@@ -41,6 +41,7 @@ export const createArticle = async (req, res) => {
     console.log('Creating a new article');
     const newArticle = await article.save();
     res.status(201).json(newArticle);
+    console.log('New article created', newArticle);
   } catch (error) {
     console.error('Error creating article:', error.message);
     res.status(400).json({ message: error.message });
@@ -48,6 +49,7 @@ export const createArticle = async (req, res) => {
 };
 
 export const updateArticle = async (req, res) => {
+
   try {
     console.log(`Updating article with id: ${req.params.id}`);
     const article = await Article.findById(req.params.id);
@@ -59,6 +61,7 @@ export const updateArticle = async (req, res) => {
     Object.assign(article, req.body);
     const updatedArticle = await article.save();
     res.json(updatedArticle);
+    console.log('Article updated');
   } catch (error) {
     console.error('Error updating article:', error.message);
     res.status(400).json({ message: error.message });
@@ -79,6 +82,32 @@ export const deleteArticle = async (req, res) => {
     res.json({ message: 'Article deleted' });
   } catch (error) {
     console.error('Error deleting article:', error.message);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
+export const addComment = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { content, userId } = req.body;
+
+    const article = await Article.findById(id);
+    if (!article) {
+      return res.status(404).json({ message: 'Article not found' });
+    }
+
+    const newComment = {
+      content,
+      author: userId,
+      date: new Date(),
+    };
+
+    article.comments.push(newComment);
+    await article.save();
+    res.status(201).json(newComment);
+  } catch (error) {
+    console.error('Error adding comment:', error);
     res.status(500).json({ message: error.message });
   }
 };
