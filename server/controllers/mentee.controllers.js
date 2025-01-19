@@ -28,7 +28,6 @@ async function createMentee(data) {
 async function findMentee(id) {
   try {
     const mentee = await Mentee.findById(id)
-    .populate('articles')
     .populate('readArticles')
     .populate('lastRead');
     return mentee;
