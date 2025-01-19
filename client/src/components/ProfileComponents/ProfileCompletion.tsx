@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
 
 export default function ProfileCompletion() {
   const [step, setStep] = useState(2);
@@ -46,6 +45,7 @@ export default function ProfileCompletion() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      const userId = localStorage.getItem("_id");
       console.log("Submitting profile:", formData);
       // alert("Profile submitted!");
       const endpoint = `${
