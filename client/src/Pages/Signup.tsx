@@ -11,7 +11,15 @@ const Signup: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [dob, setDob] = useState('');
+  const [avatar, setAvatar] = useState('');
   const [bio, setBio] = useState('');
+  const [socialLinks, setSocialLinks] = useState<string[]>([]);
+  const [location, setLocation] = useState('');
+  const [occupation, setOccupation] = useState('');
+  const [education, setEducation] = useState('');
+  const [skills, setSkills] = useState<string[]>([]);
+  const [goals, setGoals] = useState<string[]>([]);
   const [interests, setInterests] = useState<string[]>([]);
   const [role, setRole] = useState<'mentee' | 'mentor'>('mentee');
   const [showPassword, setShowPassword] = useState(false);
@@ -47,7 +55,7 @@ const Signup: React.FC = () => {
       const response = await fetch(`http://localhost:5000/${endpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, password, bio, interests, role }),
+        body: JSON.stringify({ name, email, password, dob, avatar, bio, socialLinks, interests, location, occupation, education, skills, goals, role }),
       });
       console.log(await response.json());
       if (response.ok) {
@@ -107,12 +115,11 @@ const Signup: React.FC = () => {
       });
     }
   };
-
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-gray-100">
             Create your GuruGram account
           </h2>
         </div>
@@ -127,7 +134,7 @@ const Signup: React.FC = () => {
                 name="name"
                 type="text"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="Full Name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -143,7 +150,7 @@ const Signup: React.FC = () => {
                 type="email"
                 autoComplete="email"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="Email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -159,7 +166,7 @@ const Signup: React.FC = () => {
                 type={showPassword ? 'text' : 'password'}
                 autoComplete="new-password"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -170,11 +177,40 @@ const Signup: React.FC = () => {
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? (
-                  <EyeOff className="h-5 w-5 text-gray-400" />
+                  <EyeOff className="h-5 w-5 text-gray-400 dark:text-gray-500" />
                 ) : (
-                  <Eye className="h-5 w-5 text-gray-400" />
+                  <Eye className="h-5 w-5 text-gray-400 dark:text-gray-500" />
                 )}
               </button>
+            </div>
+            <div>
+              <label htmlFor="dob" className="sr-only">
+                Date of Birth
+              </label>
+              <input
+                id="dob"
+                name="dob"
+                type="date"
+                required
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                placeholder="Date of Birth"
+                value={dob}
+                onChange={(e) => setDob(e.target.value)}
+              />
+            </div>
+            <div>
+              <label htmlFor="avatar" className="sr-only">
+                Avatar URL
+              </label>
+              <input
+                id="avatar"
+                name="avatar"
+                type="text"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                placeholder="Avatar URL"
+                value={avatar}
+                onChange={(e) => setAvatar(e.target.value)}
+              />
             </div>
             <div>
               <label htmlFor="bio" className="sr-only">
@@ -183,16 +219,86 @@ const Signup: React.FC = () => {
               <textarea
                 id="bio"
                 name="bio"
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="Bio"
                 value={bio}
                 onChange={(e) => setBio(e.target.value)}
               />
             </div>
+            <div>
+              <label htmlFor="location" className="sr-only">
+                Location
+              </label>
+              <input
+                id="location"
+                name="location"
+                type="text"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                placeholder="Location"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+              />
+            </div>
+            <div>
+              <label htmlFor="occupation" className="sr-only">
+                Occupation
+              </label>
+              <input
+                id="occupation"
+                name="occupation"
+                type="text"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                placeholder="Occupation"
+                value={occupation}
+                onChange={(e) => setOccupation(e.target.value)}
+              />
+            </div>
+            <div>
+              <label htmlFor="education" className="sr-only">
+                Education
+              </label>
+              <input
+                id="education"
+                name="education"
+                type="text"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                placeholder="Education"
+                value={education}
+                onChange={(e) => setEducation(e.target.value)}
+              />
+            </div>
+            <div>
+              <label htmlFor="skills" className="sr-only">
+                Skills
+              </label>
+              <input
+                id="skills"
+                name="skills"
+                type="text"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                placeholder="Skills (comma separated)"
+                value={skills.join(', ')}
+                onChange={(e) => setSkills(e.target.value.split(',').map(skill => skill.trim()))}
+              />
+            </div>
+            <div>
+              <label htmlFor="goals" className="sr-only">
+                Goals
+              </label>
+              <input
+                id="goals"
+                name="goals"
+                type="text"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                placeholder="Goals (comma separated)"
+                value={goals.join(', ')}
+                onChange={(e) => setGoals(e.target.value.split(',').map(goal => goal.trim()))}
+              />
+            </div>
           </div>
 
           <div>
-            <label className="text-sm font-medium text-gray-700">I want to be a:</label>
+            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">I want to be a:</label>
             <div className="mt-2">
               <div className="flex items-center justify-center">
                 <button
@@ -200,8 +306,8 @@ const Signup: React.FC = () => {
                   className={`${
                     role === 'mentee'
                       ? 'bg-indigo-600 text-white'
-                      : 'bg-white text-gray-700 hover:bg-gray-50'
-                  } px-3 py-2 rounded-l-md border border-gray-300 text-sm font-medium focus:outline-none`}
+                      : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
+                  } px-3 py-2 rounded-l-md border border-gray-300 dark:border-gray-700 text-sm font-medium focus:outline-none`}
                   onClick={() => setRole('mentee')}
                 >
                   Mentee
@@ -211,8 +317,8 @@ const Signup: React.FC = () => {
                   className={`${
                     role === 'mentor'
                       ? 'bg-indigo-600 text-white'
-                      : 'bg-white text-gray-700 hover:bg-gray-50'
-                  } px-3 py-2 rounded-r-md border border-gray-300 text-sm font-medium focus:outline-none`}
+                      : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
+                  } px-3 py-2 rounded-r-md border border-gray-300 dark:border-gray-700 text-sm font-medium focus:outline-none`}
                   onClick={() => setRole('mentor')}
                 >
                   Mentor
@@ -252,18 +358,18 @@ const Signup: React.FC = () => {
         </form>
 
         <div className="mt-8">
-          <h3 className="text-lg leading-6 font-medium text-gray-900">
+          <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">
             {role === 'mentee' ? 'Interests' : 'Field of Expertise'}
           </h3>
           <div className="mt-2 relative">
             <input
               type="text"
-              className="w-full p-2 pl-10 rounded-md border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="w-full p-2 pl-10 rounded-md border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
               placeholder="Search field..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 dark:text-gray-500" />
           </div>
           <div className="mt-2 flex flex-wrap gap-2 max-h-48 overflow-y-scroll scrollbar-hidden">
             {filteredInterests.map((interest) => (
@@ -274,8 +380,8 @@ const Signup: React.FC = () => {
                 }}
                 className={`px-3 py-1 rounded-full text-sm font-medium ${
                   interests.includes(interest)
-                    ? "bg-indigo-100 text-indigo-800 border-2 border-indigo-500"
-                    : "bg-gray-100 text-gray-700 border-2 border-transparent hover:border-gray-300"
+                    ? "bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-100 border-2 border-indigo-500"
+                    : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-2 border-transparent hover:border-gray-300 dark:hover:border-gray-600"
                 } cursor-pointer`}
               >
                 {interest}
@@ -283,12 +389,12 @@ const Signup: React.FC = () => {
             ))}
           </div>
           <div className="mt-4">
-            <h4 className="text-md font-medium text-gray-900">Selected Interests:</h4>
+            <h4 className="text-md font-medium text-gray-900 dark:text-gray-100">Selected Interests:</h4>
             <div className="flex flex-wrap gap-1 mt-2">
               {interests.map((interest) => (
                 <span
                   key={interest}
-                  className="text-sm font-medium  text-indigo-800 "
+                  className="text-sm font-medium text-indigo-800 dark:text-indigo-100"
                 >
                   {interest},
                 </span>
@@ -298,9 +404,9 @@ const Signup: React.FC = () => {
         </div>
 
         <div className="text-center">
-          <p className="mt-2 text-sm text-gray-600">
+          <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
             Already have an account?{' '}
-            <Link to="/login" className="font-medium text-indigo-600 hover:text-indigo-500">
+            <Link to="/login" className="font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300">
               Sign in
             </Link>
           </p>

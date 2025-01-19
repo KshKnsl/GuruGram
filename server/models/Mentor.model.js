@@ -18,7 +18,25 @@ const mentorSchema = new mongoose.Schema(
     lastRead: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Article",
-    }
+    },
+    location: { type: String },
+    occupation: { type: String },
+    education: { type: String },
+    skills: [
+      {
+        name: { type: String },
+        level: { type: Number },
+      },
+    ],
+    specialties: { type: [String] },
+    ranking: { type: Number },
+    totalMentees: { type: Number },
+    badges: [
+      {
+        name: { type: String },
+        description: { type: String },
+      },
+    ],
   },
   { timestamps: true }
 );
