@@ -2,6 +2,9 @@ import React from 'react'
 import MenteeProfile from './mentee_profile'
 
 export default function MenteePage() {
+  const menteeId = localStorage.getItem('_id');
+  console.log(menteeId);
+  
   const menteeData = {
     name: "Alex Johnson",
     avatar: "https://avatar.iran.liara.run/public/boy",

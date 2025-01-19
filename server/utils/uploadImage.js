@@ -1,17 +1,18 @@
-const v2 = require('cloudinary').v2;
-const dotenv = require('dotenv');
+import { v2 as cloudinary } from 'cloudinary';
+import dotenv from 'dotenv';
 
-module.exports =  async function uploadImage(localUrl,id) 
-{
-    v2.config({ 
+dotenv.config();
+
+export default async function uploadImage(localUrl, id) {
+    cloudinary.config({ 
         cloud_name: process.env.CLOUD_NAME, 
         api_key: process.env.CLOUNIDARY_API_KEY, 
         api_secret: process.env.CLOUNIDARY_API_SECRET,
     });
     
     let public_id = `${id}_${Date.now()}`;
-    await v2.uploader.upload(localUrl, { public_id: public_id, }).catch((error) => { console.error(error); });
-    const autoCropUrl = v2.url(public_id, {
+    await cloudinary.uploader.upload(localUrl, { public_id: public_id }).catch((error) => { console.error(error); });
+    const autoCropUrl = cloudinary.url(public_id, {
         crop: 'auto',
         gravity: 'auto',
         width: 500,
@@ -19,4 +20,4 @@ module.exports =  async function uploadImage(localUrl,id)
     });
     
     return autoCropUrl;
-};
+}
