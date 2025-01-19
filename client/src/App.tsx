@@ -7,6 +7,9 @@ import Home from './Pages/LandingPage/Home'
 import Login from './Pages/Login'
 import Signup from './Pages/Signup'
 import NotFound from './Pages/NotFound'
+import ChatPage from './Pages/chat/ChatPage'
+import SettingsPage from './Pages/chat/SettingsPage'
+import ProfilePage from './Pages/chat/ProfilePage'
 
 function App() {
   const [themeMode, setThemeMode] = useState('light')
@@ -31,6 +34,9 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="*" element={<NotFound />} />
+            <Route path="/chat" element={<ChatPage />} />
+            <Route path="chat/settings" element={<SettingsPage />} />
+            <Route path="/chat/profile" element={<ProfilePage />} />
           </Routes>
         </div>
         <Footer />
