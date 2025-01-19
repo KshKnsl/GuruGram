@@ -12,15 +12,18 @@ interface ArticleCardProps {
   date: string
   commentCount: number
   likes: number
-  onLike: (id: string) => void
+  onLike: (id: string, isLiked: boolean) => void
 }
 
 const ArticleCard: React.FC<ArticleCardProps> = ({ id, title, excerpt, author, date, commentCount, likes, onLike }) => {
   const [isLiked, setIsLiked] = useState(false)
+  const [likeCount, setLikeCount] = useState(likes)
 
   const handleLike = () => {
-    setIsLiked(!isLiked)
-    onLike(id)
+    const newIsLiked = !isLiked
+    setIsLiked(newIsLiked)
+    setLikeCount(likeCount + (newIsLiked ? 1 : -1))
+    onLike(id, newIsLiked)
   }
 
   return (
@@ -57,7 +60,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ id, title, excerpt, author, d
               ) : (
                 <HeartIcon className="w-5 h-5 mr-1" />
               )}
-              {likes}
+              {likeCount}
             </button>
           </div>
         </div>
@@ -67,4 +70,3 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ id, title, excerpt, author, d
 }
 
 export default ArticleCard
-

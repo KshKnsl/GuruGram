@@ -23,6 +23,7 @@ import ArticleEditor from './components/Articles/ArticleEditor'
 import MenteeProfile from './components/ProfileComponents/mentee'
 import MentorProfile from './components/ProfileComponents/mentor'
 
+import './App.css'
 // Types
 interface ArticleType {
   id: string
