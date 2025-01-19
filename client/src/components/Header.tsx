@@ -9,7 +9,7 @@ const NavbarLinks = ({ onClick }: { onClick: () => void }) => {
   const location = useLocation();
   const links = [
     { to: '/call', label: 'Connect', icon: Home },
-    { to: '/mentors', label: 'Mentors', icon: Users },
+    { to: '/profile/mentor', label: 'Mentors', icon: Users },
     { to: '/sessions', label: 'Sessions', icon: Calendar },
     { to: '/articles/new', label: 'Write Article', icon: BookOpen },
     { to: '/articles', label: 'Articles', icon: Info },
@@ -81,7 +81,7 @@ const Navbar = () => {
                     <UserPlus className="mr-2 h-4 w-4" />
                     Sign Up
                   </Link>
-                  <Link to="/login" className={`bg-gray-100 text-gray-800 dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-300 px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 bg-blue-500 dark:bg-blue-700 flex items-center ${location.pathname === '/login' ? 'bg-blue-500 dark:bg-blue-700 text-yellow-500' : ''}`}>
+                  <Link to="/login" className={`bg-gray-100 text-gray-800 dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-300 px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 dark:bg-blue-700 flex items-center ${location.pathname === '/login' ? 'bg-blue-500 dark:bg-blue-700 text-yellow-500' : ''}`}>
                     <LogIn className="mr-2 h-4 w-4" />
                     Log In
                   </Link>
@@ -128,7 +128,7 @@ const Navbar = () => {
                     <UserPlus className="mr-2 h-4 w-4" />
                     Sign Up
                   </Link>
-                  <Link to="/login" className={`bg-gray-100 w-full text-gray-800 dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-300 px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 bg-blue-500 dark:bg-blue-700 flex items-center ${location.pathname === '/login' ? 'bg-blue-500 dark:bg-blue-700 text-yellow-500' : ''}`}>
+                  <Link to="/login" className={`bg-gray-100 w-full text-gray-800 dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-300 px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 dark:bg-blue-700 flex items-center ${location.pathname === '/login' ? 'bg-blue-500 dark:bg-blue-700 text-yellow-500' : ''}`}>
                     <LogIn className="mr-2 h-4 w-4" />
                     Log In
                   </Link>
