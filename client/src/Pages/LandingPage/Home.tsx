@@ -221,7 +221,7 @@ function Home() {
   };
   return (
     <div className="bg-gray-100 dark:bg-gray-900 min-h-screen">
-      <section className="bg-gradient-to-r from-blue-500 to-purple-600 text-white py-12 md:py-20">
+      <section className="bg-gradient-to-r from-blue-500 to-purple-600 text-white py-12=== md:py-20">
         <div className="container mx-auto px-4 pt-20 md:px-14">
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="md:w-1/2 mb-8 md:mb-0">

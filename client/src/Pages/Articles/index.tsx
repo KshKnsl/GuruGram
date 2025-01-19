@@ -13,47 +13,14 @@ interface Article {
   likes: number;
 }
 
-const ArticlesPage = () => {
+interface ArticlesPageProps {
+  articles: Article[];
+  onLike: (id: string) => void;
+}
+
+const ArticlesPage: React.FC<ArticlesPageProps> = ({ articles, onLike }) => {
   const location = useLocation();
   const [message, setMessage] = useState<string | null>(null);
-  const [articles, setArticles] = useState<Article[]>([
-    {
-      id: '1',
-      title: 'Getting Started with React',
-      excerpt: 'Learn the basics of React and start building your first component.',
-      author: 'Jane Doe',
-      date: '2023-05-15',
-      commentCount: 5,
-      likes: 10,
-    },
-    {
-      id: '2',
-      title: 'Advanced TypeScript Techniques',
-      excerpt: 'Explore advanced TypeScript features to write more robust code.',
-      author: 'John Smith',
-      date: '2023-05-10',
-      commentCount: 3,
-      likes: 7,
-    },
-    {
-      id: '3',
-      title: 'Mastering CSS Grid Layout',
-      excerpt: 'Dive deep into CSS Grid and create complex layouts with ease.',
-      author: 'Emily Johnson',
-      date: '2023-05-20',
-      commentCount: 7,
-      likes: 15,
-    },
-    {
-      id: '4',
-      title: 'Introduction to GraphQL',
-      excerpt: 'Learn how GraphQL can simplify your API and improve performance.',
-      author: 'Michael Brown',
-      date: '2023-05-18',
-      commentCount: 4,
-      likes: 12,
-    },
-  ]);
 
   useEffect(() => {
     if (location.state && location.state.message) {
@@ -63,14 +30,6 @@ const ArticlesPage = () => {
       return () => clearTimeout(timer);
     }
   }, [location]);
-
-  const handleLike = (id: string) => {
-    setArticles(prevArticles =>
-      prevArticles.map(article =>
-        article.id === id ? { ...article, likes: article.likes + 1 } : article
-      )
-    );
-  };
 
   return (
     <motion.div
@@ -112,10 +71,9 @@ const ArticlesPage = () => {
           </Link>
         </motion.div>
       </div>
-      <ArticleList articles={articles} onLike={handleLike} />
+      <ArticleList articles={articles} onLike={onLike} />
     </motion.div>
   );
 };
 
 export default ArticlesPage;
-
