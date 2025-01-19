@@ -1,26 +1,40 @@
-import React from 'react'
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 import MenteeProfile from './mentee_profile'
+import { useNavigate } from 'react-router-dom';
 
 export default function MenteePage() {
-  const menteeData = {
-    name: "Alex Johnson",
-    avatar: "https://avatar.iran.liara.run/public/boy",
-    location: "San Francisco, CA",
-    occupation: "Junior Developer",
-    education: "B.S. Computer Science",
-    bio: "Passionate about web development and machine learning. Looking to grow my skills and contribute to meaningful projects.",
-    skills: [
-      { name: "JavaScript", level: 75 },
-      { name: "React", level: 60 },
-      { name: "Python", level: 80 },
-      { name: "Machine Learning", level: 40 },
-    ],
-    goals: ["Master React", "Contribute to Open Source", "Learn DevOps", "Improve System Design Skills"],
-  }
+  const menteeId = localStorage.getItem('_id');
+  const role = localStorage.getItem('role');
 
+  const navigate = useNavigate();
+
+  if(role=="mentor")
+    navigate("/profile/mentor");
+  console.log(menteeId);
+
+  const [menteeData2, setMenteeData] = useState({});
+
+  useEffect(() => {
+    if (menteeId) {
+      axios.get(`http://localhost:5000/api/mentee/${menteeId}`)
+        .then(response => {
+          setMenteeData(response.data);
+          console.log(response.data);
+        })
+        .catch(error => {
+          console.error("There was an error fetching the mentee data!", error);
+        });
+    }
+  }, [menteeId]);
+
+  if (!menteeData2) {
+    return <div>Loading...</div>;
+  }
+  
   return (
     <div className="container mx-auto px-4 py-8">
-      <MenteeProfile {...menteeData} />
+      <MenteeProfile name={''} avatar={''} location={''} occupation={''} education={''} bio={''} skills={[]} goals={[]} {...(menteeData2 || {})} />
     </div>
   )
 }

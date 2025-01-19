@@ -6,12 +6,13 @@ type User = {
   token: string;
   _id: string;
   profileCompleted?: boolean;
+  role: string;
 };
 
 type AuthContextType = {
   user: User | null;
   loading: boolean;
-  login: (token: string, _id: string, email: string) => void;
+  login: (token: string, _id: string, email: string, role: string) => void;
   logout: () => void;
   updateProfile: (userData: Partial<User>) => void;
 };
@@ -37,14 +38,15 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         const email = localStorage.getItem("email");
         const profileCompleted = localStorage.getItem("profileCompleted");
 
-        if (token && _id && email) {
+        if (token && _id && email  && role) {
           setUser({ 
             token, 
             _id, 
             email, 
+             role: role,
             profileCompleted: profileCompleted ? JSON.parse(profileCompleted) : false 
           });
-        }
+        const role = localStorage.getItem("role");
       } catch (error) {
         console.error("Failed to fetch user:", error);
       } finally {
@@ -55,11 +57,13 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     fetchUser();
   }, []);
 
-  const login = (token: string, _id: string, email: string) => {
+  const login = (token: string, _id: string, email: string, role: string) => {
     localStorage.setItem("token", token);
     localStorage.setItem("_id", _id);
     localStorage.setItem("email", email);
-    setUser({ token, _id, email, profileCompleted: false });
+    localStorage.setItem("role", role);
+            
+    setUser({ token, _id, email, role, profileCompleted: false });
     navigate("/profile");
   };
 

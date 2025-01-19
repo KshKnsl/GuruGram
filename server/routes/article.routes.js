@@ -1,14 +1,14 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
 
-const {
+import {
   createArticle,
   deleteArticle,
   getArticlesByTags,
   getArticlesByAuthor,
   getArticlesAll,
   getArticleById
-} = require("../controllers/article.controllers.js");
+} from "../controllers/article.controllers.js";
 
 router.post("/createArticle", async (req, res) => {
   let result = await createArticle(req.body);
@@ -61,4 +61,4 @@ router.get("/:id", async (req, res) => {
   res.status(200).json(result);
 });
 
-module.exports = router;
+export default router;

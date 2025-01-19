@@ -1,15 +1,16 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const articleSchema = new mongoose.Schema(
   {
     title: { type: String, required: true },
-    desc: { type: String, default: ""},
+    desc: { type: String, default: "" },
     content: { type: Object, required: true },
-    author:{ type: mongoose.Schema.Types.ObjectId, ref: "Mentor"},
+    author: { type: mongoose.Schema.Types.ObjectId, ref: "Mentor" },
     tags: [{ type: String }],
-    status: {  type: String,  enum: ["draft", "published", "under_review"], default: "draft", },
+    status: { type: String, enum: ["draft", "published", "under_review"], default: "draft" },
     publishedAt: { type: Date },
-  }, { timestamps: true }
+  },
+  { timestamps: true }
 );
 
-module.exports = mongoose.model("Article", articleSchema);
+export default mongoose.model("Article", articleSchema);

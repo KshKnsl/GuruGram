@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const dotenv = require("dotenv");
+import mongoose from "mongoose";
+import dotenv from "dotenv";
 dotenv.config();
 // Connect to MongoDB
 async function connect() {
@@ -13,4 +13,4 @@ async function connect() {
     console.error("Failed to connect to MongoDB", err);
   }
 }
-module.exports = { connect };
+export { connect };
