@@ -23,7 +23,7 @@ const ArticleList: React.FC<ArticleListProps> = ({ articles, onLike }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+      className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 dark:bg-gray-900"
     >
       {articles.map((article, index) => (
         <motion.div
@@ -31,6 +31,7 @@ const ArticleList: React.FC<ArticleListProps> = ({ articles, onLike }) => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: index * 0.1 }}
+          className="dark:bg-gray-800 dark:text-white"
         >
           <ArticleCard {...article} onLike={onLike} />
         </motion.div>
@@ -40,4 +41,3 @@ const ArticleList: React.FC<ArticleListProps> = ({ articles, onLike }) => {
 }
 
 export default ArticleList
-
