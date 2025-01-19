@@ -26,7 +26,7 @@ export default function ViewMenteeProfile() {
     const fetchMenteeData = async () => {
       try {
         // Replace with your actual API endpoint
-        const response = await fetch(`/api/mentee/${id}`)
+        const response = await fetch(`http://localhost:5000/api/mentee/${id}`)
         const data = await response.json()
         setMenteeData(data)
       } catch (error) {

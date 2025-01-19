@@ -35,7 +35,6 @@ interface ArticleType {
   id: string;
   title: string;
   content: string;
-  excerpt: string;
   author: string;
   date: string;
   commentCount: number;
@@ -124,6 +123,9 @@ export default function App() {
               {/* Profile Routes */}
               <Route path="/profile" element={<MenteeProfile />} />
               <Route path="/profile/mentor" element={<MentorProfile />} />
+              <Route path="/profile/:id" element={<ViewMenteeProfile />} />
+              <Route path="/profile/mentor/:id" element={<ViewMentorProfile />} />
+              
               {/* Feature Routes */}
               <Route path="/call" element={<Call />} />
 
