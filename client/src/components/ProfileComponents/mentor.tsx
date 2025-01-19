@@ -18,6 +18,7 @@ export default function MentorPage() {
     specialties: ["AI/ML", "Big Data", "Cloud Architecture", "Tech Leadership"],
     ranking: 4.9,
     totalMentees: 47,
+    guruCoins: 1500, // Added GuruCoins
     badges: [
       { name: "Top Contributor", description: "Recognized for exceptional community contributions" },
       { name: "ML Expert", description: "Demonstrated expertise in machine learning" },
