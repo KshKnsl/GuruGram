@@ -38,7 +38,7 @@ const mentorSchema = new mongoose.Schema(
     },
     specialties: { type: [String], default: ["AI/ML", "Big Data", "Cloud Architecture", "Tech Leadership"] },
     ranking: { type: Number, default: 4.9 },
-    totalMentees: { type: Number, default: 47 },
+    totalMentees: { type: Number, default: 0 },
     badges: {
       type: [
         {
