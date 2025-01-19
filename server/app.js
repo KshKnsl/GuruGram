@@ -68,7 +68,7 @@ app.post('/generateSignature', (req, res) => {
 
 app.use("/api/mentor", mentorRoutes);
 app.use("/api/mentee", menteeRoutes);
-app.use("/api/article", articleRoutes);
+app.use("/api/articles", articleRoutes);
 
 connect()
   .then(() => {

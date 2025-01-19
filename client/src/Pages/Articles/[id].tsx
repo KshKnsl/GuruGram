@@ -1,47 +1,34 @@
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import axios from 'axios';
 import ArticlePage from '../../components/Articles/ArticlePage';
 
-interface ArticleType {
-  id: string;
-  title: string;
-  content: string;
-  excerpt: string;
-  author: string;
-  date: string;
-  commentCount: number;
-  likes: number;
-  comments: { id: string; author: string; content: string; date: string }[];
-}
+const Article = () => {
+  const { id } = useParams<{ id: string }>();
+  const [article, setArticle] = useState<ArticleType | null>(null);
 
-interface ArticleProps {
-  articles?: ArticleType[];
-}
+  useEffect(() => {
+    const fetchArticle = async () => {
+      try {
+        const response = await axios.get(`localhost:5000/api/articles/${id}`);
+        setArticle(response.data);
+      } catch (error) {
+        console.error('Error fetching article:', error);
+      }
+    };
 
-const Article = ({ articles }: ArticleProps) => {
-  useParams();
+    fetchArticle();
+  }, [id]);
 
-  // Dummy data
-  const dummyArticle = {
-    id: '1',
-    title: 'Getting Started with React',
-    content: '<p>This is the full content of the article...</p>',
-    excerpt: 'This is a short excerpt of the article...',
-    author: 'Jane Doe',
-    date: '2023-05-15',
-    commentCount: 2,
-    likes: 10,
-    comments: [
-      { id: '1', author: 'John Smith', content: 'Great article!', date: '2023-05-16' },
-      { id: '2', author: 'Alice Johnson', content: 'Very helpful, thanks!', date: '2023-05-17' },
-    ],
-  };
+  if (!article) return <p>Loading...</p>;
 
-  const article = dummyArticle;
-
-  article.comments = article.comments || [];
-
-  const handleAddComment = (content: string): void => {
-    console.log('New comment:', content);
+  const handleAddComment = async (content: string) => {
+    try {
+      const response = await axios.post(`localhost:5000/api/articles/${id}/comments`, { content });
+      setArticle({ ...article, comments: [...article.comments, response.data] });
+    } catch (error) {
+      console.error('Error adding comment:', error);
+    }
   };
 
   return <ArticlePage {...article} onAddComment={handleAddComment} />;
