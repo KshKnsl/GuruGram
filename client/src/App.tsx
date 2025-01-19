@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useLocation } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { ThemeProvider } from './context/ThemeContext'
 import { AuthProvider } from './context/AuthContext'
@@ -11,7 +11,7 @@ import Footer from './components/Footer'
 // Page Components
 import Home from './Pages/LandingPage/Home'
 import Login from './Pages/Login'
-import Signup from './Pages/Signup'
+import SignUp from './Pages/Signup'
 import NotFound from './Pages/NotFound'
 import Call from './components/Call/Call'
 
@@ -28,6 +28,8 @@ import MentorProfile from './components/ProfileComponents/mentor'
 import ViewMenteeProfile from './components/ProfileComponents/ViewMenteeProfile'
 import ViewMentorProfile from './components/ProfileComponents/ViewMentorProfile'
 
+import './App.css'
+import AllMentors from './Pages/AllMentors'
 // Types
 interface ArticleType {
   id: string
@@ -127,6 +129,8 @@ export default function App() {
     )
   }
 
+  const location = useLocation()
+
   return (
     <AuthProvider>
       <ThemeProvider value={{ themeMode, darkTheme, lightTheme }}>
@@ -137,8 +141,9 @@ export default function App() {
               {/* Main Routes */}
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
+              <Route path="/signup" element={<SignUp />} />
               <Route path="/mentor-chat" element={<MentorChatPage />} />
+              <Route path="/all/mentors" element= {<AllMentors/>}/>
               
               {/* Profile Routes */}
               <Route path="/profile" element={<MenteeProfile />} />
@@ -168,10 +173,9 @@ export default function App() {
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>
-          <Footer />
+          {location.pathname === '/' && <Footer />}
         </div>
       </ThemeProvider>
     </AuthProvider>
   )
 }
-
