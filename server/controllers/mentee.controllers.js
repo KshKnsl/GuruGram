@@ -10,7 +10,6 @@ async function createMentee(data) {
       name: data.name,
       email: data.email,
       password: data.password,
-      dob: data.dob,
       avatar: data.avatar || "https://avatar.iran.liara.run/public/boy",
       bio: data.bio,
       interests: data.interests || [],
@@ -22,6 +21,7 @@ async function createMentee(data) {
   } 
   catch (error) 
   {
+    console.log(error);
     return { success: false, message: `Error while creating mentee ${error}` };
   }
 }
@@ -60,6 +60,7 @@ async function updateMentee(data)
 }
 
 async function loginMentee(data) {
+  console.log(data);
   try 
   {
     const { email, password } = data;
@@ -124,6 +125,7 @@ async function googleLogin(token)
     await sendMail(name, email, 'Login');
     return { success: true, token: jwtToken, mentee: menteeWithoutPassword };
   } catch (error) {
+    console.log(error);
     return { success: false, message: "Error during Google login" };
   }
 }

@@ -70,13 +70,25 @@ function App() {
     },
   ]);
 
+import { useState, useEffect } from 'react'
+import { Route, Routes } from 'react-router-dom'
+import { ThemeProvider } from './context/ThemeContext'
+import Navbar from './components/Header'
+import Footer from './components/Footer'
+import Home from './Pages/LandingPage/Home'
+import Login from './Pages/Login'
+import Signup from './Pages/Signup'
+import NotFound from './Pages/NotFound'
+
+function App() {
+  const [themeMode, setThemeMode] = useState('light')
+
   const darkTheme = () => {
     setThemeMode('dark')
   }
   const lightTheme = () => {
     setThemeMode('light')
   }
-
   useEffect(() => {
     document.querySelector('html')?.classList.remove('dark','light')
     document.querySelector('html')?.classList.add(themeMode)
@@ -105,6 +117,7 @@ function App() {
     );
   };
 
+  
   const router = createBrowserRouter([
     {
       path: '/',
@@ -138,32 +151,29 @@ function App() {
           path: 'articles',
           element: <ArticlesPage articles={articles} onLike={handleLike} />
         },
-        {
-          path: 'call',
-          element: <VideoHome />
-        },
-        {
-          path: 'room/:roomId',
-          element: <RoomPage />
-        },
-        {
-          path: 'profile',
-          element: <MenteeProfile />
-        },
-        {
-          path: '/signUpUser',
-          element: <SignUpUser />
-        }
       ]
     }
   ])
 
+
   return (
-    <ThemeProvider value={{themeMode, darkTheme, lightTheme}}>
-      <RouterProvider router={router} />  
+    <ThemeProvider value={{ themeMode, darkTheme, lightTheme }}>
+      <div className='h-full w-full'>
+        <Navbar />
+        <div className='mx-auto'>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="*" element={<NotFound />} />
+            <Route path="/profile" element={<MenteeProfile />} />
+            
+          </Routes>
+        </div>
+        <Footer />
+      </div>
     </ThemeProvider>
   )
 }
 
-export default App;
-
+export default App
