@@ -15,7 +15,9 @@ async function createMentee(data) {
       interests: data.interests || [],
     });
 
+    console.log(newMentee);
     await newMentee.save();
+
     await sendMail(data.name, data.email, 'CreateAccount');
     return { success: true, message: "Mentee created successfully" };
   } 

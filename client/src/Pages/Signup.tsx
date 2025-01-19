@@ -49,6 +49,7 @@ const Signup: React.FC = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, password, bio, interests, role }),
       });
+      console.log(await response.json());
       if (response.ok) {
         toast.success('Account created successfully!');
         setTimeout(() => {
