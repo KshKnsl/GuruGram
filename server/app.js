@@ -1,3 +1,6 @@
+
+
+
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -7,9 +10,11 @@ import menteeRoutes from "./routes/mentee.routes.js";
 import articleRoutes from "./routes/article.routes.js";
 import puppeteer from "puppeteer";
 import { KJUR } from 'jsrsasign';
+const messageRoutes = require("./routes/message.routes");
 import { inNumberArray, isBetween, isRequiredAllOrNone, validateRequest } from './validations.js';
 
 dotenv.config();
+
 
 const app = express();
 
@@ -68,7 +73,10 @@ app.post('/generateSignature', (req, res) => {
 
 app.use("/api/mentor", mentorRoutes);
 app.use("/api/mentee", menteeRoutes);
-app.use("/api/articles", articleRoutes);
+
+app.use("/api/article", articleRoutes);
+app.use("/api/message", messageRoutes);
+
 
 connect()
   .then(() => {

@@ -1,6 +1,7 @@
 import { Route, Routes, useLocation } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { ThemeProvider } from './context/ThemeContext'
+
 import { AuthProvider } from './context/AuthContext'
 import ProfileCompletion from './components/ProfileComponents/ProfileCompletion'
 
@@ -55,6 +56,7 @@ export default function App() {
   const darkTheme = () => setThemeMode("dark");
   const lightTheme = () => setThemeMode("light");
 
+
   useEffect(() => {
     document.querySelector("html")?.classList.remove("dark", "light");
     document.querySelector("html")?.classList.add(themeMode);
@@ -107,6 +109,7 @@ export default function App() {
   const location = useLocation();
 
   return (
+
     <AuthProvider>
       <ThemeProvider value={{ themeMode, darkTheme, lightTheme }}>
         <div className="min-h-screen flex flex-col bg-background dark:bg-gray-900">
@@ -152,6 +155,7 @@ export default function App() {
             </Routes>
           </main>
           {location.pathname === "/" && <Footer />}
+
         </div>
       </ThemeProvider>
     </AuthProvider>
