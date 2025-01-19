@@ -7,6 +7,7 @@ const mentorRoutes = require("./routes/mentor.routes");
 const menteeRoutes = require("./routes/mentee.routes");
 const articleRoutes = require("./routes/article.routes");
 const puppet = require("puppeteer");
+const messageRoutes = require("./routes/message.routes");
 
 // const {protect}= require("./middlewares/authMiddleware");
 
@@ -21,6 +22,7 @@ app.get("/", (req, res) => {
 app.use("/api/mentor", mentorRoutes);
 app.use("/api/mentee", menteeRoutes);
 app.use("/api/article", articleRoutes);
+app.use("/api/message", messageRoutes);
 
 connect()
   .then(() => {
