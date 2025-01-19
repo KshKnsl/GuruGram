@@ -14,6 +14,8 @@ import Signup from './Pages/Signup'
 import NotFound from './Pages/NotFound'
 import Call from './components/Call/Call'
 
+import MentorChatPage from './Pages/MentorChat'
+
 // Article Related Components
 import Article from './Pages/Articles/[id]'
 import ArticlesPage from './Pages/Articles'
@@ -134,6 +136,7 @@ export default function App() {
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
+              <Route path="/mentor-chat" element={<MentorChatPage />} />
               
               {/* Profile Routes */}
               <Route path="/profile" element={<MenteeProfile />} />
