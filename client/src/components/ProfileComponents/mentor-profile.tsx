@@ -1,5 +1,6 @@
 import React from 'react'
 import { MapPinIcon, BriefcaseIcon, AcademicCapIcon, StarIcon, TrophyIcon } from '@heroicons/react/24/outline'
+import { Link } from 'react-router-dom'
 
 interface Skill {
   name: string
@@ -10,6 +11,12 @@ interface Badge {
   name: string
   description: string
 }
+interface Article {
+  id: string
+  title: string
+  excerpt: string
+}
+
 
 interface MentorProfileProps {
   name: string
@@ -23,6 +30,7 @@ interface MentorProfileProps {
   ranking?: number
   totalMentees?: number
   badges?: Badge[]
+  articles?: Article[]
 }
 
 export default function MentorProfile({
@@ -37,6 +45,7 @@ export default function MentorProfile({
   ranking = 0,
   totalMentees = 0,
   badges = [],
+  articles = [],
 }: MentorProfileProps) {
   return (
     <div className="bg-white shadow-lg rounded-lg overflow-hidden max-w-3xl mx-auto">
@@ -133,8 +142,27 @@ export default function MentorProfile({
               </div>
             </div>
           )}
+          {articles.length > 0 && (
+        <div className="p-6 sm:p-8 border-t">
+          <h2 className="text-lg font-semibold text-gray-800 mb-4">Published Articles</h2>
+          <div className="space-y-4">
+            {articles.map((article) => (
+              <div key={article.id} className="bg-gray-50 p-4 rounded-lg">
+                <h3 className="text-xl font-semibold mb-2">
+                  <Link to={`/articles/${article.id}`} className="text-blue-600 hover:underline">
+                    {article.title}
+                  </Link>
+                </h3>
+                <p className="text-gray-600">{article.excerpt}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
         </div>
       </div>
+      
 
       <div className="bg-gray-50 px-6 py-4 sm:px-8 sm:py-6">
         <button
