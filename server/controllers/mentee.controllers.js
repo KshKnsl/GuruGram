@@ -1,8 +1,8 @@
-const Mentee = require("../models/Mentee.model.js");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const { OAuth2Client } = require("google-auth-library");
-const { sendMail } = require("../utils/mail.util.js");
+import Mentee from "../models/Mentee.model.js";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import { OAuth2Client } from "google-auth-library";
+import { sendMail } from "../utils/mail.util.js";
 
 async function createMentee(data) {
   try {
@@ -10,90 +10,90 @@ async function createMentee(data) {
       name: data.name,
       email: data.email,
       password: data.password,
+      dob: data.dob,
       avatar: data.avatar || "https://avatar.iran.liara.run/public/boy",
       bio: data.bio,
-      interests: data.interests || [],
+      socialLinks: data.socialLinks,
+      interests: data.interests || ["Reading"],
+      location: data.location,
+      occupation: data.occupation,
+      education: data.education,
+      skills: data.skills ,
+      goals: data.goals,
     });
 
+    console.log(newMentee);
     await newMentee.save();
+
     await sendMail(data.name, data.email, 'CreateAccount');
     return { success: true, message: "Mentee created successfully" };
-  } 
-  catch (error) 
-  {
+  } catch (error) {
     console.log(error);
     return { success: false, message: `Error while creating mentee ${error}` };
   }
 }
+
 async function findMentee(id) {
   try {
     const mentee = await Mentee.findById(id)
-    .populate('articles')
-    .populate('readArticles')
-    .populate('lastRead');
+      .populate('readArticles')
+      .populate('lastRead');
     return mentee;
   } catch (error) {
     return null;
   }
 }
 
-async function updateMentee(data) 
-{
-  const update = 
-  {
+async function updateMentee(data) {
+  const update = {
     name: data.name,
     dob: data.dob,
     avatar: data.avatar || "https://avatar.iran.liara.run/public",
     bio: data.bio,
     socialLinks: data.socialLinks || [],
-    interests: data.interests || [],
+    interests: data.interests || ["Reading"],
+    location: data.location,
+    occupation: data.occupation,
+    education: data.education,
+    skills: data.skills || [],
+    goals: data.goals || [],
   };
-  try 
-  {
-    let result = await Mentee.findByIdAndUpdate(data._id, update);
+  try {
+    await Mentee.findByIdAndUpdate(data._id, update);
     return { success: true, message: "Mentee updated successfully" };
-  } 
-  catch (error) 
-  {
+  } catch (error) {
     return { success: false, message: `Error while updating mentee ${error}` };
   }
 }
 
 async function loginMentee(data) {
   console.log(data);
-  try 
-  {
+  try {
     const { email, password } = data;
     const mentee = await Mentee.findOne({ email }).select("+password");
-    if (!mentee) 
-    {
+    if (!mentee) {
       return { success: false, message: "Mentee not found" };
     }
     const isRight = await bcrypt.compare(password, mentee.password);
-    if (!isRight) 
-    {
+    if (!isRight) {
       return { success: false, message: "Invalid credentials" };
     }
     const token = jwt.sign({ id: mentee._id }, process.env.JWT_SECRET, {
       expiresIn: "1d",
     });
-    const { password: pass, ...rest } = mentee;
+    const { password: pass, ...rest } = mentee.toObject();
     
     await sendMail(data.name, data.email, 'Login');
-    return { success: true, token, rest};
-  }
-  catch (error) 
-  {
+    return { success: true, token, mentee: rest };
+  } catch (error) {
     return { success: false, message: `Error while logging in ${error}` };
   }
 }
 
 const client = new OAuth2Client(process.env.client_id);
 
-async function googleLogin(token) 
-{
-  try 
-  {
+async function googleLogin(token) {
+  try {
     const ticket = await client.verifyIdToken({
       idToken: token,
       audience: process.env.client_id,
@@ -105,8 +105,7 @@ async function googleLogin(token)
     const avatar = payload.picture;
 
     let mentee = await Mentee.findOne({ email });
-    if (!mentee) 
-    {
+    if (!mentee) {
       mentee = new Mentee({
         name,
         email,
@@ -121,7 +120,7 @@ async function googleLogin(token)
       expiresIn: "1d",
     });
     
-    const { ...menteeWithoutPassword } = mentee.toObject();
+    const { password, ...menteeWithoutPassword } = mentee.toObject();
     await sendMail(name, email, 'Login');
     return { success: true, token: jwtToken, mentee: menteeWithoutPassword };
   } catch (error) {
@@ -130,9 +129,8 @@ async function googleLogin(token)
   }
 }
 
-function findMenteeByEmail(email) 
-{
-  return Mentee.findOne({ email});
+function findMenteeByEmail(email) {
+  return Mentee.findOne({ email });
 }
 
-module.exports = { createMentee, findMentee, updateMentee, loginMentee, googleLogin, findMenteeByEmail };
+export { createMentee, findMentee, updateMentee, loginMentee, googleLogin, findMenteeByEmail };

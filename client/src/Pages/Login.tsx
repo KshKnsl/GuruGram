@@ -29,10 +29,18 @@ const Login: React.FC = () => {
       if (response.ok) {
         toast.success("Login successful!");
 
-        const { token, rest } = await response.json();
-        login(token, rest._doc._id, rest._doc.email);
+        const { token, mentee } = await response.json();
+        console.log(token);
+        console.log(mentee);
+        
+        login(token, mentee._id, mentee.email, role);
 
-        navigate("/dashboard");
+        console.log(role);
+        if (role == "mentor") {
+          navigate("/profile/mentor");
+        } else {
+          navigate("/profile");
+        }
       } else {
         toast.error("Login failed. Please check your credentials.");
       }
@@ -57,10 +65,11 @@ const Login: React.FC = () => {
       if (res.ok) {
         const { token, ...rest } = await res.json();
         console.log(rest);
+        console.log(role);
         if (role === "mentee") {
-          login(token, rest.mentee._id, rest.mentee.email);
+          login(token, rest.mentee._id, rest.mentee.email, role);
         } else {
-          login(token, rest.mentor._id, rest.mentor.email);
+          login(token, rest.mentor._id, rest.mentor.email, role);
         }
         toast.success("Google login successful!", {
           position: "top-right",

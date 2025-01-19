@@ -9,7 +9,7 @@ function MenteeProfile() {
   const mentee = {
     name: 'John Doe',
     bio: 'Aspiring software engineer with a passion for learning new technologies.',
-    profileImage: 'https://via.placeholder.com/150',
+    profileImage: 'https://avatar.iran.liara.run/public/boy',
     skills: ['JavaScript', 'React', 'Node.js', 'HTML/CSS', 'Algorithms'],
     goals: ['Build a personal portfolio', 'Learn backend development', 'Prepare for technical interviews'],
     mentor: {

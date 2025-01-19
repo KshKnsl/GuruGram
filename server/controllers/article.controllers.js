@@ -1,117 +1,119 @@
-const Mentor = require("../models/Mentor.model");
-const Article = require("../models/Article.model");
+// controllers/articleController.js
+import Article from '../models/Article.model.js';
+import Mentor from '../models/Mentor.model.js';
 
-async function createArticle(data) {
+export const getArticles = async (req, res) => {
   try {
-    const newArticle = new Article({
-      title: data.title,
-      desc: data.desc,
-      content: data.content,
-      author: data.author,
-      tags: data.tags,
-      publishedAt: data.publishedAt || null,
-    });
-
-    await newArticle.save();
-
-    const user = await Mentor.findById(data.author);
-    if (user) {
-      try {
-        user.articles.push(newArticle._id);
-        user.points += 30;
-        await user.save();
-      } catch (error) {
-        console.error("Error updating user:", error);
-      }
-    }
-
-    return {
-      success: true,
-      message: "Article created successfully",
-      article: newArticle,
-    };
+    console.log('Fetching all articles');
+    const articles = await Article.find();
+    res.json(articles);
   } catch (error) {
-    return {
-      success: false,
-      message: `Error while creating article: ${error.message}`,
-    };
+    console.error('Error fetching articles:', error.message);
+    res.status(500).json({ message: error.message });
   }
-}
+};
 
-// Get an article by ID
-async function getArticleById(id) {
+export const getArticleById = async (req, res) => {
   try {
-    const article = await Article.findById(id).populate("author contributors");
+    console.log(`Fetching article with id: ${req.params.id}`);
+    const article = await Article.findById(req.params.id);
     if (!article) {
-      return { success: false, message: "Article not found" };
+      console.log('Article not found');
+      return res.status(404).json({ message: 'Article not found' });
     }
-    return { success: true, article };
+    res.json(article);
   } catch (error) {
-    return {
-      success: false,
-      message: `Error fetching article: ${error.message}`,
-    };
+    console.error('Error fetching article:', error.message);
+    res.status(500).json({ message: error.message });
   }
-}
+};
+export const createArticle = async (req, res) => {
+  const article = new Article({
+    title: req.body.title,
+    content: req.body.content,
+    author: req.body.author,
+  });
 
-async function deleteArticle(id) {
   try {
-    const deletedArticle = await Article.findByIdAndDelete(id);
-    if (!deletedArticle) {
-      return { success: false, message: "Article not found" };
+    console.log('Creating a new article');
+    const newArticle = await article.save();
+
+    // Update mentor's articles
+    const mentor = await Mentor.findById(req.body.author);
+    if (mentor) {
+      mentor.articles.push(newArticle._id);
+      await mentor.save();
+      console.log('Mentor articles updated');
     }
-    return { success: true, message: "Article deleted successfully" };
-  } catch (error) {
-    return {
-      success: false,
-      message: `Error while deleting article: ${error.message}`,
-    };
-  }
-}
 
-async function getArticlesByTags(tags) {
+    res.status(201).json(newArticle);
+    console.log('New article created', newArticle);
+  } catch (error) {
+    console.error('Error creating article:', error.message);
+    res.status(400).json({ message: error.message });
+  }
+};
+
+export const updateArticle = async (req, res) => {
+
   try {
-    const articles = await Article.find({ tags: { $in: tags } });
-    return { success: true, articles };
-  } catch (error) {
-    return {
-      success: false,
-      message: `Error fetching articles by tags: ${error.message}`,
-    };
-  }
-}
+    console.log(`Updating article with id: ${req.params.id}`);
+    const article = await Article.findById(req.params.id);
+    if (!article) {
+      console.log('Article not found');
+      return res.status(404).json({ message: 'Article not found' });
+    }
 
-async function getArticlesByAuthor(author) {
+    Object.assign(article, req.body);
+    const updatedArticle = await article.save();
+    res.json(updatedArticle);
+    console.log('Article updated');
+  } catch (error) {
+    console.error('Error updating article:', error.message);
+    res.status(400).json({ message: error.message });
+  }
+};
+
+export const deleteArticle = async (req, res) => {
   try {
-    const articles = await Article.find({ author }).populate(
-      "author"
-    );
-    return { success: true, articles };
-  } catch (error) {
-    return {
-      success: false,
-      message: `Error fetching articles by author: ${error.message}`,
-    };
-  }
-}
+    console.log(`Deleting article with id: ${req.params.id}`);
+    const article = await Article.findById(req.params.id);
+    if (!article) {
+      console.log('Article not found');
+      return res.status(404).json({ message: 'Article not found' });
+    }
 
-async function getArticlesAll() {
+    await article.remove();
+    console.log('Article deleted');
+    res.json({ message: 'Article deleted' });
+  } catch (error) {
+    console.error('Error deleting article:', error.message);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
+export const addComment = async (req, res) => {
   try {
-    const articles = await Article.find().populate("author");
-    return { success: true, articles };
-  } catch (error) {
-    return {
-      success: false,
-      message: `Error fetching all articles: ${error.message}`,
-    };
-  }
-}
+    const { id } = req.params;
+    const { content, userId } = req.body;
 
-module.exports = {
-  createArticle,
-  getArticleById,
-  deleteArticle,
-  getArticlesByTags,
-  getArticlesByAuthor,
-  getArticlesAll
+    const article = await Article.findById(id);
+    if (!article) {
+      return res.status(404).json({ message: 'Article not found' });
+    }
+
+    const newComment = {
+      content,
+      author: userId,
+      date: new Date(),
+    };
+
+    article.comments.push(newComment);
+    await article.save();
+    res.status(201).json(newComment);
+  } catch (error) {
+    console.error('Error adding comment:', error);
+    res.status(500).json({ message: error.message });
+  }
 };
