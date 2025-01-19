@@ -59,9 +59,9 @@ export default function ChatRoom({ mentorName, mentorAvatar }: ChatRoomProps) {
   }
 
   return (
-    <div className="flex flex-col h-full bg-gray-100 dark:bg-gray-900">
+    <div className="flex flex-col h-full bg-gray-100 dark:bg-gray-900 p-4">
       {/* Chat Header */}
-      <div className="bg-white dark:bg-gray-800 p-4 flex items-center justify-between border-b border-gray-200 dark:border-gray-700">
+      <div className="bg-white dark:bg-gray-800 p-4 flex items-center justify-between border-b border-gray-200 dark:border-gray-700 rounded-t-lg">
         <div className="flex items-center space-x-3">
           <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-blue-500">
             <img src={mentorAvatar || "/placeholder.svg"} alt={mentorName} className="w-full h-full object-cover" />
@@ -111,7 +111,7 @@ export default function ChatRoom({ mentorName, mentorAvatar }: ChatRoomProps) {
       </div>
 
       {/* Message Input */}
-      <form onSubmit={handleSendMessage} className="bg-white dark:bg-gray-800 p-4 flex items-center space-x-2">
+      <form onSubmit={handleSendMessage} className="bg-white dark:bg-gray-800 p-4 flex items-center space-x-2 rounded-b-lg">
         <button type="button" className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
           <Paperclip className="h-5 w-5" />
         </button>
@@ -132,4 +132,3 @@ export default function ChatRoom({ mentorName, mentorAvatar }: ChatRoomProps) {
     </div>
   )
 }
-

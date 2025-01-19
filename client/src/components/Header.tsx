@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useContext } from 'react'
-import { Menu, X, Home, Users, Calendar, BookOpen, Info, User, LogIn, LogOut, UserPlus } from 'lucide-react'
+import { Menu, X, Home, Users, Calendar, BookOpen, Info, User, LogIn, LogOut, UserPlus, Edit3 } from 'lucide-react'
 import { Link, useLocation } from 'react-router-dom'
 import Logo from '../assets/Logo.gif'
 import ThemeBtn from './ui/ThemeBtn'
@@ -11,8 +11,9 @@ const NavbarLinks = ({ onClick }: { onClick: () => void }) => {
     { to: '/call', label: 'Connect', icon: Home },
     { to: '/profile/mentor', label: 'Mentors', icon: Users },
     { to: '/sessions', label: 'Sessions', icon: Calendar },
-    { to: '/articles/new', label: 'Write Article', icon: BookOpen },
-    { to: '/articles', label: 'Articles', icon: Info },
+    { to: '/articles/new', label: 'Write Article', icon: Edit3 },
+    { to: '/articles', label: 'Articles', icon: BookOpen },
+    { to: '/mentor-chat', label: 'Chat', icon: Users },
   ]
 
   return (
