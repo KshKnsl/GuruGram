@@ -22,6 +22,7 @@ import ArticlesPage from "./Pages/Articles";
 import ArticleEditor from "./components/Articles/ArticleEditor";
 
 // Profile Components
+import CompleteProfile from './components/ProfileComponents/complete-profile'
 import MenteeProfile from './components/ProfileComponents/mentee'
 import MentorProfile from './components/ProfileComponents/mentor'
 import ViewMenteeProfile from './components/ProfileComponents/ViewMenteeProfile'
@@ -144,6 +145,8 @@ export default function App() {
                   <ArticlesPage articles={articles} onLike={handleLike} />
                 }
               />
+              <Route path="/complete-profile" element={<CompleteProfile />} />
+              <Route path="/profile-completion" element={<ProfileCompletion />} />
 
               {/* 404 Route */}
               <Route path="*" element={<NotFound />} />
