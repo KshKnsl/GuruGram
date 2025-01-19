@@ -47,12 +47,10 @@ export default function ProfileCompletion() {
     try {
       const userId = localStorage.getItem("_id");
       console.log("Submitting profile:", formData);
-      // alert("Profile submitted!");
       const endpoint = `${
         import.meta.env.VITE_BACKEND_URL
       }/api/mentor/updateMentor`;
 
-      
       const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -75,14 +73,14 @@ export default function ProfileCompletion() {
       case 2:
         return (
           <>
-            <h2 className="text-2xl font-bold mb-4">
+            <h2 className="text-2xl font-bold mb-4 dark:text-white">
               Professional Information
             </h2>
             <div className="space-y-4">
               <div>
                 <label
                   htmlFor="location"
-                  className="block text-sm font-medium text-gray-700"
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300"
                 >
                   Location
                 </label>
@@ -92,14 +90,14 @@ export default function ProfileCompletion() {
                   name="location"
                   value={formData.location}
                   onChange={handleInputChange}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-indigo-500 dark:focus:ring-indigo-500  bg-gray-100"
                   required
                 />
               </div>
               <div>
                 <label
                   htmlFor="occupation"
-                  className="block text-sm font-medium text-gray-700"
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300"
                 >
                   Occupation
                 </label>
@@ -109,14 +107,14 @@ export default function ProfileCompletion() {
                   name="occupation"
                   value={formData.occupation}
                   onChange={handleInputChange}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-indigo-500 dark:focus:ring-indigo-500  bg-gray-100"
                   required
                 />
               </div>
               <div>
                 <label
                   htmlFor="education"
-                  className="block text-sm font-medium text-gray-700"
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300"
                 >
                   Education
                 </label>
@@ -126,14 +124,14 @@ export default function ProfileCompletion() {
                   name="education"
                   value={formData.education}
                   onChange={handleInputChange}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-indigo-500 dark:focus:ring-indigo-500  bg-gray-100"
                   required
                 />
               </div>
               <div>
                 <label
                   htmlFor="bio"
-                  className="block text-sm font-medium text-gray-700"
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300"
                 >
                   Bio
                 </label>
@@ -143,7 +141,7 @@ export default function ProfileCompletion() {
                   value={formData.bio}
                   onChange={handleInputChange}
                   rows={3}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-indigo-500 dark:focus:ring-indigo-500 bg-gray-100"
                   required
                 ></textarea>
               </div>
@@ -153,10 +151,10 @@ export default function ProfileCompletion() {
       case 3:
         return (
           <>
-            <h2 className="text-2xl font-bold mb-4">Skills and Goals</h2>
+            <h2 className="text-2xl font-bold mb-4 dark:text-white">Skills and Goals</h2>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                   Skills
                 </label>
                 {formData.skills.map((skill, index) => (
@@ -168,7 +166,7 @@ export default function ProfileCompletion() {
                         handleSkillChange(index, "name", e.target.value)
                       }
                       placeholder="Skill name"
-                      className="flex-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                      className="flex-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-indigo-500 dark:focus:ring-indigo-500 bg-gray-100"
                     />
                     <input
                       type="number"
@@ -183,7 +181,7 @@ export default function ProfileCompletion() {
                       placeholder="Level"
                       min="0"
                       max="100"
-                      className="w-20 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                      className="w-20 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-indigo-500 dark:focus:ring-indigo-500 bg-gray-100"
                     />
                   </div>
                 ))}
@@ -195,13 +193,13 @@ export default function ProfileCompletion() {
                       skills: [...formData.skills, { name: "", level: 0 }],
                     })
                   }
-                  className="mt-2 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  className="mt-2 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:bg-indigo-500 dark:hover:bg-indigo-600"
                 >
                   Add Skill
                 </button>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                   Goals
                 </label>
                 {formData.goals.map((goal, index) => (
@@ -211,7 +209,7 @@ export default function ProfileCompletion() {
                     value={goal}
                     onChange={(e) => handleGoalChange(index, e.target.value)}
                     placeholder="Enter a goal"
-                    className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                    className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-indigo-500 dark:focus:ring-indigo-500  bg-gray-100"
                   />
                 ))}
                 <button
@@ -219,7 +217,7 @@ export default function ProfileCompletion() {
                   onClick={() =>
                     setFormData({ ...formData, goals: [...formData.goals, ""] })
                   }
-                  className="mt-2 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  className="mt-2 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:bg-indigo-500 dark:hover:bg-indigo-600"
                 >
                   Add Goal
                 </button>
@@ -233,8 +231,8 @@ export default function ProfileCompletion() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-xl">
-      <h1 className="text-3xl font-bold mb-6">Complete Your Profile</h1>
+    <div className="max-w-2xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-xl dark:bg-gray-800">
+      <h1 className="text-3xl font-bold mb-6 dark:text-white">Complete Your Profile</h1>
       <form onSubmit={handleSubmit}>
         {renderStep()}
         <div className="mt-8 flex justify-between">
@@ -242,7 +240,7 @@ export default function ProfileCompletion() {
             <button
               type="button"
               onClick={() => setStep(step - 1)}
-              className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+              className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 dark:bg-gray-500 dark:hover:bg-gray-600"
             >
               Previous
             </button>
@@ -251,14 +249,14 @@ export default function ProfileCompletion() {
             <button
               type="button"
               onClick={() => setStep(step + 1)}
-              className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:bg-indigo-500 dark:hover:bg-indigo-600"
             >
               Next
             </button>
           ) : (
             <button
               type="submit"
-              className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+              className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:bg-green-500 dark:hover:bg-green-600"
             >
               Complete Profile
             </button>

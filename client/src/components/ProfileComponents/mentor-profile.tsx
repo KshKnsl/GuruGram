@@ -19,7 +19,6 @@ interface Article {
   excerpt: string
 }
 
-
 interface MentorProfileProps {
   name: string
   avatar?: string
@@ -121,7 +120,7 @@ export default function MentorProfile({
             <div>
               <h2 className="text-lg font-semibold text-gray-800 mb-2">Specialties</h2>
               <div className="flex flex-wrap gap-2">
-                {specialties.map((specialty, index) => (
+              {specialties.map((specialty, index) => (
                   <span
                     key={index}
                     className="bg-blue-100 text-blue-800 text-sm font-medium px-2.5 py-0.5 rounded-full"
@@ -178,8 +177,13 @@ export default function MentorProfile({
         >
           Connect and chat
         </button>
+        <Link
+          to="/complete-profile"
+          className="w-full mt-4 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 ease-in-out text-center block"
+        >
+          Complete or Update Your Profile
+        </Link>
       </div>
     </div>
   )
 }
-

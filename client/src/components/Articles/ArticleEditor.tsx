@@ -57,7 +57,7 @@ const ArticleEditor: React.FC<ArticleEditorProps> = ({ onSubmit }) => {
           id="title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 dark:bg-gray-700 dark:border-gray-600 dark:text-white bg-white"
           required
         />
       </div>
@@ -70,7 +70,7 @@ const ArticleEditor: React.FC<ArticleEditorProps> = ({ onSubmit }) => {
           value={content}
           onChange={(e) => setContent(e.target.value)}
           rows={10}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 dark:bg-gray-700 dark:border-gray-600 dark:text-white bg-white"
           required
         ></textarea>
       </div>

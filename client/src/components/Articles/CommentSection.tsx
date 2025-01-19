@@ -54,7 +54,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({ comments, onAddComment 
       </AnimatePresence>
       <form onSubmit={handleSubmit} className="mt-6">
         <textarea
-          className="w-full p-3 border rounded-lg resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+          className="w-full p-3 border rounded-lg resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 bg-gray-100"
           rows={3}
           placeholder="Add a comment..."
           value={newComment}
