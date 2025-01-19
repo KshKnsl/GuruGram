@@ -1,10 +1,31 @@
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 import React from 'react'
 import MenteeProfile from './mentee_profile'
 
 export default function MenteePage() {
   const menteeId = localStorage.getItem('_id');
   console.log(menteeId);
-  
+
+  const [menteeData2, setMenteeData] = useState(null);
+
+  useEffect(() => {
+    if (menteeId) {
+      axios.get(`http://localhost:5000/api/mentee/${menteeId}`)
+        .then(response => {
+          setMenteeData(response.data);
+          console.log(response.data);
+        })
+        .catch(error => {
+          console.error("There was an error fetching the mentee data!", error);
+        });
+    }
+  }, [menteeId]);
+
+  if (!menteeData2) {
+    return <div>Loading...</div>;
+  }
+
   const menteeData = {
     name: "Alex Johnson",
     avatar: "https://avatar.iran.liara.run/public/boy",

@@ -15,7 +15,17 @@ const menteeSchema = new mongoose.Schema(
     lastRead: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Article",
-    }
+    },
+    location: { type: String },
+    occupation: { type: String },
+    education: { type: String },
+    skills: [
+      {
+        name: { type: String },
+        level: { type: Number }
+      }
+    ],
+    goals: { type: [String], default: [] }
   },
   { timestamps: true }
 );
