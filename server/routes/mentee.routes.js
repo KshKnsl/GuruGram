@@ -40,6 +40,7 @@ router.put("/updateMentee", async (req, res) => {
 });
 
 router.get("/:id", async (req, res) => {
+  console.log(req.params.id);
   let foundMentee = await findMentee(req.params.id);
   res.send(foundMentee);
 });

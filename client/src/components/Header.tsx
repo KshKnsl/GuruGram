@@ -66,22 +66,22 @@ const Navbar = () => {
             <div className="ml-4 flex items-center md:ml-6 space-x-2">
               {auth.user ? (
                 <>
-                  <Link to="/profile" className={`text-foreground dark:text-dark-foreground hover:text-primary dark:hover:text-dark-primary px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 flex items-center ${location.pathname === '/profile' ? 'bg-primary dark:bg-dark-primary' : ''}`}>
+                  <Link to="/profile" className={`bg-color text-foreground dark:text-dark-foreground hover:text-primary dark:hover:text-dark-primary px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 flex items-center ${location.pathname === '/profile' ? 'bg-primary dark:bg-dark-primary' : ''}`}>
                     <User className="mr-2 h-4 w-4" />
                     Profile
                   </Link>
-                  <button onClick={logout} className="text-foreground dark:text-dark-foreground hover:text-primary dark:hover:text-dark-primary px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 flex items-center">
+                  <button onClick={logout} className="bg-color text-foreground dark:text-dark-foreground hover:text-primary dark:hover:text-dark-primary px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 flex items-center">
                     <LogOut className="mr-2 h-4 w-4" />
                     Logout
                   </button>
                 </>
               ) : (
                 <>
-                  <Link to="/signup" className={`text-foreground dark:text-dark-foreground hover:text-primary dark:hover:text-dark-primary px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 border border-primary dark:border-dark-primary flex items-center ${location.pathname === '/signup' ? 'bg-primary dark:bg-dark-primary' : ''}`}>
+                  <Link to="/signup" className={`bg-color text-foreground dark:text-dark-foreground hover:text-primary dark:hover:text-dark-primary px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 border border-primary dark:border-dark-primary flex items-center ${location.pathname === '/signup' ? 'bg-primary dark:bg-dark-primary' : ''}`}>
                     <UserPlus className="mr-2 h-4 w-4" />
                     Sign Up
                   </Link>
-                  <Link to="/login" className={`text-foreground dark:text-dark-foreground hover:text-primary dark:hover:text-dark-primary px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 bg-primary dark:bg-dark-primary flex items-center ${location.pathname === '/login' ? 'bg-primary dark:bg-dark-primary' : ''}`}>
+                  <Link to="/login" className={`bg-color text-foreground dark:text-dark-foreground hover:text-primary dark:hover:text-dark-primary px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 bg-primary dark:bg-dark-primary flex items-center ${location.pathname === '/login' ? 'bg-primary dark:bg-dark-primary' : ''}`}>
                     <LogIn className="mr-2 h-4 w-4" />
                     Log In
                   </Link>
@@ -92,7 +92,7 @@ const Navbar = () => {
           </div>
           <div className="md:hidden">
             <button
-              className="px-2 py-2 rounded-md text-sm font-medium transition-colors duration-300 bg-transparent"
+              className="bg-color px-2 py-2 rounded-md text-sm font-medium transition-colors duration-300 bg-transparent"
               onClick={toggleMenu}
               aria-expanded={isOpen}
               aria-label="Toggle menu"
@@ -113,22 +113,22 @@ const Navbar = () => {
             <div className="flex items-center justify-between px-5 space-x-2">
               {auth.user ? (
                 <>
-                  <Link to="/profile" className={`w-full text-foreground dark:text-dark-foreground hover:text-primary dark:hover:text-dark-primary px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 flex items-center ${location.pathname === '/profile' ? 'bg-primary dark:bg-dark-primary' : ''}`}>
+                  <Link to="/profile" className={`bg-color w-full text-foreground dark:text-dark-foreground hover:text-primary dark:hover:text-dark-primary px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 flex items-center ${location.pathname === '/profile' ? 'bg-primary dark:bg-dark-primary' : ''}`}>
                     <User className="mr-2 h-4 w-4" />
                     Profile
                   </Link>
-                  <button onClick={logout} className="w-full text-foreground dark:text-dark-foreground hover:text-primary dark:hover:text-dark-primary px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 flex items-center">
+                  <button onClick={logout} className="bg-color w-full text-foreground dark:text-dark-foreground hover:text-primary dark:hover:text-dark-primary px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 flex items-center">
                     <LogOut className="mr-2 h-4 w-4" />
                     Logout
                   </button>
                 </>
               ) : (
                 <>
-                  <Link to="/signup" className={`w-full text-foreground dark:text-dark-foreground hover:text-primary dark:hover:text-dark-primary px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 border border-primary dark:border-dark-primary flex items-center ${location.pathname === '/signup' ? 'bg-primary dark:bg-dark-primary' : ''}`}>
+                  <Link to="/signup" className={`bg-color w-full text-foreground dark:text-dark-foreground hover:text-primary dark:hover:text-dark-primary px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 border border-primary dark:border-dark-primary flex items-center ${location.pathname === '/signup' ? 'bg-primary dark:bg-dark-primary' : ''}`}>
                     <UserPlus className="mr-2 h-4 w-4" />
                     Sign Up
                   </Link>
-                  <Link to="/login" className={`w-full text-foreground dark:text-dark-foreground hover:text-primary dark:hover:text-dark-primary px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 bg-primary dark:bg-dark-primary flex items-center ${location.pathname === '/login' ? 'bg-primary dark:bg-dark-primary' : ''}`}>
+                  <Link to="/login" className={`bg-color w-full text-foreground dark:text-dark-foreground hover:text-primary dark:hover:text-dark-primary px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 bg-primary dark:bg-dark-primary flex items-center ${location.pathname === '/login' ? 'bg-primary dark:bg-dark-primary' : ''}`}>
                     <LogIn className="mr-2 h-4 w-4" />
                     Log In
                   </Link>
