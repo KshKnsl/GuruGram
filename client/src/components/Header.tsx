@@ -11,8 +11,8 @@ const NavbarLinks = ({ onClick }: { onClick: () => void }) => {
     { to: '/', label: 'Home', icon: Home },
     { to: '/mentors', label: 'Mentors', icon: Users },
     { to: '/sessions', label: 'Sessions', icon: Calendar },
-    { to: '/resources', label: 'Resources', icon: BookOpen },
-    { to: '/about', label: 'About', icon: Info },
+    { to: '/articles/new', label: 'Write Article', icon: BookOpen },
+    { to: '/articles', label: 'Articles', icon: Info },
   ]
 
   return (

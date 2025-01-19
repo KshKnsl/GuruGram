@@ -24,6 +24,7 @@ interface ArticleType {
   date: string;
   commentCount: number;
   likes: number;
+  comments: { id: string; author: string; content: string; date: string }[];
 }
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
       date: '2023-05-15',
       commentCount: 5,
       likes: 10,
+      comments: [],
     },
     {
       id: '2',
@@ -48,6 +50,7 @@ function App() {
       date: '2023-05-10',
       commentCount: 3,
       likes: 7,
+      comments: [],
     },
     {
       id: '3',
@@ -58,6 +61,7 @@ function App() {
       date: '2023-05-20',
       commentCount: 7,
       likes: 15,
+      comments: [],
     },
     {
       id: '4',
@@ -68,6 +72,7 @@ function App() {
       date: '2023-05-18',
       commentCount: 4,
       likes: 12,
+      comments: [],
     },
   ]);
 
@@ -91,6 +96,7 @@ function App() {
       date: new Date().toISOString().split('T')[0],
       commentCount: 0,
       likes: 0,
+      comments: [],
     };
     setArticles([...articles, newArticle]);
     // Redirect to the articles list page after submission
@@ -107,7 +113,7 @@ function App() {
 
 return (
   <ThemeProvider value={{ themeMode, darkTheme, lightTheme }}>
-    <div className='h-full w-full dark:bg-gray-900'>
+    <div className='h-full w-full dark:bg-gray-900 mt-8'>
       <Navbar />
       <div className='px-auto'>
         <Routes>
