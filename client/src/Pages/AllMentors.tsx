@@ -110,7 +110,7 @@ const AllMentors: React.FC = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold text-center mb-8 text-gray-800 dark:text-white">All Mentors</h1>
+      <h1 className="text-3xl font-bold text-center mb-8 text-gray-800 dark:text-white">Find a Mentor</h1>
       
       <div className="mb-8">
         <input
