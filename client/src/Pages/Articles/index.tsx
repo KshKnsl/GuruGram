@@ -6,7 +6,7 @@ import ArticleList from '../../components/Articles/ArticleList';
 interface Article {
   id: string;
   title: string;
-  excerpt: string;
+  content: string;
   author: string;
   date: string;
   commentCount: number;
@@ -25,7 +25,6 @@ const ArticlesPage: React.FC<ArticlesPageProps> = ({ articles, onLike }) => {
   useEffect(() => {
     if (location.state && location.state.message) {
       setMessage(location.state.message);
-      // Clear the message after 5 seconds
       const timer = setTimeout(() => setMessage(null), 5000);
       return () => clearTimeout(timer);
     }

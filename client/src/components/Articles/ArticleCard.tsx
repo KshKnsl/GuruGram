@@ -5,25 +5,30 @@ import { CalendarIcon, ChatBubbleLeftIcon, HeartIcon } from '@heroicons/react/24
 import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid'
 
 interface ArticleCardProps {
-  id: string
+  id?: string
+  _id?: string
   title: string
-  excerpt: string
+  content: string
   author: string
   date: string
   commentCount: number
   likes: number
-  onLike: (id: string, isLiked: boolean) => void
+  onLike: (id: string) => void
 }
 
-const ArticleCard: React.FC<ArticleCardProps> = ({ id, title, excerpt, author, date, commentCount, likes, onLike }) => {
+const ArticleCard: React.FC<ArticleCardProps> = ({ id, _id, title, content, author, date, commentCount, likes, onLike }) => {
+  const articleId = id || _id
   const [isLiked, setIsLiked] = useState(false)
   const [likeCount, setLikeCount] = useState(likes)
 
   const handleLike = () => {
     const newIsLiked = !isLiked
     setIsLiked(newIsLiked)
+    console.log(articleId)
     setLikeCount(likeCount + (newIsLiked ? 1 : -1))
-    onLike(id, newIsLiked)
+    if (articleId) {
+      onLike(articleId)
+    }
   }
 
   return (
@@ -35,11 +40,11 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ id, title, excerpt, author, d
     >
       <div className="p-6">
         <h2 className="text-xl font-semibold mb-2">
-          <Link to={`/articles/${id}`} className="text-blue-600 hover:text-blue-800 transition duration-300">
+          <Link to={`/articles/${articleId}`} className="text-blue-600 hover:text-blue-800 transition duration-300">
             {title}
           </Link>
         </h2>
-        <p className="text-gray-600 mb-4">{excerpt}</p>
+        <p className="text-gray-600 mb-4">{content.slice(0, 200)}{content.length > 200 ? '...' : ''}</p>
         <div className="flex flex-wrap justify-between items-center text-sm text-gray-500">
           <span className="mb-2 sm:mb-0">{author}</span>
           <div className="flex items-center space-x-4">

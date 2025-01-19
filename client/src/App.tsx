@@ -1,15 +1,8 @@
-<<<<<<< HEAD
-import { Route, Routes, useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { ThemeProvider } from "./context/ThemeContext";
-import { AuthProvider } from "./context/AuthContext";
-=======
 import { Route, Routes, useLocation } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { ThemeProvider } from './context/ThemeContext'
 import { AuthProvider } from './context/AuthContext'
 import ProfileCompletion from './components/ProfileComponents/ProfileCompletion'
->>>>>>> e0c782591852abf580f82615b166e81be93fadca
 
 // Layout Components
 import Header from "./components/Header";
@@ -29,21 +22,16 @@ import ArticlesPage from "./Pages/Articles";
 import ArticleEditor from "./components/Articles/ArticleEditor";
 
 // Profile Components
-<<<<<<< HEAD
-import MenteeProfile from "./components/ProfileComponents/mentee";
-import MentorProfile from "./components/ProfileComponents/mentor";
-
-import "./App.css";
-import AllMentors from "./Pages/AllMentors";
-import axios from "axios";
-=======
 import MenteeProfile from './components/ProfileComponents/mentee'
 import MentorProfile from './components/ProfileComponents/mentor'
 import ViewMenteeProfile from './components/ProfileComponents/ViewMenteeProfile'
 import ViewMentorProfile from './components/ProfileComponents/ViewMentorProfile'
->>>>>>> e0c782591852abf580f82615b166e81be93fadca
+import axios from 'axios'
+import AllMentors from './Pages/AllMentors'
+import { use } from 'framer-motion/client'
 
 interface ArticleType {
+  _id?: string
   id: string;
   title: string;
   content: string;
@@ -62,55 +50,7 @@ interface ArticleType {
 
 export default function App() {
   const [themeMode, setThemeMode] = useState("light");
-  const [articles, setArticles] = useState<ArticleType[]>([
-    {
-      id: "1",
-      title: "Getting Started with React",
-      content: "Full content here...",
-      excerpt:
-        "Learn the basics of React and start building your first component.",
-      author: "Jane Doe",
-      date: "2023-05-15",
-      commentCount: 5,
-      likes: 10,
-      comments: [],
-    },
-    {
-      id: "2",
-      title: "Advanced TypeScript Techniques",
-      content: "Full content here...",
-      excerpt:
-        "Explore advanced TypeScript features to write more robust code.",
-      author: "John Smith",
-      date: "2023-05-10",
-      commentCount: 3,
-      likes: 7,
-      comments: [],
-    },
-    {
-      id: "3",
-      title: "Mastering CSS Grid Layout",
-      content: "Full content here...",
-      excerpt: "Dive deep into CSS Grid and create complex layouts with ease.",
-      author: "Emily Johnson",
-      date: "2023-05-20",
-      commentCount: 7,
-      likes: 15,
-      comments: [],
-    },
-    {
-      id: "4",
-      title: "Introduction to GraphQL",
-      content: "Full content here...",
-      excerpt:
-        "Learn how GraphQL can simplify your API and improve performance.",
-      author: "Michael Brown",
-      date: "2023-05-18",
-      commentCount: 4,
-      likes: 12,
-      comments: [],
-    },
-  ]);
+  const [articles, setArticles] = useState<ArticleType[]>([]);
 
   // Theme handlers
   const darkTheme = () => setThemeMode("dark");
@@ -121,12 +61,25 @@ export default function App() {
     document.querySelector("html")?.classList.add(themeMode);
   }, [themeMode]);
 
+  useEffect(() => {
+    const fetchArticles = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/articles');
+        setArticles((prevArticles) => [...prevArticles, ...response.data]);
+        console.log('Articles fetched:', response.data);
+      } catch (error) {
+        console.error('Error fetching articles:', error);
+      }
+    };
+    fetchArticles();
+  }, []);
   // Article handlers
 
   const handleNewArticle = async (article: { title: string; content: string }) => {
     try {
-      const response = await axios.post('/api/articles', article);
+      const response = await axios.post('http://localhost:5000/api/articles', article);
       setArticles([...articles, response.data]);
+      console.log('Article created:', response.data);
     } catch (error) {
       console.error('Error creating article:', error);
     }
@@ -134,9 +87,13 @@ export default function App() {
 
   const handleLike = async (id: string) => {
     try {
-      const article = articles.find(article => article.id === id);
+      console.log('Liking article:', id);
+      const article = articles.find(article => article.id == id || article._id == id);
       if (article) {
-        await axios.put(`localhost:5000/api/articles/${id}`, { likes: article.likes + 1 });
+        await axios.put(`http://localhost:5000/api/articles/${id}`, { likes: article.likes + 1 });
+        console.log('Article liked successfully');
+      } else {
+        console.error('Article not found');
       }
       setArticles((prevArticles) =>
         prevArticles.map((article) =>
@@ -167,14 +124,6 @@ export default function App() {
               {/* Profile Routes */}
               <Route path="/profile" element={<MenteeProfile />} />
               <Route path="/profile/mentor" element={<MentorProfile />} />
-<<<<<<< HEAD
-
-=======
-              <Route path="/profile/mentee/:id" element={<ViewMenteeProfile />} />
-              <Route path="/profile/mentor/:id" element={<ViewMentorProfile />} />
-              <Route path="/complete-profile" element={<ProfileCompletion />} />
-              
->>>>>>> e0c782591852abf580f82615b166e81be93fadca
               {/* Feature Routes */}
               <Route path="/call" element={<Call />} />
 
