@@ -27,7 +27,7 @@ interface MentorProfileProps {
 
 export default function MentorProfile({
   name,
-  avatar = "/placeholder.svg?height=96&width=96",
+  avatar = "https://avatar.iran.liara.run/public/boy",
   location = "Not specified",
   occupation = "Not specified",
   education = "Not specified",

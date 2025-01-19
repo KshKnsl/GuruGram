@@ -4,7 +4,7 @@ import MentorProfile from './mentor-profile'
 export default function MentorPage() {
   const mentorData = {
     name: "Dr. Emily Chen",
-    avatar: "/placeholder.svg?height=96&width=96",
+    avatar: "https://avatar.iran.liara.run/public/boy",
     location: "New York, NY",
     occupation: "Senior Software Engineer",
     education: "Ph.D. in Computer Science",
