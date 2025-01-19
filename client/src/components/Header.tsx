@@ -8,8 +8,7 @@ import { AuthContext } from "../context/AuthContext";
 const NavbarLinks = ({ onClick }: { onClick: () => void }) => {
   const location = useLocation();
   const links = [
-    { to: '/call', label: 'Connect', icon: Home },
-    { to: '/profile/mentor', label: 'Mentors', icon: Users },
+    { to: '/all/mentors', label: 'Mentors', icon: Users },
     { to: '/sessions', label: 'Sessions', icon: Calendar },
     { to: '/articles/new', label: 'Write Article', icon: Edit3 },
     { to: '/articles', label: 'Articles', icon: BookOpen },

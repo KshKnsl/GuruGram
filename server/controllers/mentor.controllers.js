@@ -13,18 +13,18 @@ async function createMentor(data) {
       dob: data.dob,
       avatar: data.avatar || "https://avatar.iran.liara.run/public/boy",
       bio: data.bio,
-      socialLinks: data.socialLinks || [],
+      socialLinks: data.socialLinks,
       points: data.points || 100,
-      badges: data.badges || ["First Steps"],
+      badges: data.badges,
       interests: data.interests || ["Reading"],
-      articles: data.articles || [],
+      articles: data.articles,
       readArticles: data.readArticles || [],
       lastRead: data.lastRead,
       location: data.location,
       occupation: data.occupation,
       education: data.education,
-      skills: data.skills || [],
-      specialties: data.specialties || [],
+      skills: data.skills,
+      specialties: data.specialties,
       ranking: data.ranking,
       totalMentees: data.totalMentees,
     });
@@ -40,11 +40,14 @@ async function createMentor(data) {
 }
 
 async function findMentor(id) {
-  try {
-    const mentor = await Mentor.findById(id)
-    .populate('articles')
-    .populate('readArticles')
-    .populate('lastRead');
+  try{
+  const mentor = await Mentor.findById(id)
+  .populate('articles')
+  .populate('readArticles')
+  .populate('lastRead')
+  .populate('socialLinks')
+  .populate('skills')
+  .populate('specialties');
     return mentor;
   } catch (error) {
     return null;
@@ -159,4 +162,13 @@ function findMentorByEmail(email)
   return Mentor.findOne({ email});
 }
 
-export { createMentor, findMentor, updateMentor, loginMentor, googleLogin, findMentorByEmail };
+async function insertBulk(data)
+{
+  const results = [];
+  for (const mentorData of data) {
+    const result = await createMentor(mentorData);
+    results.push(result);
+  }
+  return results;
+}
+export { createMentor, findMentor, updateMentor, loginMentor, googleLogin, findMentorByEmail, insertBulk };

@@ -2,13 +2,21 @@ import express from "express";
 import { OAuth2Client } from "google-auth-library";
 import { upload } from "../middlewares/multer.js";
 import uploadImage from "../utils/uploadImage.js";
-import { createMentor, findMentor, updateMentor, loginMentor, googleLogin, findMentorByEmail } from "../controllers/mentor.controllers.js";
+import { createMentor, findMentor, updateMentor, loginMentor, googleLogin, findMentorByEmail, insertBulk } from "../controllers/mentor.controllers.js";
 import Mentor from "../models/Mentor.model.js";
 
 const router = express.Router();
 
 router.post("/addMentor", async (req, res) => {
   let result = await createMentor(req.body);
+  if (result.success) 
+    res.status(201).send(result);
+  else
+    res.status(400).send(result);
+});
+
+router.post("/addMentor/bulk", async (req, res) => {
+  let result = await insertBulk(req.body);
   if (result.success) 
     res.status(201).send(result);
   else
@@ -79,6 +87,12 @@ router.post("/google-login", async (req, res) => {
     console.error("Error verifying Google token:", error);
     res.status(400).send("Invalid Google token.");
   }
+});
+
+router.get("/", async (req, res) => {
+  console.log("Getting all mentors");
+  const mentors = await Mentor.find({});
+  res.send(mentors);
 });
 
 export default router;

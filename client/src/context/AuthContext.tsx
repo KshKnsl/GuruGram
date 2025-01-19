@@ -5,12 +5,13 @@ type User = {
   email: string;
   token: string;
   _id: string;
+  role: string;
 };
 
 type AuthContextType = {
   user: User | null;
   loading: boolean;
-  login: (token: string, _id: string, email: string) => void;
+  login: (token: string, _id: string, email: string, role: string) => void;
   logout: () => void;
 };
 
@@ -32,9 +33,10 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         const token = localStorage.getItem("token");
         const _id = localStorage.getItem("_id");
         const email = localStorage.getItem("email");
+        const role = localStorage.getItem("role");
 
-        if (token && _id && email) {
-          setUser({ token, _id, email });
+        if (token && _id && email && role) {
+          setUser({ token, _id, email, role: role});
         }
       } catch (error) {
         console.error("Failed to fetch user:", error);
@@ -46,11 +48,12 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     fetchUser();
   }, []);
 
-  const login = (token: string, _id: string, email: string) => {
+  const login = (token: string, _id: string, email: string, role: string) => {
     localStorage.setItem("token", token);
     localStorage.setItem("_id", _id);
     localStorage.setItem("email", email);
-    setUser({ token, _id, email });
+    localStorage.setItem("role", role);
+    setUser({ token, _id, email, role });
     navigate("/profile");
   };
 
