@@ -1,118 +1,84 @@
-import Mentor from "../models/Mentor.model.js";
-import Article from "../models/Article.model.js";
+// controllers/articleController.js
+import Article from '../models/Article.model.js';
 
-async function createArticle(data) {
+export const getArticles = async (req, res) => {
   try {
-    const newArticle = new Article({
-      title: data.title,
-      desc: data.desc,
-      content: data.content,
-      author: data.author,
-      tags: data.tags,
-      publishedAt: data.publishedAt || null,
-    });
-
-    await newArticle.save();
-
-    const user = await Mentor.findById(data.author);
-    if (user) {
-      try {
-        user.articles.push(newArticle._id);
-        user.points += 30;
-        await user.save();
-      } catch (error) {
-        console.error("Error updating user:", error);
-      }
-    }
-
-    return {
-      success: true,
-      message: "Article created successfully",
-      article: newArticle,
-    };
+    console.log('Fetching all articles');
+    const articles = await Article.find();
+    res.json(articles);
   } catch (error) {
-    return {
-      success: false,
-      message: `Error while creating article: ${error.message}`,
-    };
+    console.error('Error fetching articles:', error.message);
+    res.status(500).json({ message: error.message });
   }
-}
+};
 
-// Get an article by ID
-async function getArticleById(id) {
+export const getArticleById = async (req, res) => {
   try {
-    const article = await Article.findById(id).populate("author contributors");
+    console.log(`Fetching article with id: ${req.params.id}`);
+    const article = await Article.findById(req.params.id);
     if (!article) {
-      return { success: false, message: "Article not found" };
+      console.log('Article not found');
+      return res.status(404).json({ message: 'Article not found' });
     }
-    return { success: true, article };
+    res.json(article);
   } catch (error) {
-    return {
-      success: false,
-      message: `Error fetching article: ${error.message}`,
-    };
+    console.error('Error fetching article:', error.message);
+    res.status(500).json({ message: error.message });
   }
-}
+};
 
-async function deleteArticle(id) {
+export const createArticle = async (req, res) => {
+  const article = new Article({
+    title: req.body.title,
+    content: req.body.content,
+    excerpt: req.body.excerpt,
+    author: req.body.author,
+    likes: req.body.likes,
+    comments: req.body.comments,
+  });
+
   try {
-    const deletedArticle = await Article.findByIdAndDelete(id);
-    if (!deletedArticle) {
-      return { success: false, message: "Article not found" };
+    console.log('Creating a new article');
+    const newArticle = await article.save();
+    res.status(201).json(newArticle);
+  } catch (error) {
+    console.error('Error creating article:', error.message);
+    res.status(400).json({ message: error.message });
+  }
+};
+
+export const updateArticle = async (req, res) => {
+  try {
+    console.log(`Updating article with id: ${req.params.id}`);
+    const article = await Article.findById(req.params.id);
+    if (!article) {
+      console.log('Article not found');
+      return res.status(404).json({ message: 'Article not found' });
     }
-    return { success: true, message: "Article deleted successfully" };
-  } catch (error) {
-    return {
-      success: false,
-      message: `Error while deleting article: ${error.message}`,
-    };
-  }
-}
 
-async function getArticlesByTags(tags) {
+    Object.assign(article, req.body);
+    const updatedArticle = await article.save();
+    res.json(updatedArticle);
+  } catch (error) {
+    console.error('Error updating article:', error.message);
+    res.status(400).json({ message: error.message });
+  }
+};
+
+export const deleteArticle = async (req, res) => {
   try {
-    const articles = await Article.find({ tags: { $in: tags } });
-    return { success: true, articles };
+    console.log(`Deleting article with id: ${req.params.id}`);
+    const article = await Article.findById(req.params.id);
+    if (!article) {
+      console.log('Article not found');
+      return res.status(404).json({ message: 'Article not found' });
+    }
+
+    await article.remove();
+    console.log('Article deleted');
+    res.json({ message: 'Article deleted' });
   } catch (error) {
-    return {
-      success: false,
-      message: `Error fetching articles by tags: ${error.message}`,
-    };
+    console.error('Error deleting article:', error.message);
+    res.status(500).json({ message: error.message });
   }
-}
-
-async function getArticlesByAuthor(author) {
-  try {
-    const articles = await Article.find({ author }).populate(
-      "author"
-    );
-    return { success: true, articles };
-  } catch (error) {
-    return {
-      success: false,
-      message: `Error fetching articles by author: ${error.message}`,
-    };
-  }
-}
-
-async function getArticlesAll() {
-  try {
-    const articles = await Article.find().populate("author");
-    return { success: true, articles };
-  } catch (error) {
-    return {
-      success: false,
-      message: `Error fetching all articles: ${error.message}`,
-    };
-  }
-}
-
-
-export {
-  createArticle,
-  getArticleById,
-  deleteArticle,
-  getArticlesByTags,
-  getArticlesByAuthor,
-  getArticlesAll
 };

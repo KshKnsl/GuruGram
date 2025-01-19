@@ -60,44 +60,47 @@ const AllMentors: React.FC = () => {
   });
 
   const MentorCard: React.FC<{ mentor: Mentor }> = ({ mentor }) => (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-shadow duration-300 hover:shadow-lg">
+    <div 
+      className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-shadow duration-300 hover:shadow-lg cursor-pointer"
+      onClick={() => window.location.href = `/profile/mentor/${mentor._id}`}
+    >
       <div className="p-6">
-        <div className="flex items-center mb-4">
-          <img 
-            src={mentor.avatar || "/placeholder.svg"} 
-            alt={`${mentor.name}'s avatar`} 
-            className="w-16 h-16 rounded-full mr-4 object-cover"
-          />
-          <div>
-            <h2 className="text-xl font-semibold text-gray-800 dark:text-white">{mentor.name}</h2>
-            <p className="text-sm text-gray-600 dark:text-gray-300">{mentor.occupation}</p>
-          </div>
+      <div className="flex items-center mb-4">
+        <img 
+        src={mentor.avatar || "/placeholder.svg"} 
+        alt={`${mentor.name}'s avatar`} 
+        className="w-16 h-16 rounded-full mr-4 object-cover"
+        />
+        <div>
+        <h2 className="text-xl font-semibold text-gray-800 dark:text-white">{mentor.name}</h2>
+        <p className="text-sm text-gray-600 dark:text-gray-300">{mentor.occupation}</p>
         </div>
-        <p className="text-gray-600 dark:text-gray-300 mb-4">{mentor.bio}</p>
-        <div className="mb-2">
-          <span className="font-semibold text-gray-700 dark:text-gray-200">Location:</span>
-          <span className="ml-2 text-gray-600 dark:text-gray-300">{mentor.location}</span>
-        </div>
-        <div className="mb-2">
-          <span className="font-semibold text-gray-700 dark:text-gray-200">Education:</span>
-          <span className="ml-2 text-gray-600 dark:text-gray-300">{mentor.education}</span>
-        </div>
-        <div className="mb-4">
-          <span className="font-semibold text-gray-700 dark:text-gray-200">Ranking:</span>
-          <span className="ml-2 text-gray-600 dark:text-gray-300">
-            {mentor.ranking} ({mentor.totalMentees} mentees)
-          </span>
-        </div>
-        <div className="flex flex-wrap -mx-1">
-          {mentor.specialties.map((specialty, index) => (
-            <span 
-              key={index} 
-              className="m-1 px-3 py-1 text-sm bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 rounded-full"
-            >
-              {specialty}
-            </span>
-          ))}
-        </div>
+      </div>
+      <p className="text-gray-600 dark:text-gray-300 mb-4">{mentor.bio}</p>
+      <div className="mb-2">
+        <span className="font-semibold text-gray-700 dark:text-gray-200">Location:</span>
+        <span className="ml-2 text-gray-600 dark:text-gray-300">{mentor.location}</span>
+      </div>
+      <div className="mb-2">
+        <span className="font-semibold text-gray-700 dark:text-gray-200">Education:</span>
+        <span className="ml-2 text-gray-600 dark:text-gray-300">{mentor.education}</span>
+      </div>
+      <div className="mb-4">
+        <span className="font-semibold text-gray-700 dark:text-gray-200">Ranking:</span>
+        <span className="ml-2 text-gray-600 dark:text-gray-300">
+        {mentor.ranking} ({mentor.totalMentees} mentees)
+        </span>
+      </div>
+      <div className="flex flex-wrap -mx-1">
+        {mentor.specialties.map((specialty, index) => (
+        <span 
+          key={index} 
+          className="m-1 px-3 py-1 text-sm bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 rounded-full"
+        >
+          {specialty}
+        </span>
+        ))}
+      </div>
       </div>
     </div>
   );
