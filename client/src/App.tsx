@@ -144,6 +144,7 @@ export default function App() {
                   <ArticlesPage articles={articles} onLike={handleLike} />
                 }
               />
+              
               <Route path="/complete-profile" element={<CompleteProfile />} />
               <Route path="/profile-completion" element={<ProfileCompletion />} />
 

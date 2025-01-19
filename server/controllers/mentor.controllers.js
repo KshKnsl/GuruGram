@@ -56,30 +56,11 @@ async function findMentor(id) {
 
 async function updateMentor(data) 
 {
-  const update = 
-  {
-    name: data.name,
-    dob: data.dob,
-    avatar: data.avatar || "https://avatar.iran.liara.run/public",
-    bio: data.bio,
-    socialLinks: data.socialLinks || [],
-    points: data.points,
-    badges: data.badges,
-    interests: data.interests || [],
-    articles: data.articles,
-    readArticles: data.readArticles,
-    lastRead: data.lastRead,
-    location: data.location,
-    occupation: data.occupation,
-    education: data.education,
-    skills: data.skills || [],
-    specialties: data.specialties || [],
-    ranking: data.ranking,
-    totalMentees: data.totalMentees,
-  };
+  console.log(data);
   try 
   {
-    let result = await Mentor.findByIdAndUpdate(data._id, update);
+    let result = await Mentor.findByIdAndUpdate(data._id, data);
+    console.log(result);
     return { success: true, message: "Mentor updated successfully" };
   } 
   catch (error) 

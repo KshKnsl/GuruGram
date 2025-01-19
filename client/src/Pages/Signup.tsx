@@ -108,7 +108,11 @@ const SignUp: React.FC = () => {
       if (response.ok) {
         toast.success('Account created successfully!');
         setTimeout(() => {
-          navigate('/login');
+            if (role === 'mentee') {
+            navigate('/login');
+            } else {
+            navigate('/complete-profile');
+            }
         }, 2000);
       } else {
         toast.error('Signup failed. Please try again.');
@@ -140,6 +144,7 @@ const SignUp: React.FC = () => {
           login(token, rest.mentee._id, rest.mentee.email, role);
         } else {
           login(token, rest.mentor._id, rest.mentor.email, role);
+          navigate("/complete-profile");
         }
         toast.success("Google login successful!", {
           position: "top-right",
