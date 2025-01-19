@@ -28,7 +28,6 @@ import ViewMenteeProfile from './components/ProfileComponents/ViewMenteeProfile'
 import ViewMentorProfile from './components/ProfileComponents/ViewMentorProfile'
 import axios from 'axios'
 import AllMentors from './Pages/AllMentors'
-import { use } from 'framer-motion/client'
 
 interface ArticleType {
   _id?: string
@@ -64,7 +63,7 @@ export default function App() {
     const fetchArticles = async () => {
       try {
         const response = await axios.get('http://localhost:5000/api/articles');
-        setArticles((prevArticles) => [...prevArticles, ...response.data]);
+        setArticles([...response.data]);
         console.log('Articles fetched:', response.data);
       } catch (error) {
         console.error('Error fetching articles:', error);
@@ -74,7 +73,7 @@ export default function App() {
   }, []);
   // Article handlers
 
-  const handleNewArticle = async (article: { title: string; content: string }) => {
+  const handleNewArticle = async (article: { title: string; content: string, author: string | null }) => {
     try {
       const response = await axios.post('http://localhost:5000/api/articles', article);
       setArticles([...articles, response.data]);
