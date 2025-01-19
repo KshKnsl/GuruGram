@@ -32,7 +32,7 @@ const Login: React.FC = () => {
         const { token, rest } = await response.json();
         login(token, rest._doc._id, rest._doc.email);
 
-        navigate("/dashboard");
+        navigate("/profile");
       } else {
         toast.error("Login failed. Please check your credentials.");
       }
