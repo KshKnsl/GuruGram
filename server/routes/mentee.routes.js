@@ -8,7 +8,12 @@ const { createMentee, findMentee, updateMentee, loginMentee, googleLogin, findMe
 const router = express.Router();
 const Mentee = require("../models/Mentee.model.js");
 
+router.get("/", async (req, res) => {
+  res.send("Mentee");
+}
+);
 router.post("/addMentee", async (req, res) => {
+  console.log(req.body);
   let result = await createMentee(req.body);
   if (result.success) 
     res.status(201).send(result);
@@ -17,6 +22,7 @@ router.post("/addMentee", async (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
+  console.log(req.body);
   let result = await loginMentee(req.body);
   if (result.success) 
     res.status(200).send(result);
@@ -71,6 +77,7 @@ router.post("/google-login", async (req, res) => {
   const { token } = req.body;
   try {
     const googleResponse = await googleLogin(token);
+    console.log("Google login response:", googleResponse);
     if (googleResponse.success)
       res.status(200).json(googleResponse); 
     else
