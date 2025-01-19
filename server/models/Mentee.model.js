@@ -3,12 +3,12 @@ import bcrypt from "bcryptjs";
 
 const menteeSchema = new mongoose.Schema(
   {
-    name: { type: String, required: true },
+    name: { type: String, required: true, default: "Dr. Emily Chen" },
     email: { type: String, required: true },
     password: { type: String, required: true, select: false },
     dob: { type: Date },
-    avatar: { type: String }, // For profile picture
-    bio: { type: String },
+    avatar: { type: String, default: "https://avatar.iran.liara.run/public/boy" }, // For profile picture
+    bio: { type: String, default: "Experienced software engineer with a passion for mentoring. Specialized in distributed systems and machine learning. Committed to helping the next generation of developers excel in their careers." },
     socialLinks: { type: [String], default: [] },
     interests: { type: [String], default: ["Reading"] },
     readArticles: { type: [mongoose.Schema.Types.ObjectId], ref: "Article", default: [] },
@@ -16,16 +16,24 @@ const menteeSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Article",
     },
-    location: { type: String },
-    occupation: { type: String },
-    education: { type: String },
-    skills: [
-      {
-        name: { type: String },
-        level: { type: Number }
-      }
-    ],
-    goals: { type: [String], default: [] }
+    location: { type: String, default: "New York, NY" },
+    occupation: { type: String, default: "Senior Software Engineer" },
+    education: { type: String, default: "Ph.D. in Computer Science" },
+    skills: {
+      type: [
+        {
+          name: { type: String },
+          level: { type: Number }
+        }
+      ],
+      default: [
+        { name: "Python", level: 95 },
+        { name: "Machine Learning", level: 90 },
+        { name: "Distributed Systems", level: 85 },
+        { name: "System Design", level: 88 },
+      ]
+    },
+    goals: { type: [String], default: ["Engeeering"] }
   },
   { timestamps: true }
 );

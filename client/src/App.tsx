@@ -10,7 +10,7 @@ import Footer from './components/Footer'
 // Page Components
 import Home from './Pages/LandingPage/Home'
 import Login from './Pages/Login'
-import Signup from './Pages/Signup'
+import SignUp from './Pages/Signup'
 import NotFound from './Pages/NotFound'
 import Call from './components/Call/Call'
 
@@ -26,6 +26,7 @@ import MenteeProfile from './components/ProfileComponents/mentee'
 import MentorProfile from './components/ProfileComponents/mentor'
 
 import './App.css'
+import AllMentors from './Pages/AllMentors'
 // Types
 interface ArticleType {
   id: string
@@ -137,8 +138,9 @@ export default function App() {
               {/* Main Routes */}
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
+              <Route path="/signup" element={<SignUp />} />
               <Route path="/mentor-chat" element={<MentorChatPage />} />
+              <Route path="/all/mentors" element= {<AllMentors/>}/>
               
               {/* Profile Routes */}
               <Route path="/profile" element={<MenteeProfile />} />

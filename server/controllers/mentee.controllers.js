@@ -13,13 +13,13 @@ async function createMentee(data) {
       dob: data.dob,
       avatar: data.avatar || "https://avatar.iran.liara.run/public/boy",
       bio: data.bio,
-      socialLinks: data.socialLinks || [],
+      socialLinks: data.socialLinks,
       interests: data.interests || ["Reading"],
       location: data.location,
       occupation: data.occupation,
       education: data.education,
-      skills: data.skills || [],
-      goals: data.goals || [],
+      skills: data.skills ,
+      goals: data.goals,
     });
 
     console.log(newMentee);
