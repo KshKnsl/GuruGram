@@ -1,8 +1,8 @@
-const Mentor = require("../models/Mentor.model.js");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const { OAuth2Client } = require("google-auth-library");
-const { sendMail } = require("../utils/mail.util.js");
+import Mentor from "../models/Mentor.model.js";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import { OAuth2Client } from "google-auth-library";
+import { sendMail } from "../utils/mail.util.js";
 
 async function createMentor(data) {
   try {
@@ -24,6 +24,7 @@ async function createMentor(data) {
     return { success: false, message: `Error while creating mentor ${error}` };
   }
 }
+
 async function findMentor(id) {
   try {
     const mentor = await Mentor.findById(id)
@@ -132,4 +133,4 @@ function findMentorByEmail(email)
   return Mentor.findOne({ email});
 }
 
-module.exports = { createMentor, findMentor, updateMentor, loginMentor, googleLogin, findMentorByEmail };
+export { createMentor, findMentor, updateMentor, loginMentor, googleLogin, findMentorByEmail };

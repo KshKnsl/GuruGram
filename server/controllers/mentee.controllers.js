@@ -1,8 +1,8 @@
-const Mentee = require("../models/Mentee.model.js");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const { OAuth2Client } = require("google-auth-library");
-const { sendMail } = require("../utils/mail.util.js");
+import Mentee from "../models/Mentee.model.js";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import { OAuth2Client } from "google-auth-library";
+import { sendMail } from "../utils/mail.util.js";
 
 async function createMentee(data) {
   try {
@@ -51,7 +51,7 @@ async function updateMentee(data)
   };
   try 
   {
-    let result = await Mentee.findByIdAndUpdate(data._id, update);
+    await Mentee.findByIdAndUpdate(data._id, update);
     return { success: true, message: "Mentee updated successfully" };
   } 
   catch (error) 
@@ -136,4 +136,4 @@ function findMenteeByEmail(email)
   return Mentee.findOne({ email});
 }
 
-module.exports = { createMentee, findMentee, updateMentee, loginMentee, googleLogin, findMenteeByEmail };
+export { createMentee, findMentee, updateMentee, loginMentee, googleLogin, findMenteeByEmail };

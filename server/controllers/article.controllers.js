@@ -1,5 +1,5 @@
-const Mentor = require("../models/Mentor.model");
-const Article = require("../models/Article.model");
+import Mentor from "../models/Mentor.model.js";
+import Article from "../models/Article.model.js";
 
 async function createArticle(data) {
   try {
@@ -107,7 +107,8 @@ async function getArticlesAll() {
   }
 }
 
-module.exports = {
+
+export {
   createArticle,
   getArticleById,
   deleteArticle,
