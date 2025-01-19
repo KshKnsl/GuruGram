@@ -5,6 +5,7 @@ type User = {
   email: string;
   token: string;
   _id: string;
+  profileCompleted?: boolean;
   role: string;
 };
 
@@ -13,6 +14,7 @@ type AuthContextType = {
   loading: boolean;
   login: (token: string, _id: string, email: string, role: string) => void;
   logout: () => void;
+  updateProfile: (userData: Partial<User>) => void;
 };
 
 const AuthContext = createContext<AuthContextType>({
@@ -20,6 +22,7 @@ const AuthContext = createContext<AuthContextType>({
   loading: true,
   login: () => {},
   logout: () => {},
+  updateProfile: () => {},
 });
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
@@ -33,11 +36,17 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         const token = localStorage.getItem("token");
         const _id = localStorage.getItem("_id");
         const email = localStorage.getItem("email");
-        const role = localStorage.getItem("role");
+        const profileCompleted = localStorage.getItem("profileCompleted");
 
-        if (token && _id && email && role) {
-          setUser({ token, _id, email, role: role});
-        }
+        if (token && _id && email  && role) {
+          setUser({ 
+            token, 
+            _id, 
+            email, 
+             role: role,
+            profileCompleted: profileCompleted ? JSON.parse(profileCompleted) : false 
+          });
+        const role = localStorage.getItem("role");
       } catch (error) {
         console.error("Failed to fetch user:", error);
       } finally {
@@ -53,22 +62,42 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     localStorage.setItem("_id", _id);
     localStorage.setItem("email", email);
     localStorage.setItem("role", role);
-    setUser({ token, _id, email, role });
+            
+    setUser({ token, _id, email, role, profileCompleted: false });
     navigate("/profile");
   };
 
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("_id");
+    localStorage.removeItem("email");
+    localStorage.removeItem("profileCompleted");
     setUser(null);
     navigate("/login");
   };
 
+  const updateProfile = (userData: Partial<User>) => {
+    if (user) {
+      const updatedUser = { ...user, ...userData };
+      setUser(updatedUser);
+      localStorage.setItem('profileCompleted', JSON.stringify(updatedUser.profileCompleted));
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout }}>
+    <AuthContext.Provider value={{ user, loading, login, logout, updateProfile }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-export { AuthContext, AuthProvider };
+export const useAuth = () => {
+  const context = React.useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
+};
+
+export { AuthContext, AuthProvider};
+
