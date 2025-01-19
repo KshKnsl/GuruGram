@@ -1,10 +1,10 @@
-const dummyUsers = require("../models/user.model"); // Assuming you have the dummy users data
-const Message = require("../models/message.model"); // Array to store messages in memory
-const { getReceiverSocketId, io } = require("../middlewares/socket");
-//const cloudinary = require("../lib/cloudinary");
+import dummyUsers from "../models/user.model.js"; // Assuming you have the dummy users data
+import Message from "../models/message.model.js"; // Array to store messages in memory
+import { getReceiverSocketId, io } from "../middlewares/socket.js";
+//import cloudinary from "../lib/cloudinary";
 
 // Fetch users excluding the logged-in user
-exports.getUsersForSidebar = async (req, res) => {
+export const getUsersForSidebar = async (req, res) => {
   try {
     const loggedInUserId = req.user._id;
     const filteredUsers = await dummyUsers.find({ _id: { $ne: loggedInUserId } }).select("-password");
@@ -17,7 +17,7 @@ exports.getUsersForSidebar = async (req, res) => {
 };
 
 // Fetch messages between the logged-in user and another user
-exports.getMessages = async (req, res) => {
+export const getMessages = async (req, res) => {
   try {
     const { id: userToChatId } = req.params;
     const myId = req.user._id;
@@ -36,9 +36,8 @@ exports.getMessages = async (req, res) => {
   }
 };
 
-
 // Send a new message
-exports.sendMessage = async (req, res) => {
+export const sendMessage = async (req, res) => {
   try {
     const { text, image } = req.body;
     const { id: receiverId } = req.params;
