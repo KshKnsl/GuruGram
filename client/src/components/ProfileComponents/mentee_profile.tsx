@@ -1,5 +1,6 @@
 import React from 'react'
 import { MapPinIcon, BriefcaseIcon, AcademicCapIcon, FlagIcon } from '@heroicons/react/24/outline'
+import GuruCoins from '../GuruCoins'
 
 interface Skill {
   name: string
@@ -15,6 +16,7 @@ interface MenteeProfileProps {
   bio: string
   skills: Skill[]
   goals: string[]
+  guruCoins?: number // New prop
 }
 
 export default function MenteeProfile({
@@ -26,6 +28,7 @@ export default function MenteeProfile({
   bio,
   skills,
   goals,
+  guruCoins = 0, // Default value
 }: MenteeProfileProps) {
   return (
     <div className="bg-white shadow-lg rounded-lg overflow-hidden max-w-3xl mx-auto">
@@ -53,6 +56,9 @@ export default function MenteeProfile({
                 <AcademicCapIcon className="w-4 h-4" />
                 {education}
               </span>
+            </div>
+            <div className="mt-2">
+              <GuruCoins coins={guruCoins} size="md" />
             </div>
           </div>
         </div>
@@ -109,4 +115,3 @@ export default function MenteeProfile({
     </div>
   )
 }
-

@@ -1,6 +1,7 @@
 import React from 'react'
 import { MapPinIcon, BriefcaseIcon, AcademicCapIcon, StarIcon, TrophyIcon } from '@heroicons/react/24/outline'
 import { Link } from 'react-router-dom'
+import GuruCoins from '../GuruCoins'
 
 interface Skill {
   name: string
@@ -31,6 +32,7 @@ interface MentorProfileProps {
   totalMentees?: number
   badges?: Badge[]
   articles?: Article[]
+  guruCoins?: number // New prop
 }
 
 export default function MentorProfile({
@@ -46,6 +48,7 @@ export default function MentorProfile({
   totalMentees = 0,
   badges = [],
   articles = [],
+  guruCoins = 0, // Default value
 }: MentorProfileProps) {
   return (
     <div className="bg-white shadow-lg rounded-lg overflow-hidden max-w-3xl mx-auto">
@@ -73,6 +76,9 @@ export default function MentorProfile({
                 <AcademicCapIcon className="w-4 h-4" />
                 {education}
               </span>
+            </div>
+            <div className="mt-2">
+              <GuruCoins coins={guruCoins} size="md" />
             </div>
           </div>
           <div className="flex flex-col items-center sm:items-end gap-2">
