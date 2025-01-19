@@ -54,7 +54,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <Link to="/" className="flex-shrink-0">
-              <img src={Logo} alt="Logo" width={48} height={48} className="h-12 w-auto" />
+              <img src={Logo} alt="Logo" width={60} height={60} className="h-16 w-auto" />
             </Link>
           </div>
           <div className="hidden md:block">
@@ -66,22 +66,22 @@ const Navbar = () => {
             <div className="ml-4 flex items-center md:ml-6 space-x-2">
               {auth.user ? (
                 <>
-                  <Link to="/profile" className={`bg-gray-100 text-gray-800 dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-300 px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 flex items-center ${location.pathname === '/profile' ? 'bg-blue-500 dark:bg-blue-700 text-yellow-500' : ''}`}>
+                  <Link to="/profile" className={`bg-gray-100 text-gray-800  hover:text-blue-500 dark:hover:text-blue-300 px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 flex items-center ${location.pathname === '/profile' ? 'bg-blue-500 dark:bg-blue-700 text-yellow-500' : ''}`}>
                     <User className="mr-2 h-4 w-4" />
                     Profile
                   </Link>
-                  <button onClick={logout} className="bg-gray-100 text-gray-800 dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-300 px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 flex items-center">
+                  <button onClick={logout} className="bg-gray-100 text-gray-800 hover:text-blue-500 dark:hover:text-blue-300 px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 flex items-center">
                     <LogOut className="mr-2 h-4 w-4" />
                     Logout
                   </button>
                 </>
               ) : (
                 <>
-                  <Link to="/signup" className={`bg-gray-100 text-gray-800 dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-300 px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 border border-blue-500 dark:border-blue-700 flex items-center ${location.pathname === '/signup' ? 'bg-blue-500 dark:bg-blue-700 text-yellow-500' : ''}`}>
+                  <Link to="/signup" className={`bg-gray-100 text-gray-800 hover:text-blue-500 dark:hover:text-blue-300 px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 border border-blue-500 dark:border-blue-700 flex items-center ${location.pathname === '/signup' ? 'bg-blue-500 dark:bg-blue-700 text-yellow-500' : ''}`}>
                     <UserPlus className="mr-2 h-4 w-4" />
                     Sign Up
                   </Link>
-                  <Link to="/login" className={`bg-gray-100 text-gray-800 dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-300 px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 dark:bg-blue-700 flex items-center ${location.pathname === '/login' ? 'bg-blue-500 dark:bg-blue-700 text-yellow-500' : ''}`}>
+                  <Link to="/login" className={`bg-gray-100 text-gray-800  hover:text-blue-500 dark:hover:text-blue-300 px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 dark:bg-blue-700 flex items-center ${location.pathname === '/login' ? 'bg-blue-500 dark:bg-blue-700 text-yellow-500' : ''}`}>
                     <LogIn className="mr-2 h-4 w-4" />
                     Log In
                   </Link>

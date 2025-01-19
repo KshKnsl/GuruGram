@@ -48,7 +48,7 @@ const ArticlesPage: React.FC<ArticlesPageProps> = ({ articles, onLike }) => {
           <span className="block sm:inline">{message}</span>
         </motion.div>
       )}
-      <div className="flex flex-col sm:flex-row justify-between items-center mb-8">
+      <div className="flex flex-col sm:flex-row justify-between items-center mb-8 dark:text-white">
         <motion.h1
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
