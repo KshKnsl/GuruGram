@@ -1,33 +1,47 @@
 import { Route, Routes } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import Article from './Pages/Articles/[id].tsx'
-import ArticlesPage from './Pages/Articles'
-import ArticleEditor from './components/Articles/ArticleEditor'
-import MenteeProfile from './components/ProfileComponents/mentee.tsx'
-import MentorProfile from './components/ProfileComponents/mentor.tsx'
 import { ThemeProvider } from './context/ThemeContext'
-import Navbar from './components/Header'
+import { AuthProvider } from './context/AuthContext'
+
+// Layout Components
+import Header from './components/Header'
 import Footer from './components/Footer'
+
+// Page Components
 import Home from './Pages/LandingPage/Home'
 import Login from './Pages/Login'
 import Signup from './Pages/Signup'
 import NotFound from './Pages/NotFound'
 import Call from './components/Call/Call'
-import './App.css'
 
+// Article Related Components
+import Article from './Pages/Articles/[id]'
+import ArticlesPage from './Pages/Articles'
+import ArticleEditor from './components/Articles/ArticleEditor'
+
+// Profile Components
+import MenteeProfile from './components/ProfileComponents/mentee'
+import MentorProfile from './components/ProfileComponents/mentor'
+
+// Types
 interface ArticleType {
-  id: string;
-  title: string;
-  content: string;
-  excerpt: string;
-  author: string;
-  date: string;
-  commentCount: number;
-  likes: number;
-  comments: { id: string; author: string; content: string; date: string }[];
+  id: string
+  title: string
+  content: string
+  excerpt: string
+  author: string
+  date: string
+  commentCount: number
+  likes: number
+  comments: {
+    id: string
+    author: string
+    content: string
+    date: string
+  }[]
 }
 
-function App() {
+export default function App() {
   const [themeMode, setThemeMode] = useState('light')
   const [articles, setArticles] = useState<ArticleType[]>([
     {
@@ -74,19 +88,18 @@ function App() {
       likes: 12,
       comments: [],
     },
-  ]);
+  ])
 
-  const darkTheme = () => {
-    setThemeMode('dark')
-  }
-  const lightTheme = () => {
-    setThemeMode('light')
-  }
+  // Theme handlers
+  const darkTheme = () => setThemeMode('dark')
+  const lightTheme = () => setThemeMode('light')
+
   useEffect(() => {
-    document.querySelector('html')?.classList.remove('dark','light')
+    document.querySelector('html')?.classList.remove('dark', 'light')
     document.querySelector('html')?.classList.add(themeMode)
   }, [themeMode])
 
+  // Article handlers
   const handleNewArticle = (article: { title: string; content: string }) => {
     const newArticle: ArticleType = {
       id: String(articles.length + 1),
@@ -97,41 +110,59 @@ function App() {
       commentCount: 0,
       likes: 0,
       comments: [],
-    };
-    setArticles([...articles, newArticle]);
-    // Redirect to the articles list page after submission
-    window.location.href = '/articles';
-  };
+    }
+    setArticles([...articles, newArticle])
+  }
 
   const handleLike = (id: string) => {
-    setArticles(prevArticles =>
-      prevArticles.map(article =>
+    setArticles((prevArticles) =>
+      prevArticles.map((article) =>
         article.id === id ? { ...article, likes: article.likes + 1 } : article
       )
-    );
-  };
+    )
+  }
 
-return (
-  <ThemeProvider value={{ themeMode, darkTheme, lightTheme }}>
-    <div className='h-full w-full dark:bg-gray-900 mt-8'>
-      <Navbar />
-      <div className='px-auto'>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="login" element={<Login />} />
-          <Route path="signup" element={<Signup />} />
-          <Route path="profile" element={<MenteeProfile />} />
-          <Route path="profilementor" element={<MentorProfile />} />
-          <Route path="call" element={<Call />} />
-          <Route path="articles/new" element={<ArticleEditor onSubmit={handleNewArticle} />} />
-          <Route path="articles/:id" element={<Article articles={articles} />} />
-          <Route path="articles" element={<ArticlesPage articles={articles} onLike={handleLike} />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </div>
-      <Footer />
-    </div>
-  </ThemeProvider>
-);
+  return (
+    <AuthProvider>
+      <ThemeProvider value={{ themeMode, darkTheme, lightTheme }}>
+        <div className="min-h-screen flex flex-col bg-background dark:bg-gray-900">
+          <Header />
+          <main className="flex-grow pt-16">
+            <Routes>
+              {/* Main Routes */}
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              
+              {/* Profile Routes */}
+              <Route path="/profile" element={<MenteeProfile />} />
+              <Route path="/profile/mentor" element={<MentorProfile />} />
+              
+              {/* Feature Routes */}
+              <Route path="/call" element={<Call />} />
+              
+              {/* Article Routes */}
+              <Route
+                path="/articles/new"
+                element={<ArticleEditor onSubmit={handleNewArticle} />}
+              />
+              <Route
+                path="/articles/:id"
+                element={<Article articles={articles} />}
+              />
+              <Route
+                path="/articles"
+                element={<ArticlesPage articles={articles} onLike={handleLike} />}
+              />
+              
+              {/* 404 Route */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </main>
+          <Footer />
+        </div>
+      </ThemeProvider>
+    </AuthProvider>
+  )
 }
-export default App
+
