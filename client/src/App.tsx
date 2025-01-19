@@ -1,7 +1,15 @@
+<<<<<<< HEAD
 import { Route, Routes, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { ThemeProvider } from "./context/ThemeContext";
 import { AuthProvider } from "./context/AuthContext";
+=======
+import { Route, Routes, useLocation } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { ThemeProvider } from './context/ThemeContext'
+import { AuthProvider } from './context/AuthContext'
+import ProfileCompletion from './components/ProfileComponents/ProfileCompletion'
+>>>>>>> e0c782591852abf580f82615b166e81be93fadca
 
 // Layout Components
 import Header from "./components/Header";
@@ -21,12 +29,19 @@ import ArticlesPage from "./Pages/Articles";
 import ArticleEditor from "./components/Articles/ArticleEditor";
 
 // Profile Components
+<<<<<<< HEAD
 import MenteeProfile from "./components/ProfileComponents/mentee";
 import MentorProfile from "./components/ProfileComponents/mentor";
 
 import "./App.css";
 import AllMentors from "./Pages/AllMentors";
 import axios from "axios";
+=======
+import MenteeProfile from './components/ProfileComponents/mentee'
+import MentorProfile from './components/ProfileComponents/mentor'
+import ViewMenteeProfile from './components/ProfileComponents/ViewMenteeProfile'
+import ViewMentorProfile from './components/ProfileComponents/ViewMentorProfile'
+>>>>>>> e0c782591852abf580f82615b166e81be93fadca
 
 interface ArticleType {
   id: string;
@@ -152,7 +167,14 @@ export default function App() {
               {/* Profile Routes */}
               <Route path="/profile" element={<MenteeProfile />} />
               <Route path="/profile/mentor" element={<MentorProfile />} />
+<<<<<<< HEAD
 
+=======
+              <Route path="/profile/mentee/:id" element={<ViewMenteeProfile />} />
+              <Route path="/profile/mentor/:id" element={<ViewMentorProfile />} />
+              <Route path="/complete-profile" element={<ProfileCompletion />} />
+              
+>>>>>>> e0c782591852abf580f82615b166e81be93fadca
               {/* Feature Routes */}
               <Route path="/call" element={<Call />} />
 
