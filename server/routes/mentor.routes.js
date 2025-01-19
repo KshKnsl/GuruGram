@@ -31,7 +31,8 @@ router.post("/login", async (req, res) => {
     res.status(404).send({message: "Mentor not found"});
 });
 
-router.put("/updateMentor", async (req, res) => {
+router.post("/updateMentor", async (req, res) => {
+  console.log("Updating mentor:", req.body);
   let result = await updateMentor(req.body);
   if (result.success) {
     res.status(201).send(result);

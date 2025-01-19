@@ -1,80 +1,91 @@
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../../context/AuthContext';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 export default function ProfileCompletion() {
-  const [step, setStep] = useState(1)
+  const [step, setStep] = useState(2);
   const [formData, setFormData] = useState({
-    name: '',
-    avatar: '',
-    location: '',
-    occupation: '',
-    education: '',
-    bio: '',
-    skills: [{ name: '', level: 0 }],
-    goals: [''],
-  })
-  const navigate = useNavigate()
-  const { user, updateProfile } = useAuth();
+    location: "",
+    occupation: "",
+    education: "",
+    bio: "",
+    skills: [{ name: "", level: 0 }],
+    goals: [""],
+  });
+  
+  const navigate = useNavigate();
+  useEffect(() => {
+    const userId = localStorage.getItem("_id");
+    if (!userId) {
+      navigate("/login");
+    }
+  }, []);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
-  }
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
-  const handleSkillChange = (index: number, field: 'name' | 'level', value: string | number) => {
-    const newSkills = [...formData.skills]
-    newSkills[index] = { ...newSkills[index], [field]: value }
-    setFormData({ ...formData, skills: newSkills })
-  }
+  const handleSkillChange = (
+    index: number,
+    field: "name" | "level",
+    value: string | number
+  ) => {
+    const newSkills = [...formData.skills];
+    newSkills[index] = { ...newSkills[index], [field]: value };
+    setFormData({ ...formData, skills: newSkills });
+  };
 
   const handleGoalChange = (index: number, value: string) => {
-    const newGoals = [...formData.goals]
-    newGoals[index] = value
-    setFormData({ ...formData, goals: newGoals })
-  }
+    const newGoals = [...formData.goals];
+    newGoals[index] = value;
+    setFormData({ ...formData, goals: newGoals });
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await updateProfile({ ...formData, profileCompleted: true });
-      navigate('/profile');
+      console.log("Submitting profile:", formData);
+      // alert("Profile submitted!");
+      const endpoint = `${
+        import.meta.env.VITE_BACKEND_URL
+      }/api/mentor/updateMentor`;
+
+      
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...formData, _id: userId }),
+      });
+      if (res.ok) {
+        const rest = await res.json();
+        console.log(rest);
+        navigate("/profile/mentor");
+      } else {
+        console.error("Failed to login with Google:", res);
+      }
     } catch (error) {
-      console.error('Error updating profile:', error);
+      console.error("Error updating profile:", error);
     }
-  }
+  };
 
   const renderStep = () => {
     switch (step) {
-      case 1:
+      case 2:
         return (
           <>
-            <h2 className="text-2xl font-bold mb-4">Basic Information</h2>
+            <h2 className="text-2xl font-bold mb-4">
+              Professional Information
+            </h2>
             <div className="space-y-4">
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                  required
-                />
-              </div>
-              <div>
-                <label htmlFor="avatar" className="block text-sm font-medium text-gray-700">Avatar URL</label>
-                <input
-                  type="text"
-                  id="avatar"
-                  name="avatar"
-                  value={formData.avatar}
-                  onChange={handleInputChange}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                />
-              </div>
-              <div>
-                <label htmlFor="location" className="block text-sm font-medium text-gray-700">Location</label>
+                <label
+                  htmlFor="location"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Location
+                </label>
                 <input
                   type="text"
                   id="location"
@@ -85,16 +96,13 @@ export default function ProfileCompletion() {
                   required
                 />
               </div>
-            </div>
-          </>
-        )
-      case 2:
-        return (
-          <>
-            <h2 className="text-2xl font-bold mb-4">Professional Information</h2>
-            <div className="space-y-4">
               <div>
-                <label htmlFor="occupation" className="block text-sm font-medium text-gray-700">Occupation</label>
+                <label
+                  htmlFor="occupation"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Occupation
+                </label>
                 <input
                   type="text"
                   id="occupation"
@@ -106,7 +114,12 @@ export default function ProfileCompletion() {
                 />
               </div>
               <div>
-                <label htmlFor="education" className="block text-sm font-medium text-gray-700">Education</label>
+                <label
+                  htmlFor="education"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Education
+                </label>
                 <input
                   type="text"
                   id="education"
@@ -118,7 +131,12 @@ export default function ProfileCompletion() {
                 />
               </div>
               <div>
-                <label htmlFor="bio" className="block text-sm font-medium text-gray-700">Bio</label>
+                <label
+                  htmlFor="bio"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Bio
+                </label>
                 <textarea
                   id="bio"
                   name="bio"
@@ -131,27 +149,37 @@ export default function ProfileCompletion() {
               </div>
             </div>
           </>
-        )
+        );
       case 3:
         return (
           <>
             <h2 className="text-2xl font-bold mb-4">Skills and Goals</h2>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700">Skills</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Skills
+                </label>
                 {formData.skills.map((skill, index) => (
                   <div key={index} className="flex space-x-2 mt-2">
                     <input
                       type="text"
                       value={skill.name}
-                      onChange={(e) => handleSkillChange(index, 'name', e.target.value)}
+                      onChange={(e) =>
+                        handleSkillChange(index, "name", e.target.value)
+                      }
                       placeholder="Skill name"
                       className="flex-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                     />
                     <input
                       type="number"
                       value={skill.level}
-                      onChange={(e) => handleSkillChange(index, 'level', parseInt(e.target.value))}
+                      onChange={(e) =>
+                        handleSkillChange(
+                          index,
+                          "level",
+                          parseInt(e.target.value)
+                        )
+                      }
                       placeholder="Level"
                       min="0"
                       max="100"
@@ -161,14 +189,21 @@ export default function ProfileCompletion() {
                 ))}
                 <button
                   type="button"
-                  onClick={() => setFormData({ ...formData, skills: [...formData.skills, { name: '', level: 0 }] })}
+                  onClick={() =>
+                    setFormData({
+                      ...formData,
+                      skills: [...formData.skills, { name: "", level: 0 }],
+                    })
+                  }
                   className="mt-2 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
                   Add Skill
                 </button>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Goals</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Goals
+                </label>
                 {formData.goals.map((goal, index) => (
                   <input
                     key={index}
@@ -181,7 +216,9 @@ export default function ProfileCompletion() {
                 ))}
                 <button
                   type="button"
-                  onClick={() => setFormData({ ...formData, goals: [...formData.goals, ''] })}
+                  onClick={() =>
+                    setFormData({ ...formData, goals: [...formData.goals, ""] })
+                  }
                   className="mt-2 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
                   Add Goal
@@ -189,11 +226,11 @@ export default function ProfileCompletion() {
               </div>
             </div>
           </>
-        )
+        );
       default:
-        return null
+        return null;
     }
-  }
+  };
 
   return (
     <div className="max-w-2xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-xl">
@@ -210,7 +247,7 @@ export default function ProfileCompletion() {
               Previous
             </button>
           )}
-          {step < 3 ? (
+          {step <= 3 ? (
             <button
               type="button"
               onClick={() => setStep(step + 1)}
@@ -229,6 +266,5 @@ export default function ProfileCompletion() {
         </div>
       </form>
     </div>
-  )
+  );
 }
-

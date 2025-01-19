@@ -65,7 +65,8 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     localStorage.setItem("role", role);
             
     setUser({ token, _id, email, role, profileCompleted: false });
-    navigate("/profile");
+    if(role === "mentor") navigate("/complete-profile");
+    else    navigate("/profile");
   };
 
   const logout = () => {

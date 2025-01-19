@@ -12,6 +12,7 @@ interface Badge {
   description: string
 }
 interface Article {
+  _id: any
   id: string
   title: string
   excerpt: string
@@ -147,9 +148,9 @@ export default function MentorProfile({
           <h2 className="text-lg font-semibold text-gray-800 mb-4">Published Articles</h2>
           <div className="space-y-4">
             {articles.map((article) => (
-              <div key={article.id} className="bg-gray-50 p-4 rounded-lg">
+              <div key={article._id} className="bg-gray-50 p-4 rounded-lg">
                 <h3 className="text-xl font-semibold mb-2">
-                  <Link to={`/articles/${article.id}`} className="text-blue-600 hover:underline">
+                  <Link to={`/articles/${article._id}`} className="text-blue-600 hover:underline">
                     {article.title}
                   </Link>
                 </h3>
@@ -169,7 +170,7 @@ export default function MentorProfile({
           className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
           onClick={() => alert('Request sent to mentor!')}
         >
-          Request Mentorship
+          Connect and chat
         </button>
       </div>
     </div>
