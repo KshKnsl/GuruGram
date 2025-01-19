@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useLocation } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { ThemeProvider } from './context/ThemeContext'
 import { AuthProvider } from './context/AuthContext'
@@ -125,6 +125,8 @@ export default function App() {
     )
   }
 
+  const location = useLocation()
+
   return (
     <AuthProvider>
       <ThemeProvider value={{ themeMode, darkTheme, lightTheme }}>
@@ -163,10 +165,9 @@ export default function App() {
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>
-          <Footer />
+          {location.pathname === '/' && <Footer />}
         </div>
       </ThemeProvider>
     </AuthProvider>
   )
 }
-
