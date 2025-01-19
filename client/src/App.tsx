@@ -7,6 +7,8 @@ import Home from './Pages/LandingPage/Home'
 import Login from './Pages/Login'
 import Signup from './Pages/Signup'
 import NotFound from './Pages/NotFound'
+import Call from './components/Call/Call'
+import './App.css'
 
 function App() {
   const [themeMode, setThemeMode] = useState('light')
@@ -23,14 +25,15 @@ function App() {
 
   return (
     <ThemeProvider value={{ themeMode, darkTheme, lightTheme }}>
-      <div className='h-full w-full'>
+      <div className='h-full w-full dark:bg-gray-900'>
         <Navbar />
-        <div className='mx-auto'>
+        <div className='px-auto'>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="*" element={<NotFound />} />
+            <Route path="/call" element={<Call/>} />
           </Routes>
         </div>
         <Footer />
