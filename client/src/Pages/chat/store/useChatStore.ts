@@ -13,6 +13,7 @@ interface Message {
 }
 
 interface User {
+  avatar: string;
   _id: string ;
   email: string; 
   profilePic: string;

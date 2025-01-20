@@ -13,8 +13,8 @@ const ChatContainer = () => {
     getMessages,
     isMessagesLoading,
     selectedUser,
-     subscribeToMessages,
-     unsubscribeFromMessages,
+    subscribeToMessages,
+    unsubscribeFromMessages,
   } = useChatStore();
   const { authUser } = useAuthStore();
   const messageEndRef = useRef<HTMLDivElement>(null);
@@ -40,7 +40,7 @@ const ChatContainer = () => {
 
   if (isMessagesLoading) {
     return (
-      <div className="flex-1 flex flex-col overflow-auto">
+      <div className="flex-1 flex flex-col overflow-auto bg-white dark:bg-gray-900 text-black dark:text-white">
         <ChatHeader />
         <MessageSkeleton />
         <MessageInput />
@@ -49,7 +49,7 @@ const ChatContainer = () => {
   }
 
   return (
-    <div className="flex-1 flex flex-col overflow-auto">
+    <div className="flex-1 flex flex-col overflow-auto bg-white dark:bg-gray-900 text-black dark:text-white">
       <ChatHeader />
 
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
@@ -59,24 +59,24 @@ const ChatContainer = () => {
             className={`chat ${message.senderId === authUser?._id ? "chat-end" : "chat-start"}`}
             ref={messageEndRef}
           >
-            <div className=" chat-image avatar">
-              <div className="size-10 rounded-full border">
+            <div className="chat-image avatar">
+              <div className="size-10 rounded-full border border-gray-300 dark:border-gray-700">
                 <img
                   src={
                     authUser && message.senderId === authUser._id
-                      ? authUser.profilePic || "/avatar.png"
-                      : selectedUser?.profilePic || "/avatar.png"
+                      ? authUser.avatar || "https://avatar.iran.liara.run/public/boy"
+                      : selectedUser?.avatar || "/avatar.png"
                   }
                   alt="profile pic"
                 />
               </div>
             </div>
             <div className="chat-header mb-1">
-              <time className="text-xs opacity-50 ml-1">
+              <time className="text-xs opacity-50 ml-1 text-gray-500 dark:text-gray-400">
                 {formatMessageTime(message.createdAt)}
               </time>
             </div>
-            <div className="chat-bubble flex flex-col">
+            <div className="chat-bubble flex flex-col bg-gray-100 dark:bg-gray-800 text-black dark:text-white">
               {message.image && (
                 <img
                   src={message.image}

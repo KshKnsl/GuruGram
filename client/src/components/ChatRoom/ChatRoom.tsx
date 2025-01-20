@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { Send, Phone, Video, MoreVertical, Paperclip, Smile } from 'lucide-react'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 interface Message {
   id: string
@@ -76,11 +76,11 @@ export default function ChatRoom({ mentorName, mentorAvatar }: ChatRoomProps) {
           <button className="p-2 rounded-full text-gray-600 hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-700 transition-colors">
             <Phone className="h-5 w-5" />
           </button>
-            <button className="p-2 rounded-full text-gray-600 hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-700 transition-colors">
+          <button className="p-2 rounded-full text-gray-600 hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-700 transition-colors">
             <Link to="/call">
               <Video className="h-5 w-5" />
             </Link>
-            </button>
+          </button>
           <button className="p-2 rounded-full text-gray-600 hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-700 transition-colors">
             <MoreVertical className="h-5 w-5" />
           </button>
@@ -103,7 +103,7 @@ export default function ChatRoom({ mentorName, mentorAvatar }: ChatRoomProps) {
                 } shadow-md`}
               >
                 <p className="text-sm">{message.content}</p>
-                <p className="text-xs mt-1 text-gray-300">
+                <p className="text-xs mt-1 text-gray-300 dark:text-gray-500">
                   {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                 </p>
               </div>

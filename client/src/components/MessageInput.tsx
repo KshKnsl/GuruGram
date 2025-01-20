@@ -36,7 +36,7 @@ const MessageInput = () => {
     try {
       await sendMessage({
         text: text.trim(),
-       // image: imagePreview,
+        // image: imagePreview,
       });
 
       // Clear form
@@ -49,18 +49,18 @@ const MessageInput = () => {
   };
 
   return (
-    <div className="p-4 w-full">
+    <div className="p-4 w-full text-black dark:text-white">
       {imagePreview && (
         <div className="mb-3 flex items-center gap-2">
           <div className="relative">
             <img
               src={imagePreview}
               alt="Preview"
-              className="w-20 h-20 object-cover rounded-lg border border-zinc-700"
+              className="w-20 h-20 object-cover rounded-lg border border-zinc-700 dark:border-zinc-300"
             />
             <button
               onClick={removeImage}
-              className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-base-300
+              className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-base-300 dark:bg-base-700
               flex items-center justify-center"
               type="button"
               title="Remove image"
@@ -75,7 +75,7 @@ const MessageInput = () => {
         <div className="flex-1 flex gap-2">
           <input
             type="text"
-            className="w-full input input-bordered rounded-lg input-sm sm:input-md"
+            className="w-full input input-bordered rounded-lg input-sm sm:input-md bg-gray-100 dark:bg-gray-800"
             placeholder="Type a message..."
             value={text}
             onChange={(e) => setText(e.target.value)}
@@ -91,8 +91,8 @@ const MessageInput = () => {
 
           <button
             type="button"
-            className={`hidden sm:flex btn btn-circle
-                     ${imagePreview ? "text-emerald-500" : "text-zinc-400"}`}
+            className={`hidden sm:flex btn btn-circle bg-slate-50 dark:bg-gray-700
+                     ${imagePreview ? "text-emerald-500" : "text-zinc-800 dark:text-zinc-300"}`}
             onClick={() => fileInputRef.current?.click()}
             title="Upload an image"
           >
@@ -101,7 +101,7 @@ const MessageInput = () => {
         </div>
         <button
           type="submit"
-          className="btn btn-sm btn-circle"
+          className="btn sm:flex btn-circle bg-emerald-500 text-white hover:bg-emerald-600 disabled:bg-gray-400  dark:bg-gray-700"
           disabled={!text.trim() && !imagePreview}
           title="Send message"
         >
