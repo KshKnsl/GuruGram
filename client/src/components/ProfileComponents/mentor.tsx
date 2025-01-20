@@ -12,7 +12,7 @@ export default function MentorPage() {
   
   useEffect(() => {
     if (menteeId) {
-      axios.get(`http://localhost:5000/api/mentor/${menteeId}`)
+      axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/mentor/${menteeId}`)
         .then(response => {
           setMentorData(response.data);
           console.log(response.data);

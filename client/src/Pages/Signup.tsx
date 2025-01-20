@@ -100,7 +100,7 @@ const SignUp: React.FC = () => {
     setIsLoading(true);
     const endpoint = role === 'mentee' ? 'api/mentee/addMentee' : 'api/mentor/addMentor';
     try {
-      const response = await fetch(`http://localhost:5000/${endpoint}`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/${endpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...userData, interests, role }),

@@ -66,7 +66,7 @@ export default function App() {
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/articles');
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/articles`);
         setArticles([...response.data]);
         console.log('Articles fetched:', response.data);
       } catch (error) {
@@ -79,7 +79,7 @@ export default function App() {
 
   const handleNewArticle = async (article: { title: string; content: string, author: string | null }) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/articles', article);
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/articles`, article);
       setArticles([...articles, response.data]);
       console.log('Article created:', response.data);
     } catch (error) {
@@ -92,7 +92,7 @@ export default function App() {
       console.log('Liking article:', id);
       const article = articles.find(article => article.id == id || article._id == id);
       if (article) {
-        await axios.put(`http://localhost:5000/api/articles/${id}`, { likes: article.likes + 1 });
+        await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/articles/${id}`, { likes: article.likes + 1 });
         console.log('Article liked successfully');
       } else {
         console.error('Article not found');
@@ -131,7 +131,7 @@ export default function App() {
               <Route path="/profile/mentor/:id" element={<ViewMentorProfile />} />
               
               {/* Feature Routes */}
-              <Route path="/call" element={<Call meetingNumber={'6943829690'} passWord={'4Yjz7F'} UserName={'Kush KAnsal'} />} />
+              <Route path="/call" element={<Call meetingNumber={'6943829690'} passWord={'4Yjz7F'} />} />
 
               {/* Article Routes */}
               <Route

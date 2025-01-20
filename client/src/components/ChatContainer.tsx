@@ -17,6 +17,7 @@ const ChatContainer = () => {
     unsubscribeFromMessages,
   } = useChatStore();
   const { authUser } = useAuthStore();
+  console.log(authUser,"Here");
   const messageEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

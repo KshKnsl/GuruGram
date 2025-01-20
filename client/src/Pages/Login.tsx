@@ -20,8 +20,8 @@ const Login: React.FC = () => {
     try {
       const endpoint =
         role === "mentee"
-          ? "http://localhost:5000/api/mentee/login"
-          : "http://localhost:5000/api/mentor/login";
+          ? `${import.meta.env.VITE_BACKEND_URL}/api/mentee/login`
+          : `${import.meta.env.VITE_BACKEND_URL}/api/mentor/login`;
 
       const response = await fetch(endpoint, {
         method: "POST",

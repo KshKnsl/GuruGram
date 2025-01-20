@@ -16,7 +16,7 @@ function Call({ meetingNumber, passWord}: CallProps) {
 
   useEffect(() => {
     if (menteeId) {
-      const endpoint = rolee === "mentor" ? `http://localhost:5000/api/mentor/${menteeId}` : `http://localhost:5000/api/mentee/${menteeId}`;
+      const endpoint = rolee === "mentor" ? `${import.meta.env.VITE_BACKEND_URL}/api/mentor/${menteeId}` : `${import.meta.env.VITE_BACKEND_URL}/api/mentee/${menteeId}`;
       
       axios
         .get(`${endpoint}`)
@@ -32,7 +32,7 @@ function Call({ meetingNumber, passWord}: CallProps) {
 
   ZoomMtg.preLoadWasm();
   ZoomMtg.prepareWebSDK();
-  const authEndpoint = "http://localhost:5000/generateSignature";
+  const authEndpoint = `${import.meta.env.VITE_BACKEND_URL}/generateSignature`;
   const sdkKey = "79Qt0lnLTCSLN8z8Q8vHWw";
   const role = 0;
   const userEmail = "";

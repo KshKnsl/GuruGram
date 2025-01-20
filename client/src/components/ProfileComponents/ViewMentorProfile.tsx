@@ -33,7 +33,7 @@ export default function ViewMentorProfile() {
   useEffect(() => {
     const fetchMentorData = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/mentor/${id}`)
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/mentor/${id}`)
         const data = await response.json()
         setMentorData(data)
       } catch (error) {
