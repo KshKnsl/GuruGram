@@ -53,8 +53,15 @@ const AllMentors: React.FC = () => {
   };
 
   const filteredMentors = mentors.filter(mentor => {
+    const searchLower = filters.search.toLowerCase();
     return (
-      mentor.name.toLowerCase().includes(filters.search.toLowerCase()) &&
+      (mentor.name.toLowerCase().includes(searchLower) ||
+      mentor.email.toLowerCase().includes(searchLower) ||
+      mentor.bio.toLowerCase().includes(searchLower) ||
+      mentor.location.toLowerCase().includes(searchLower) ||
+      mentor.occupation.toLowerCase().includes(searchLower) ||
+      mentor.education.toLowerCase().includes(searchLower) ||
+      mentor.specialties.some(specialty => specialty.toLowerCase().includes(searchLower))) &&
       (filters.specialty === '' || mentor.specialties.includes(filters.specialty)) &&
       (filters.location === '' || mentor.location.includes(filters.location))
     );
@@ -130,10 +137,9 @@ const AllMentors: React.FC = () => {
             className="w-full sm:w-1/2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white  bg-gray-100"
           >
             <option value="">All Specialties</option>
-            <option value="AI/ML">AI/ML</option>
-            <option value="Big Data">Big Data</option>
-            <option value="Cloud Architecture">Cloud Architecture</option>
-            <option value="Tech Leadership">Tech Leadership</option>
+            {[...new Set(mentors.flatMap(mentor => mentor.specialties))].map((specialty, index) => (
+              <option key={index} value={specialty}>{specialty}</option>
+            ))}
           </select>
           <select
             name="location"
@@ -142,10 +148,9 @@ const AllMentors: React.FC = () => {
             className="w-full sm:w-1/2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white bg-gray-100"
           >
             <option value="">All Locations</option>
-            <option value="New York, NY">New York, NY</option>
-            <option value="San Francisco, CA">San Francisco, CA</option>
-            <option value="London, UK">London, UK</option>
-            <option value="Berlin, Germany">Berlin, Germany</option>
+            {[...new Set(mentors.map(mentor => mentor.location))].map((location, index) => (
+              <option key={index} value={location}>{location}</option>
+            ))}
           </select>
         </div>
       </div>
@@ -164,4 +169,3 @@ const AllMentors: React.FC = () => {
 };
 
 export default AllMentors;
-

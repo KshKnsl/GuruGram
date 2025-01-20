@@ -25,9 +25,7 @@ const texts = [
   "UI/UX Design",
   "Finance",
   "Healthcare",
-  "Education",
-  "Art",
-  "Music",
+  "Education"
 ];
 const cardData = [
   {
@@ -216,9 +214,6 @@ function Home() {
     return () => clearInterval(interval);
   }, []);
 
-  const handleClick = (text: string) => {
-    alert(`Card for ${text} clicked!`);
-  };
   return (
     <div className="bg-gray-100 dark:bg-gray-900 min-h-screen">
       <section className="bg-gradient-to-r from-blue-500 to-purple-600 text-white py-12=== md:py-20">
@@ -258,9 +253,7 @@ function Home() {
                       name={data.name}
                       description={data.description}
                       domainStatement={data.domainStatement}
-                      image={data.image}
-                      onClick={() => handleClick(data.name)}
-                    />
+                      image={data.image}     />
                   </div>
                 ))}
               </div>
@@ -430,7 +423,6 @@ function Home() {
               <button
                 key={index}
                 className={`${category.color} font-semibold py-3 px-4  md:px-14 rounded-lg shadow transition duration-300 flex items-center justify-center hover:opacity-80`}
-                onClick={() => handleClick(category.name)}
               >
                 <span className="mr-2">{category.emoji}</span>
                 {category.name}

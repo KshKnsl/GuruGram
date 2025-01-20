@@ -61,7 +61,6 @@ const ArticleEditor: React.FC<ArticleEditorProps> = ({ onSubmit }) => {
         navigate("/articles", { state: { message: "Article published successfully!" } })
       } catch (error) {
         console.error("Error publishing article:", error)
-        alert("Failed to publish article. Please try again.")
       } finally {
         setIsPublishing(false)
       }
