@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import toast from "react-hot-toast";
-import { axiosInstance } from "../axios";
 import { useAuthStore } from "./useAuthStore";
+import axios from "axios";
 
 interface Message {
   _id: string;
@@ -48,22 +48,24 @@ export const useChatStore = create<ChatStore>((set, get) => ({
       const loggedInUserId = localStorage.getItem("_id");
       const role = localStorage.getItem("role");
       if (loggedInUserId && role) {
-      const res = await axiosInstance.post("/messages/users", {
-        headers: {
-        "Content-Type": "application/json",
-        "id": loggedInUserId,
-        "role": role,
-        },
-        data: {
-        id: loggedInUserId,
-        role: role,
-        },
-        withCredentials: true,
-      });
+        const res = await axios.post(
+          `${import.meta.env.VITE_BACKEND_URL}/api/messages/users`,
+          {
+            id: loggedInUserId,
+            role: role,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "id": loggedInUserId,
+              "role": role,
+            },
+          }
+        );
       
-      set({ users: res.data });
+        set({ users: res.data });
       } else {
-      console.error("User ID or role is missing from localStorage");
+        console.error("User ID or role is missing from localStorage");
       }
     } catch (error) {
       toast.error("An unexpected error occurred.");
@@ -77,11 +79,13 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     try {
       const loggedInUserId = localStorage.getItem("_id");
       const role = localStorage.getItem("role");
-      console.log(userId,loggedInUserId)
+      console.log(userId, loggedInUserId)
       if (loggedInUserId && role) {
-        const res = await axiosInstance({
-          url: `/messages/${userId}`,
-          method: "GET",
+        const backendUrl = import.meta.env.VITE_BACKEND_URL;
+        if (!backendUrl) {
+          throw new Error("Backend URL is not defined");
+        }
+        const res = await axios.get(`${backendUrl}/api/messages/${userId}`, {
           headers: {
             "Content-Type": "application/json",
             "id": loggedInUserId,
@@ -109,16 +113,17 @@ export const useChatStore = create<ChatStore>((set, get) => ({
       const role = localStorage.getItem("role");
 
       if (loggedInUserId && role) {
-        const res = await axiosInstance({
-          url: `/messages/send/${selectedUser._id}`,
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "id": loggedInUserId,
-            "role": role,
-          },
-          data: messageData,
-        });
+        const res = await axios.post(
+          `${import.meta.env.VITE_BACKEND_URL}/api/messages/send/${selectedUser._id}`,
+          messageData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "id": loggedInUserId,
+              "role": role,
+            },
+          }
+        );
         set({ messages: [...messages, res.data] });
       } else {
         console.error("User ID or role is missing from localStorage");
