@@ -1,4 +1,3 @@
-import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import MenteeProfileHeader from './MenteeProfileHeader';
 import MenteeSkills from './MenteeSkills';

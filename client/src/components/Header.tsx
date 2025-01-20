@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useContext } from 'react'
-import { Menu, X, Home, Users, Calendar, BookOpen, Info, User, LogIn, LogOut, UserPlus, Edit3 } from 'lucide-react'
+import { Menu, X, Users, BookOpen, User, LogIn, LogOut, UserPlus, Edit3 } from 'lucide-react'
 import { Link, useLocation } from 'react-router-dom'
 import Logo from '../assets/Logo.gif'
 import ThemeBtn from './ui/ThemeBtn'

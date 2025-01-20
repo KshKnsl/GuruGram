@@ -13,7 +13,7 @@ const Login: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
-  const { connectSocket, disconnectSocket } = useAuthStore(); // Destructure connectSocket and disconnectSocket
+  const { connectSocket } = useAuthStore(); // Destructure connectSocket and disconnectSocket
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
