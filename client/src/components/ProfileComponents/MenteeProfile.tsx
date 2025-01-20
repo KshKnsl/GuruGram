@@ -33,8 +33,8 @@ function MenteeProfile() {
         </Col>
         <Col md={8}>
           <MenteeSkills skills={mentee.skills} />
-          <MenteeGoals goals={mentee.goals} className="mt-4" />
-          <MentorInfo mentor={mentee.mentor} className="mt-4" />
+          <MenteeGoals goals={mentee.goals} />
+          <MentorInfo mentor={mentee.mentor} />
         </Col>
       </Row>
     </Container>

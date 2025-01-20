@@ -25,7 +25,7 @@ async function createMentor(data) {
       education: data.education,
       skills: data.skills,
       specialties: data.specialties,
-      ranking: data.ranking,
+      rating: 4.9,
       totalMentees: data.totalMentees,
     });
 
@@ -66,6 +66,24 @@ async function updateMentor(data)
   catch (error) 
   {
     return { success: false, message: `Error while updating mentor ${error}` };
+  }
+}
+async function updateRating(data) {
+  console.log("Received data for updating rating:", data);
+  try {
+    const mentor = await Mentor.findById(data._id);
+    if (!mentor) {
+      console.log("Mentor not found");
+      return { success: false, message: "Mentor not found" };
+    }
+
+    mentor.rating = (mentor.rating+data.rating)/ 2;
+    await mentor.save();
+    console.log("Mentor rating updated successfully:", mentor);
+    return { success: true, message: "Mentor rating updated successfully" };
+  } catch (error) {
+    console.log("Error while updating mentor rating:", error);
+    return { success: false, message: `Error while updating mentor rating ${error}` };
   }
 }
 
@@ -152,4 +170,4 @@ async function insertBulk(data)
   }
   return results;
 }
-export { createMentor, findMentor, updateMentor, loginMentor, googleLogin, findMentorByEmail, insertBulk };
+export { createMentor, findMentor, updateMentor, loginMentor, googleLogin, findMentorByEmail, insertBulk, updateRating };

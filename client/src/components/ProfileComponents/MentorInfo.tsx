@@ -1,7 +1,15 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
 
-function MentorInfo({ mentor }) {
+interface Mentor {
+  name: string;
+  position: string;
+  company: string;
+  bio: string;
+  email: string;
+}
+
+function MentorInfo({ mentor }: { mentor: Mentor }) {
   return (
     <Card className="bg-dark text-light">
       <Card.Body>

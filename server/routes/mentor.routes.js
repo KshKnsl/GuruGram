@@ -2,7 +2,7 @@ import express from "express";
 import { OAuth2Client } from "google-auth-library";
 import { upload } from "../middlewares/multer.js";
 import uploadImage from "../utils/uploadImage.js";
-import { createMentor, findMentor, updateMentor, loginMentor, googleLogin, findMentorByEmail, insertBulk } from "../controllers/mentor.controllers.js";
+import { createMentor, findMentor, updateMentor, loginMentor, googleLogin, findMentorByEmail, insertBulk, updateRating } from "../controllers/mentor.controllers.js";
 import Mentor from "../models/Mentor.model.js";
 
 const router = express.Router();
@@ -34,6 +34,15 @@ router.post("/login", async (req, res) => {
 router.post("/updateMentor", async (req, res) => {
   console.log("Updating mentor:", req.body);
   let result = await updateMentor(req.body);
+  if (result.success) {
+    res.status(201).send(result);
+  } else {
+    res.status(400).send(result);
+  }
+});
+router.post("/updateRating", async (req, res) => {
+  console.log("Updating rating:", req.body);
+  let result = await updateRating(req.body);
   if (result.success) {
     res.status(201).send(result);
   } else {
