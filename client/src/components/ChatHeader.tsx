@@ -2,8 +2,6 @@ import { X } from "lucide-react";
 import { useAuthStore } from "../Pages/chat/store/useAuthStore";
 import { useChatStore } from "../Pages/chat/store/useChatStore";
 import { Link } from "react-router-dom";
-import { useState } from "react";
-import axios from "axios";
 // import ReactStars from "react-rating-stars-component";
 
 // const RatingStars = ({ rating, setRating }: { rating: number; setRating: (rating: number) => void }) => {
