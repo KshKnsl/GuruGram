@@ -12,7 +12,7 @@ const NavbarLinks = ({ onClick }: { onClick: () => void }) => {
     { to: '/sessions', label: 'Sessions', icon: Calendar },
     { to: '/articles/new', label: 'Write Article', icon: Edit3 },
     { to: '/articles', label: 'Articles', icon: BookOpen },
-    { to: '/mentor-chat', label: 'Chat', icon: Users },
+    { to: '/chat', label: 'Chat', icon: Users },
   ]
 
   return (
