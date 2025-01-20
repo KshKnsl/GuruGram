@@ -7,7 +7,7 @@ import { getReceiverSocketId, io } from "../middlewares/socket.js";
 // Fetch users excluding the logged-in user
 export const getUsersForSidebar = async (req, res) => {
   try {
-    console.log(req);
+    console.log(req.headers);
     const loggedInUserId = req.headers["id"];
     const role = req.headers["role"];
     if (!loggedInUserId || !role) {

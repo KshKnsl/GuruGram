@@ -48,23 +48,22 @@ export const useChatStore = create<ChatStore>((set, get) => ({
       const loggedInUserId = localStorage.getItem("_id");
       const role = localStorage.getItem("role");
       if (loggedInUserId && role) {
-        const res = await axiosInstance.get("/messages/users", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            "id": loggedInUserId,
-            "role": role,
-          },
-          data: {
-            id: loggedInUserId,
-            role: role,
-          },
-          withCredentials: true,
-        });
-        
+      const res = await axiosInstance.post("/messages/users", {
+        headers: {
+        "Content-Type": "application/json",
+        "id": loggedInUserId,
+        "role": role,
+        },
+        data: {
+        id: loggedInUserId,
+        role: role,
+        },
+        withCredentials: true,
+      });
+      
       set({ users: res.data });
       } else {
-        console.error("User ID or role is missing from localStorage");
+      console.error("User ID or role is missing from localStorage");
       }
     } catch (error) {
       toast.error("An unexpected error occurred.");
