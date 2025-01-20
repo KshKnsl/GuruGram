@@ -12,7 +12,7 @@ import Footer from "./components/Footer";
 // Page Components
 import Home from "./Pages/LandingPage/Home";
 import Login from "./Pages/Login";
-import SignUp from "./Pages/SignUp";
+import SignUp from "./Pages/Signup";
 import NotFound from "./Pages/NotFound";
 import Call from "./components/Call/Call";
 import MentorChatPage from "./Pages/MentorChat";
@@ -30,6 +30,7 @@ import ViewMenteeProfile from './components/ProfileComponents/ViewMenteeProfile'
 import ViewMentorProfile from './components/ProfileComponents/ViewMentorProfile'
 import axios from 'axios'
 import AllMentors from './Pages/AllMentors'
+import ChatPage from './Pages/chat/ChatPage'
 
 interface ArticleType {
   _id?: string
@@ -137,10 +138,10 @@ export default function App() {
                 path="/articles/new"
                 element={<ArticleEditor onSubmit={handleNewArticle} />}
               />
-              <Route
+              {/* <Route
                 path="/articles/:id"
                 element={<Article articles={articles} />}
-              />
+              /> */}
               <Route
                 path="/articles"
                 element={
@@ -150,7 +151,7 @@ export default function App() {
               
               <Route path="/complete-profile" element={<CompleteProfile />} />
               <Route path="/profile-completion" element={<ProfileCompletion />} />
-
+              <Route path='/chat' element={<ChatPage />} />
               {/* 404 Route */}
               <Route path="*" element={<NotFound />} />
             </Routes>

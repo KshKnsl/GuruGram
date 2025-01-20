@@ -1,13 +1,27 @@
-import dummyUsers from "../models/user.model.js"; // Assuming you have the dummy users data
-import Message from "../models/message.model.js"; // Array to store messages in memory
+import Mentor from "../models/Mentor.model.js";
+import Mentee from "../models/Mentee.model.js";
+import Message from "../models/message.model.js";
 import { getReceiverSocketId, io } from "../middlewares/socket.js";
 //import cloudinary from "../lib/cloudinary";
 
 // Fetch users excluding the logged-in user
 export const getUsersForSidebar = async (req, res) => {
   try {
-    const loggedInUserId = req.user._id;
-    const filteredUsers = await dummyUsers.find({ _id: { $ne: loggedInUserId } }).select("-password");
+    const loggedInUserId = req.headers["id"];
+    const role = req.headers["role"];
+    if (!loggedInUserId || !role) {
+      console.log("Missing user ID or role in the request");
+      return res.status(400).json({ error: "Missing user ID or role in the request" });
+    }
+    let filteredUsers;
+
+    if (role === "mentor") {
+      filteredUsers = await Mentee.find({ _id: { $ne: loggedInUserId } }).select("-password");
+    } else if (role === "mentee") {
+      filteredUsers = await Mentor.find({ _id: { $ne: loggedInUserId } }).select("-password");
+    } else {
+      return res.status(400).json({ message: "Invalid role" });
+    }
 
     res.status(200).json(filteredUsers);
   } catch (error) {

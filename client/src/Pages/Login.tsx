@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { AuthContext } from "../context/AuthContext.tsx";
 import { GoogleLogin } from "@react-oauth/google";
+import { useAuthStore } from "./chat/store/useAuthStore.ts"; // Import useAuthStore
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -12,6 +13,7 @@ const Login: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
+  const { connectSocket, disconnectSocket } = useAuthStore(); // Destructure connectSocket and disconnectSocket
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,6 +36,7 @@ const Login: React.FC = () => {
         console.log(mentee);
         
         login(token, mentee._id, mentee.email, role);
+        connectSocket(); // Connect socket after successful login
 
         console.log(role);
         if (role == "mentor") {
@@ -71,6 +74,7 @@ const Login: React.FC = () => {
         } else {
           login(token, rest.mentor._id, rest.mentor.email, role);
         }
+        connectSocket(); // Connect socket after successful Google login
         toast.success("Google login successful!", {
           position: "top-right",
           autoClose: 4000,
