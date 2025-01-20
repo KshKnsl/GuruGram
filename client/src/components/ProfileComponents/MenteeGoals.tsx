@@ -1,7 +1,11 @@
 import React from 'react';
 import { ListGroup } from 'react-bootstrap';
 
-function MenteeGoals({ goals }) {
+interface MenteeGoalsProps {
+  goals: string[];
+}
+
+function MenteeGoals({ goals }: MenteeGoalsProps) {
   return (
     <ListGroup className="bg-dark text-light">
       <ListGroup.Item className="bg-dark text-light" active>

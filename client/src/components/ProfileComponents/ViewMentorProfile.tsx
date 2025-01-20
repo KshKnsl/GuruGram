@@ -21,7 +21,7 @@ interface MentorProfileProps {
   bio: string
   skills: Skill[]
   specialties: string[]
-  ranking: number
+  rating: number
   totalMentees: number
   badges: Badge[]
 }
@@ -79,7 +79,7 @@ export default function ViewMentorProfile() {
           <div className="flex flex-col items-center sm:items-end gap-2">
             <div className="flex items-center gap-1 text-yellow-500">
               <StarIcon className="w-5 h-5" />
-              <span className="font-bold">{mentorData.ranking.toFixed(1)}</span>
+              <span className="font-bold">{mentorData.rating.toFixed(1)}</span>
             </div>
             <span className="text-sm text-gray-600">{mentorData.totalMentees} mentees</span>
           </div>
