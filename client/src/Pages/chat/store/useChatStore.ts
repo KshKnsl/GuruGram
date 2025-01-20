@@ -47,7 +47,6 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     try {
       const loggedInUserId = localStorage.getItem("_id");
       const role = localStorage.getItem("role");
-
       if (loggedInUserId && role) {
         const res = await axiosInstance.get("/messages/users", {
           method: "GET",
@@ -56,6 +55,11 @@ export const useChatStore = create<ChatStore>((set, get) => ({
             "id": loggedInUserId,
             "role": role,
           },
+          data: {
+            id: loggedInUserId,
+            role: role,
+          },
+          withCredentials: true,
         });
         
       set({ users: res.data });

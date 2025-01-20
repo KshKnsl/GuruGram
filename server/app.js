@@ -1,7 +1,6 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import http from "http";
 import { connect } from "./db/Connect.js";
 import mentorRoutes from "./routes/mentor.routes.js";
 import menteeRoutes from "./routes/mentee.routes.js";
