@@ -6,6 +6,7 @@ import { io, Socket } from "socket.io-client";
 const BASE_URL =  "http://localhost:5000";
 
 interface AuthUser {
+  avatar: string;
   _id: string;
   email: string;
   profilePic: string;

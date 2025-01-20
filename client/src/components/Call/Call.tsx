@@ -1,20 +1,40 @@
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import "./call.css";
 import { ZoomMtg } from "@zoom/meetingsdk";
 
 interface CallProps {
   meetingNumber: string;
   passWord: string;
-  UserName: string;
 }
 
-function Call({ meetingNumber, passWord, UserName }: CallProps) 
-{
+function Call({ meetingNumber, passWord}: CallProps) {
+  const [userName, setUserName] = useState("");
+
+  const menteeId = localStorage.getItem("_id");
+  const rolee = localStorage.getItem("role");
+
+  useEffect(() => {
+    if (menteeId) {
+      const endpoint = rolee === "mentor" ? `http://localhost:5000/api/mentor/${menteeId}` : `http://localhost:5000/api/mentee/${menteeId}`;
+      
+      axios
+        .get(`${endpoint}`)
+        .then((response) => {
+          setUserName(response.data.name);
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.error("There was an error fetching the mentee data!", error);
+        });
+    }
+  }, [menteeId]);
+
   ZoomMtg.preLoadWasm();
   ZoomMtg.prepareWebSDK();
   const authEndpoint = "http://localhost:5000/generateSignature";
   const sdkKey = "79Qt0lnLTCSLN8z8Q8vHWw";
   const role = 0;
-  const userName = UserName;
   const userEmail = "";
   const registrantToken = "";
   const zakToken = "";
@@ -72,11 +92,11 @@ function Call({ meetingNumber, passWord, UserName }: CallProps)
   }
 
   return (
-    <div className="pt-20 container  flex flex-col items-center justify-center dark:bg-gray-900 w-screen">
+    <div className="pt-20 container flex flex-col items-center justify-center dark:bg-gray-900 w-screen">
       <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg text-center">
         <h1 className="text-2xl font-bold mb-4">Zoom Meeting</h1>
-        <button 
-          onClick={getSignature} 
+        <button
+          onClick={getSignature}
           className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-300 dark:bg-blue-700 dark:hover:bg-blue-900"
         >
           Join Meeting
