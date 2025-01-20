@@ -21,7 +21,7 @@ const NavbarLinks = ({ onClick }: { onClick: () => void }) => {
         <Link
           key={link.to}
           to={link.to}
-          className={`text-gray-800 dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-300 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300 flex items-center ${location.pathname === link.to ? 'bg-blue-200 dark:bg-blue-200 text-red-600' : ''}`}
+          className={`text-gray-800 dark:text-gray-200 hover:text-blue-500  px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300 flex items-center ${location.pathname === link.to ? 'bg-blue-200 dark:bg-blue-200 text-red-600 dark:text-red-600' : ''}`}
           onClick={onClick}
         >
           <link.icon className="mr-2 h-4 w-4" />
