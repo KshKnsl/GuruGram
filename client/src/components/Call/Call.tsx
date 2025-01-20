@@ -38,7 +38,7 @@ function Call({ meetingNumber, passWord}: CallProps) {
   const userEmail = "";
   const registrantToken = "";
   const zakToken = "";
-  const leaveUrl = "http://localhost:5173";
+  const leaveUrl = "gurugramm.vercel.app";
 
   const getSignature = async () => {
     try {
