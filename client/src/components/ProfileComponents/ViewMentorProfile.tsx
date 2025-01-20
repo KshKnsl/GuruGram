@@ -81,7 +81,7 @@ export default function ViewMentorProfile() {
               <StarIcon className="w-5 h-5" />
               <span className="font-bold">{mentorData.rating.toFixed(1)}</span>
             </div>
-            <span className="text-sm text-gray-600">{mentorData.totalMentees} mentees</span>
+           
           </div>
         </div>
 

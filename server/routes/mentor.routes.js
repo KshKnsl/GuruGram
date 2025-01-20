@@ -2,8 +2,9 @@ import express from "express";
 import { OAuth2Client } from "google-auth-library";
 import { upload } from "../middlewares/multer.js";
 import uploadImage from "../utils/uploadImage.js";
-import { createMentor, findMentor, updateMentor, loginMentor, googleLogin, findMentorByEmail, insertBulk, updateRating } from "../controllers/mentor.controllers.js";
+import { createMentor,getMentorDetails, findMentor, updateMentor, loginMentor, googleLogin, findMentorByEmail, insertBulk, updateRating } from "../controllers/mentor.controllers.js";
 import Mentor from "../models/Mentor.model.js";
+
 
 const router = express.Router();
 
@@ -104,5 +105,9 @@ router.get("/", async (req, res) => {
   const mentors = await Mentor.find({});
   res.send(mentors);
 });
+
+
+router.get('/:id/details', getMentorDetails);
+
 
 export default router;

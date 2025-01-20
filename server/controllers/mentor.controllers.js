@@ -170,4 +170,24 @@ async function insertBulk(data)
   }
   return results;
 }
-export { createMentor, findMentor, updateMentor, loginMentor, googleLogin, findMentorByEmail, insertBulk, updateRating };
+
+ async function getMentorDetails(req, res){
+  try {
+    const mentorId = req.params.id;
+    const mentor = await Mentor.findById(mentorId).populate('articles').populate('skills').populate('specialties');
+
+    if (!mentor) {
+      return res.status(404).json({ message: 'Mentor not found' });
+    }
+
+    const articlesCount = mentor.articles.length;
+    const skillsCount = mentor.skills.length;
+    const specialtiesCount = mentor.specialties.length;
+
+    res.json({ articlesCount, skillsCount, specialtiesCount });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+export { createMentor,getMentorDetails, findMentor, updateMentor, loginMentor, googleLogin, findMentorByEmail, insertBulk, updateRating };
