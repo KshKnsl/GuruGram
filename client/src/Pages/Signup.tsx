@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { AuthContext } from "../context/AuthContext";
 import { GoogleLogin } from "@react-oauth/google";
 import { INTERESTS } from "../constants";
+import { useAuthStore } from "./chat/store/useAuthStore.ts"; // Import useAuthStore
 
 interface Skill {
   name: string;
@@ -57,6 +58,7 @@ const SignUp: React.FC = () => {
 
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
+  const { connectSocket } = useAuthStore(); // Destructure connectSocket
 
   useEffect(() => {
     setFilteredInterests(
@@ -107,6 +109,7 @@ const SignUp: React.FC = () => {
       console.log(result);
       if (response.ok) {
         toast.success('Account created successfully!');
+        connectSocket(); // Connect socket after successful signup
         setTimeout(() => {
             if (role === 'mentee') {
             navigate('/login');
