@@ -5,14 +5,12 @@ interface CardProps {
   description: string;
   domainStatement: string;
   image: string;
-  onClick: () => void;
 }
 
-const Card: React.FC<CardProps> = ({ name, description, domainStatement, image, onClick }) => {
+const Card: React.FC<CardProps> = ({ name, description, domainStatement, image }) => {
   return (
     <div 
       className="w-full max-w-md mx-auto bg-gradient-to-br from-orange-500 to-yellow-600 rounded-xl shadow-2xl overflow-hidden transform transition-all duration-300 ease-in-out hover:scale-105 cursor-pointer"
-      onClick={onClick}
     >
       <div className="md:flex">
         <div className="md:flex-shrink-0 flex items-center justify-center px-4 py-2 rounded-lg">
