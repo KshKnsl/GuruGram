@@ -12,7 +12,7 @@ const MentorName: React.FC<MentorNameProps> = ({ id }) => {
     useEffect(() => {
         const fetchMentorDetails = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/api/mentor/${id}`);
+                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/mentor/${id}`);
                 setMentorName(response.data.name);
             } catch (error) {
                 console.error('Error fetching mentor details:', error);

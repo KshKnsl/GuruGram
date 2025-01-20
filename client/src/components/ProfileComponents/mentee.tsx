@@ -17,7 +17,7 @@ export default function MenteePage() {
 
   useEffect(() => {
     if (menteeId) {
-      axios.get(`http://localhost:5000/api/mentee/${menteeId}`)
+      axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/mentee/${menteeId}`)
         .then(response => {
           setMenteeData(response.data);
           console.log(response.data);

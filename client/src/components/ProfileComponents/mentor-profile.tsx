@@ -55,7 +55,7 @@ export default function MentorProfile({
   const id  = localStorage.getItem('_id');
   useEffect(() => {
       try{
-      axios.get(`http://localhost:5000/api/mentor/${id}`)
+      axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/mentor/${id}`)
       .then(response => {
         console.log(response.data);
         const { readArticles, skills, specialties } = response.data;

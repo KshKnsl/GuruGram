@@ -16,7 +16,7 @@ const Article = () => {
   useEffect(() => {
     const fetchArticle = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/articles/${id}`);
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/articles/${id}`);
         setArticle(response.data);
       } catch (error) {
         console.error('Error fetching article:', error);
@@ -31,7 +31,7 @@ const Article = () => {
   const handleAddComment = async (content: string) => {
     const userId = localStorage.getItem('email');
     try {
-      const response = await axios.post(`http://localhost:5000/api/articles/${id}/comments`, { content, userId });
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/articles/${id}/comments`, { content, userId });
       setArticle({ ...article, comments: [...article.comments, response.data] });
     } catch (error) {
       console.error('Error adding comment:', error);
