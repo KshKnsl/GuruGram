@@ -33,9 +33,17 @@ export const getUsersForSidebar = async (req, res) => {
 // Fetch messages between the logged-in user and another user
 export const getMessages = async (req, res) => {
   try {
-    const { id: userToChatId } = req.params;
-    const myId = req.user._id;
-
+    console.log("getMessages controller");
+    const loggedInUserId = req.headers["id"];
+    const role = req.headers["role"];
+    if (!loggedInUserId || !role) {
+      console.log("Missing user ID or role in the request");
+      return res.status(400).json({ error: "Missing user ID or role in the request" });
+    }
+    const userToChatId = req.params.id; 
+    const myId = loggedInUserId;
+    
+console.log("myId", myId, "userToChatId", userToChatId);
     const messages = await Message.find({
       $or: [
         { senderId: myId, receiverId: userToChatId },
@@ -55,8 +63,15 @@ export const sendMessage = async (req, res) => {
   try {
     const { text, image } = req.body;
     const { id: receiverId } = req.params;
-    const senderId = req.user._id;
+    const loggedInUserId = req.headers["id"];
+    const role = req.headers["role"];
 
+    if (!loggedInUserId || !role) {
+      console.log("Missing user ID or role in the request");
+      return res.status(400).json({ error: "Missing user ID or role in the request" });
+    }
+
+    console.log("sendMessage controller", receiverId, loggedInUserId, text);
     let imageUrl;
     if (image) {
       // Upload base64 image to cloudinary
@@ -66,7 +81,7 @@ export const sendMessage = async (req, res) => {
     }
 
     const newMessage = new Message({
-      senderId,
+      senderId: loggedInUserId,
       receiverId,
       text,
       image: imageUrl,

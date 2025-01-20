@@ -94,7 +94,7 @@ const Navbar = () => {
             <button
               className="bg-gray-100 px-2 py-2 rounded-md text-sm font-medium transition-colors duration-300 bg-transparent"
               onClick={toggleMenu}
-              aria-expanded={isOpen}
+              aria-expanded={isOpen ? 'true' : 'false'}
               aria-label="Toggle menu"
             >
               <span className="sr-only">Open main menu</span>
