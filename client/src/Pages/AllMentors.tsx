@@ -35,7 +35,7 @@ const AllMentors: React.FC = () => {
   useEffect(() => {
     const fetchMentors = async () => {
       try {
-        const response = await axios.get<Mentor[]>(`${import.meta.env.VITE_BACKEND_URL}/api/mentor/');
+        const response = await axios.get<Mentor[]>(`${import.meta.env.VITE_BACKEND_URL}/api/mentor/`);
         setMentors(response.data);
         setLoading(false);
       } catch (err) {
