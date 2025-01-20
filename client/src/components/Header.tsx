@@ -21,7 +21,7 @@ const NavbarLinks = ({ onClick }: { onClick: () => void }) => {
         <Link
           key={link.to}
           to={link.to}
-          className={`text-gray-800 dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-300 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300 flex items-center ${location.pathname === link.to ? 'bg-blue-200 dark:bg-blue-200 text-red-600' : ''}`}
+          className={`text-gray-800 dark:text-gray-200 hover:text-blue-500  px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300 flex items-center ${location.pathname === link.to ? 'bg-blue-200 dark:bg-blue-200 text-red-600 dark:text-red-600' : ''}`}
           onClick={onClick}
         >
           <link.icon className="mr-2 h-4 w-4" />
@@ -49,7 +49,7 @@ const Navbar = () => {
 
   const toggleMenu = useCallback(() => setIsOpen((prev) => !prev), [])
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-white dark:bg-gray-900' : 'bg-white dark:text-white'} `}>
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-white dark:bg-gray-900' : 'bg-white dark:text-white dark:bg-black'} `}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
