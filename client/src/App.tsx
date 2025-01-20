@@ -131,7 +131,7 @@ export default function App() {
               <Route path="/profile/mentor/:id" element={<ViewMentorProfile />} />
               
               {/* Feature Routes */}
-              <Route path="/call" element={<Call />} />
+              <Route path="/call" element={<Call meetingNumber={'6943829690'} passWord={'4Yjz7F'} UserName={'Kush KAnsal'} />} />
 
               {/* Article Routes */}
               <Route
