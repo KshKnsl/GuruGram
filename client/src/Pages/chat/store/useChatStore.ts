@@ -71,12 +71,27 @@ export const useChatStore = create<ChatStore>((set, get) => ({
   getMessages: async (userId: string) => {
     set({ isMessagesLoading: true });
     try {
-        
-      const res = await axiosInstance.get(`/messages/${userId}`);
-      set({ messages: res.data });
-    
+      const loggedInUserId = localStorage.getItem("_id");
+      const role = localStorage.getItem("role");
+      console.log(userId,loggedInUserId)
+      if (loggedInUserId && role) {
+        const res = await axiosInstance({
+          url: `/messages/${userId}`,
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "id": loggedInUserId,
+            "role": role,
+          },
+        });
+       
+        console.log(res.data)
+        set({ messages: res.data });
+      } else {
+        console.error("User ID or role is missing from localStorage");
+      }
     } catch (error) {
-        toast.error("An unexpected error occurred.");
+      toast.error("An unexpected error occurred.");
     } finally {
       set({ isMessagesLoading: false });
     }
@@ -86,10 +101,26 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     const { selectedUser, messages } = get();
     if (!selectedUser) return;
     try {
-      const res = await axiosInstance.post(`/messages/send/${selectedUser._id}`, messageData);
-      set({ messages: [...messages, res.data] });
+      const loggedInUserId = localStorage.getItem("_id");
+      const role = localStorage.getItem("role");
+
+      if (loggedInUserId && role) {
+        const res = await axiosInstance({
+          url: `/messages/send/${selectedUser._id}`,
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "id": loggedInUserId,
+            "role": role,
+          },
+          data: messageData,
+        });
+        set({ messages: [...messages, res.data] });
+      } else {
+        console.error("User ID or role is missing from localStorage");
+      }
     } catch (error) {
-        toast.error("An unexpected error occurred.");
+      toast.error("An unexpected error occurred.");
     }
   },
 
