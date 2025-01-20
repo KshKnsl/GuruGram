@@ -1,6 +1,16 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 
+const badgeCriteria = [
+  { articles: 1, title: "First Article", description: "Congratulations on writing your first article!" },
+  { articles: 2, title: "Second Article", description: "Great job on writing your second article!" },
+  { articles: 5, title: "Five Articles", description: "You've written five articles!" },
+  { articles: 10, title: "Ten Articles", description: "Ten articles written, keep it up!" },
+  { articles: 20, title: "Twenty Articles", description: "Twenty articles, impressive!" },
+  { articles: 50, title: "Fifty Articles", description: "Fifty articles, amazing work!" },
+  { articles: 100, title: "Hundred Articles", description: "Hundred articles, you're a master!" }
+];
+
 const mentorSchema = new mongoose.Schema(
   {
     name: { type: String, required: true, default: "Dr. Emily Chen" },
@@ -61,6 +71,27 @@ mentorSchema.pre("save", async function (next) {
   if (!this.isModified("password")) next();
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
+
+  // Badge assignment logic
+  const articlesWritten = this.articles.length;
+  let badge = null;
+
+  for (let i = badgeCriteria.length - 1; i >= 0; i--) {
+    if (articlesWritten >= badgeCriteria[i].articles) {
+      badge = badgeCriteria[i];
+      break;
+    }
+  }
+
+  if (badge) {
+    const existingBadge = this.badges.find(b => b.name === badge.title);
+    if (!existingBadge) {
+      this.badges.push({
+        name: badge.title,
+        description: badge.description
+      });
+    }
+  }
 
   next();
 });
