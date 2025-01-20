@@ -4,7 +4,7 @@ import { getMessages, getUsersForSidebar, sendMessage } from "../controllers/mes
 import Mentor from '../models/Mentor.model.js'
 const router = express.Router();
 
-router.get("/users", getUsersForSidebar);
+router.post("/users", getUsersForSidebar);
 router.get("/:id", getMessages);
 
 router.post("/send/:id", sendMessage);
