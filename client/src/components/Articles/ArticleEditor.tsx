@@ -6,6 +6,7 @@ import ReactQuill from "react-quill"
 import "react-quill/dist/quill.snow.css"
 import { debounce } from "lodash"
 import { Eye, EyeOff } from "lucide-react"
+import axios from "axios"
 
 interface ArticleEditorProps {
   onSubmit: (article: { title: string; content: string; author: string | null }) => void
@@ -47,6 +48,16 @@ const ArticleEditor: React.FC<ArticleEditorProps> = ({ onSubmit }) => {
     return Object.keys(newErrors).length === 0
   }
 
+  const checkAndAwardBadges = async (authorId: string | null) => {
+    if (!authorId) return
+    try {
+      const response = await axios.post("/api/messages/award-badges", { authorId })
+      console.log("Badges awarded:", response.data)
+    } catch (error) {
+      console.error("Error awarding badges:", error)
+    }
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (validateForm()) {
@@ -55,6 +66,7 @@ const ArticleEditor: React.FC<ArticleEditorProps> = ({ onSubmit }) => {
         // Simulate API call to publish the article
         await new Promise((resolve) => setTimeout(resolve, 1500))
         onSubmit({ title, content, author })
+        await checkAndAwardBadges(author)
         // Clear the draft from local storage
         localStorage.removeItem("articleDraft")
         // Redirect to the articles list page after successful publication
