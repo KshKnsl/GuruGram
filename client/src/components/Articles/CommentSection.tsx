@@ -32,7 +32,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({ comments, onAddComment 
       transition={{ duration: 0.5 }}
       className="mt-8"
     >
-      <h3 className="text-2xl font-semibold mb-4 dark:text-white">Comments</h3>
+      <h3 className="text-2xl font-semibold mb-4">Comments</h3>
       <AnimatePresence>
         {comments.map((comment, index) => (
           <motion.div
@@ -45,10 +45,10 @@ const CommentSection: React.FC<CommentSectionProps> = ({ comments, onAddComment 
           >
             <div className="flex items-center mb-2">
               <UserCircleIcon className="w-6 h-6 text-gray-500 dark:text-gray-400 mr-2" />
-              <span className="font-medium dark:text-white">{comment.author}</span>
-              <span className="text-sm text-gray-500 dark:text-gray-400 ml-2">{comment.date}</span>
+              <span className="font-medium">{comment.author}</span>
+              <span className="text-sm text-gray-500 ml-2">{comment.date}</span>
             </div>
-            <p className="text-gray-700 dark:text-gray-300">{comment.content}</p>
+            <p className="text-gray-700">{comment.content}</p>
           </motion.div>
         ))}
       </AnimatePresence>

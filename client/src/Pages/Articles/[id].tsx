@@ -13,7 +13,6 @@ interface ArticleType {
 const Article = () => {
   const { id } = useParams<{ id: string }>();
   const [article, setArticle] = useState<ArticleType | null>(null);
-
   useEffect(() => {
     const fetchArticle = async () => {
       try {
