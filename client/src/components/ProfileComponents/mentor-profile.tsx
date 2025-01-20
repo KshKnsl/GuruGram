@@ -1,5 +1,5 @@
 import { MapPinIcon, BriefcaseIcon, AcademicCapIcon, StarIcon, TrophyIcon } from '@heroicons/react/24/outline'
-import { Link, useParams } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import GuruCoins from '../GuruCoins'
 import { useEffect, useState } from 'react'
 import axios from 'axios'

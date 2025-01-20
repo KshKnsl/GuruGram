@@ -1,4 +1,3 @@
-import React from 'react'
 import { MapPinIcon, BriefcaseIcon, AcademicCapIcon, FlagIcon } from '@heroicons/react/24/outline'
 
 interface Skill {
@@ -26,8 +25,7 @@ export default function MenteeProfile({
   education,
   bio,
   skills,
-  goals,
-  guruCoins = 0, // Default value
+  goals
 }: MenteeProfileProps) {
   return (
     <div className="bg-white shadow-lg rounded-lg overflow-hidden max-w-3xl mx-auto">

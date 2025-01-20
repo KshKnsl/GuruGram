@@ -1,7 +1,12 @@
-import React from 'react';
 import { Card } from 'react-bootstrap';
 
-function MenteeProfileHeader({ name, bio, profileImage }) {
+interface MenteeProfileHeaderProps {
+  name: string;
+  bio: string;
+  profileImage: string;
+}
+
+function MenteeProfileHeader({ name, bio, profileImage }: MenteeProfileHeaderProps) {
   return (
     <Card className="bg-dark text-light text-center">
       <Card.Img 

@@ -1,6 +1,6 @@
 import { create } from "zustand";
-import { axiosInstance } from "../axios.ts";
-import toast from "react-hot-toast";
+// import { axiosInstance } from "../axios.ts";
+// import toast from "react-hot-toast";
 import { io, Socket } from "socket.io-client";
 
 const BASE_URL =  `${import.meta.env.VITE_BACKEND_URL}`;
