@@ -56,11 +56,7 @@ const mentorSchema = new mongoose.Schema(
           description: { type: String },
         },
       ],
-      default: [
-        { name: "Top Contributor", description: "Recognized for exceptional community contributions" },
-        { name: "ML Expert", description: "Demonstrated expertise in machine learning" },
-        { name: "Mentor of the Year", description: "Voted as the top mentor by mentees" },
-      ],
+      
     },
   },
   { timestamps: true }

@@ -1,6 +1,8 @@
 import { MapPinIcon, BriefcaseIcon, AcademicCapIcon, StarIcon, TrophyIcon } from '@heroicons/react/24/outline'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import GuruCoins from '../GuruCoins'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
 
 interface Skill {
   name: string
@@ -31,7 +33,6 @@ interface MentorProfileProps {
   totalMentees?: number
   badges?: Badge[]
   articles?: Article[]
-  guruCoins?: number // New prop
 }
 
 export default function MentorProfile({
@@ -47,8 +48,25 @@ export default function MentorProfile({
   totalMentees = 0,
   badges = [],
   articles = [],
-  guruCoins = 0, // Default value
 }: MentorProfileProps) {
+  const [guruCoins, setGuruCoins] = useState(0);
+  const { id } = useParams();
+
+  useEffect(() => {
+    const fetchMentorDetails = async () => {
+      try {
+        const response = await axios.get(`/api/mentor/${id}/details`);
+        const { articlesCount, skillsCount, specialtiesCount } = response.data;
+        const coins = (articlesCount * 100) + (skillsCount * 500) + (specialtiesCount * 1000);
+        setGuruCoins(coins);
+      } catch (error) {
+        console.error('Error fetching mentor details:', error);
+      }
+    };
+
+    fetchMentorDetails();
+  }, [id]);
+
   return (
     <div className="bg-white shadow-lg rounded-lg overflow-hidden max-w-3xl mx-auto">
       <div className="p-6 sm:p-8">
@@ -169,12 +187,12 @@ export default function MentorProfile({
       </div>
       
 
-      <div className="bg-gray-50 px-6 py-4 sm:px-8 sm:py-6">
-        <button
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+      <div className="bg-gray-50 px-6 py-4 sm:px-8 sm:py-6 flex-col gap-2">
+        <Link to="/chat"
+          className="w-full mt-4 flex justify-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
         >
           Connect and chat
-        </button>
+        </Link>
         <Link
           to="/complete-profile"
           className="w-full mt-4 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 ease-in-out text-center block"
