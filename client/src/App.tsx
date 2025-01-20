@@ -113,7 +113,7 @@ export default function App() {
 
     <AuthProvider>
       <ThemeProvider value={{ themeMode, darkTheme, lightTheme }}>
-        <div className="min-h-screen flex flex-col bg-background dark:bg-gray-900">
+        <div className="min-h-screen flex flex-col dark:bg-gray-900 bg-white">
           <Header />
           <main className="flex-grow pt-16">
             <Routes>

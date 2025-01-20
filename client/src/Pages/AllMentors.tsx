@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 interface Mentor {
   _id: string;
@@ -60,9 +61,9 @@ const AllMentors: React.FC = () => {
   });
 
   const MentorCard: React.FC<{ mentor: Mentor }> = ({ mentor }) => (
-    <div 
+    <Link 
+      to={`/profile/mentor/${mentor._id}`} 
       className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-shadow duration-300 hover:shadow-lg cursor-pointer"
-      onClick={() => window.location.href = `/profile/mentor/${mentor._id}`}
     >
       <div className="p-6">
       <div className="flex items-center mb-4">
@@ -102,7 +103,7 @@ const AllMentors: React.FC = () => {
         ))}
       </div>
       </div>
-    </div>
+    </Link>
   );
 
   if (loading) return <div className="text-center text-gray-600 dark:text-gray-300">Loading mentors...</div>;
@@ -119,14 +120,14 @@ const AllMentors: React.FC = () => {
           placeholder="Search mentors..."
           value={filters.search}
           onChange={handleFilterChange}
-          className="w-full p-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+          className="w-full p-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white  bg-gray-100"
         />
         <div className="flex flex-col sm:flex-row gap-4">
           <select
             name="specialty"
             value={filters.specialty}
             onChange={handleFilterChange}
-            className="w-full sm:w-1/2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+            className="w-full sm:w-1/2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white  bg-gray-100"
           >
             <option value="">All Specialties</option>
             <option value="AI/ML">AI/ML</option>
@@ -138,7 +139,7 @@ const AllMentors: React.FC = () => {
             name="location"
             value={filters.location}
             onChange={handleFilterChange}
-            className="w-full sm:w-1/2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+            className="w-full sm:w-1/2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white bg-gray-100"
           >
             <option value="">All Locations</option>
             <option value="New York, NY">New York, NY</option>
