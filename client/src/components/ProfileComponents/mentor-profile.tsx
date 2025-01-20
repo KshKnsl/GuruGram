@@ -48,17 +48,22 @@ export default function MentorProfile({
   totalMentees = 0,
   badges = [],
   articles = [],
+  
+
 }: MentorProfileProps) {
   const [guruCoins, setGuruCoins] = useState(0);
-  const { id } = useParams();
-
+  const id  = localStorage.getItem('_id');
   useEffect(() => {
     const fetchMentorDetails = async () => {
       try {
         const response = await axios.get(`/api/mentor/${id}/details`);
         const { articlesCount, skillsCount, specialtiesCount } = response.data;
-        const coins = (articlesCount * 100) + (skillsCount * 500) + (specialtiesCount * 1000);
+        const parsedArticlesCount = parseInt(articlesCount, 10);
+        const parsedSkillsCount = parseInt(skillsCount, 10);
+        const parsedSpecialtiesCount = parseInt(specialtiesCount, 10);
+        const coins = (parsedArticlesCount * 100) + (parsedSkillsCount * 500) + (parsedSpecialtiesCount * 1000);
         setGuruCoins(coins);
+        console.log(coins);
       } catch (error) {
         console.error('Error fetching mentor details:', error);
       }
