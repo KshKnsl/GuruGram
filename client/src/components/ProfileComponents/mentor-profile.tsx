@@ -54,23 +54,30 @@ export default function MentorProfile({
   const [guruCoins, setGuruCoins] = useState(0);
   const id  = localStorage.getItem('_id');
   useEffect(() => {
-    const fetchMentorDetails = async () => {
-      try {
-        const response = await axios.get(`/api/mentor/${id}/details`);
-        const { articlesCount, skillsCount, specialtiesCount } = response.data;
-        const parsedArticlesCount = parseInt(articlesCount, 10);
-        const parsedSkillsCount = parseInt(skillsCount, 10);
-        const parsedSpecialtiesCount = parseInt(specialtiesCount, 10);
+      try{
+      axios.get(`http://localhost:5000/api/mentor/${id}`)
+      .then(response => {
+        console.log(response.data);
+        const { readArticles, skills, specialties } = response.data;
+        const parsedArticlesCount = readArticles?.length || 0;
+        const parsedSkillsCount = skills?.length || 0;
+        const parsedSpecialtiesCount = specialties?.length || 0;
+
+        console.log(parsedArticlesCount, "Here");
+        console.log(parsedSkillsCount);
+        console.log(parsedSpecialtiesCount);
         const coins = (parsedArticlesCount * 100) + (parsedSkillsCount * 500) + (parsedSpecialtiesCount * 1000);
         setGuruCoins(coins);
         console.log(coins);
-      } catch (error) {
+      })
+      .catch(error => {
         console.error('Error fetching mentor details:', error);
-      }
-    };
+      });
+    } catch (error) {
+      console.error('Error fetching mentor details:', error);
+    }
 
-    fetchMentorDetails();
-  }, [id]);
+  }, []);
 
   return (
     <div className="bg-white shadow-lg rounded-lg overflow-hidden max-w-3xl mx-auto">
