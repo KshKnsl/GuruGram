@@ -68,6 +68,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
         console.error("User ID or role is missing from localStorage");
       }
     } catch (error) {
+      console.error(error);
       toast.error("An unexpected error occurred.");
     } finally {
       set({ isUsersLoading: false });
@@ -98,7 +99,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
       } else {
         console.error("User ID or role is missing from localStorage");
       }
-    } catch (error) {
+    } catch {
       toast.error("An unexpected error occurred.");
     } finally {
       set({ isMessagesLoading: false });
@@ -128,7 +129,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
       } else {
         console.error("User ID or role is missing from localStorage");
       }
-    } catch (error) {
+    } catch{
       toast.error("An unexpected error occurred.");
     }
   },
