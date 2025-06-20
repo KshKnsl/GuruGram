@@ -7,12 +7,13 @@ type User = {
   _id: string;
   profileCompleted?: boolean;
   role: string;
+  avatar?: string;
 };
 
 type AuthContextType = {
   user: User | null;
   loading: boolean;
-  login: (token: string, _id: string, email: string, role: string) => void;
+  login: (token: string, _id: string, email: string, role: string, avatar?: string) => void;
   logout: () => void;
   updateProfile: (userData: Partial<User>) => void;
 };
@@ -38,6 +39,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         const email = localStorage.getItem("email");
         const profileCompleted = localStorage.getItem("profileCompleted");
         const role = localStorage.getItem("role");
+        const avatar = localStorage.getItem("avatar");
 
         if (token && _id && email && role) {
         setUser({ 
@@ -45,7 +47,8 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           _id, 
           email, 
           role,
-          profileCompleted: profileCompleted ? JSON.parse(profileCompleted) : false 
+          profileCompleted: profileCompleted ? JSON.parse(profileCompleted) : false,
+          avatar: avatar || undefined
         });
         }
       } catch (error) {
@@ -58,13 +61,16 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     fetchUser();
   }, []);
 
-  const login = (token: string, _id: string, email: string, role: string) => {
+  const login = (token: string, _id: string, email: string, role: string, avatar?: string) => {
     localStorage.setItem("token", token);
     localStorage.setItem("_id", _id);
     localStorage.setItem("email", email);
     localStorage.setItem("role", role);
+    if (avatar) {
+      localStorage.setItem("avatar", avatar);
+    }
             
-    setUser({ token, _id, email, role, profileCompleted: false });
+    setUser({ token, _id, email, role, profileCompleted: false, avatar });
     if(role === "mentor") navigate("/complete-profile");
     else    navigate("/profile");
   };
@@ -74,6 +80,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     localStorage.removeItem("_id");
     localStorage.removeItem("email");
     localStorage.removeItem("profileCompleted");
+    localStorage.removeItem("avatar");
     setUser(null);
     navigate("/login");
   };
@@ -83,6 +90,9 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const updatedUser = { ...user, ...userData };
       setUser(updatedUser);
       localStorage.setItem('profileCompleted', JSON.stringify(updatedUser.profileCompleted));
+      if (updatedUser.avatar) {
+        localStorage.setItem("avatar", updatedUser.avatar);
+      }
     }
   };
 

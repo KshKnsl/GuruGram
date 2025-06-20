@@ -3,6 +3,8 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { useEffect } from "react";
 import { useSocketContext } from "../../../context/SocketContext";
+import { Socket } from "socket.io-client";
+import { DefaultEventsMap } from "@socket.io/component-emitter";
 
 interface Message {
   _id: string;
@@ -60,7 +62,7 @@ export const useChatStore = create<ChatStore>((set, get) => {
     isUsersLoading: false,
     isMessagesLoading: false,
 
-    addMessage: (message) => {
+    addMessage: (message: Message) => {
       set((state) => ({ messages: [...state.messages, message] }));
     },
 
