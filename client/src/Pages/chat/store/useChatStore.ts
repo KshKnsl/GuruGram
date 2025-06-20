@@ -2,6 +2,8 @@ import { create } from "zustand";
 import toast from "react-hot-toast";
 import { useAuthStore } from "./useAuthStore";
 import axios from "axios";
+import { useEffect } from "react";
+import { useSocketContext } from "../../context/SocketContext";
 
 interface Message {
   _id: string;
@@ -30,9 +32,8 @@ interface ChatStore {
   getUsers: () => Promise<void>;
   getMessages: (userId: string) => Promise<void>;
   sendMessage: (messageData: { text: string }) => Promise<void>;
-  subscribeToMessages: () => void;
-  unsubscribeFromMessages: () => void;
-  setSelectedUser: (selectedUser: User|null) => void;
+  setSelectedUser: (selectedUser: User | null) => void;
+  addMessage: (message: Message) => void;
 }
 
 export const useChatStore = create<ChatStore>((set, get) => ({
@@ -41,6 +42,10 @@ export const useChatStore = create<ChatStore>((set, get) => ({
   selectedUser: null,
   isUsersLoading: false,
   isMessagesLoading: false,
+
+  addMessage: (message) => {
+    set((state) => ({ messages: [...state.messages, message] }));
+  },
 
   getUsers: async () => {
     set({ isUsersLoading: true });
@@ -106,55 +111,29 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     }
   },
 
-  sendMessage: async (messageData: { text: string }) => {
-    const { selectedUser, messages } = get();
-    if (!selectedUser) return;
+  sendMessage: async (messageData) => {
     try {
-      const loggedInUserId = localStorage.getItem("_id");
-      const role = localStorage.getItem("role");
+      const { selectedUser } = get();
+      if (!selectedUser) return;
 
-      if (loggedInUserId && role) {
-        const res = await axios.post(
-          `${import.meta.env.VITE_BACKEND_URL}/api/messages/send/${selectedUser._id}`,
-          messageData,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              "id": loggedInUserId,
-              "role": role,
-            },
-          }
-        );
-        set({ messages: [...messages, res.data] });
-      } else {
-        console.error("User ID or role is missing from localStorage");
-      }
-    } catch{
+      const res = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/messages/send/${selectedUser._id}`,
+        messageData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            id: localStorage.getItem("_id"),
+            role: localStorage.getItem("role"),
+          },
+        }
+      );
+
+      set((state) => ({
+        messages: [...state.messages, res.data],
+      }));
+    } catch (error) {
+      console.error(error);
       toast.error("An unexpected error occurred.");
-    }
-  },
-
-  subscribeToMessages: () => {
-    const { selectedUser } = get();
-    if (!selectedUser) return;
-
-    const socket = useAuthStore.getState().socket;
-
-    if (!socket) return;
-    socket.on("newMessage", (newMessage: Message) => {
-      const isMessageSentFromSelectedUser = newMessage.senderId === selectedUser._id;
-      if (!isMessageSentFromSelectedUser) return;
-
-      set({
-        messages: [...get().messages, newMessage],
-      });
-    });
-  },
-
-  unsubscribeFromMessages: () => {
-    const socket = useAuthStore.getState().socket;
-    if (socket) {
-      socket.off("newMessage");
     }
   },
 
