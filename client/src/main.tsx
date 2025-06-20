@@ -6,13 +6,16 @@ import { AuthProvider } from "./context/AuthContext";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 const clientId = import.meta.env.VITE_client_id|| "";
 import { Analytics } from "@vercel/analytics/react"
+import { SocketContextProvider } from "./context/SocketContext";
 
 createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
     <Analytics/>
     <GoogleOAuthProvider clientId={clientId}>
       <AuthProvider>
-        <App />
+        <SocketContextProvider>
+          <App />
+        </SocketContextProvider>
       </AuthProvider>
     </GoogleOAuthProvider>
     </BrowserRouter>
