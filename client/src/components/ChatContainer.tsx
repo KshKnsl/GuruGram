@@ -5,6 +5,7 @@ import ChatHeader from "./ChatHeader";
 import MessageInput from "./MessageInput";
 import MessageSkeleton from "./skeletons/MessageSkeleton";
 import { useAuth } from "../context/AuthContext";
+import { useSocketContext } from "../context/SocketContext";
 import { formatMessageTime } from "./formatMessageTime";
 
 const ChatContainer = () => {
@@ -13,9 +14,33 @@ const ChatContainer = () => {
     getMessages,
     isMessagesLoading,
     selectedUser,
+    addMessage,
   } = useChatStore();
   const { user: authUser } = useAuth();
+  const { socket } = useSocketContext();
   const messageEndRef = useRef<HTMLDivElement>(null);
+
+  // Listen for new messages via socket
+  useEffect(() => {
+    if (socket) {
+      socket.on("newMessage", (newMessage) => {
+        // Only add message if it's relevant to current chat
+        if (
+          selectedUser &&
+          (newMessage.senderId === selectedUser._id ||
+            newMessage.receiverId === selectedUser._id)
+        ) {
+          addMessage(newMessage);
+        }
+      });
+    }
+
+    return () => {
+      if (socket) {
+        socket.off("newMessage");
+      }
+    };
+  }, [socket, selectedUser, addMessage]);
 
   useEffect(() => {
     if (selectedUser) {
@@ -47,7 +72,9 @@ const ChatContainer = () => {
         {messages.map((message) => (
           <div
             key={message._id}
-            className={`chat ${message.senderId === authUser?._id ? "chat-end" : "chat-start"}`}
+            className={`chat ${
+              message.senderId === authUser?._id ? "chat-end" : "chat-start"
+            }`}
             ref={messageEndRef}
           >
             <div className="chat-image avatar">
