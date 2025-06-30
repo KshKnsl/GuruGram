@@ -37,29 +37,8 @@ GuruGram provides an all-in-one solution to address these challenges through:
 - **Database:** [MongoDB](https://www.mongodb.com/)
 - **Communication:** [Zoom API](https://zoom.us/) for real-time interaction
 
-## 📚 Getting Started
-
-### Installation
-
-1. **Clone the Repository**:
-    ```bash
-    git clone https://github.com/kshknsl/GuruGram.git
-    ```
-
-2. **Navigate to the Project Directory**:
-    ```bash
-    cd GuruGram
-    ```
-
-3. **Install Dependencies**:
-    ```bash
-    npm install
-    ```
-
-4. **Run the Development Server**:
-    ```bash
-    npm start
-    ```
+## 📚 Getting Started and Installation
+![image](https://github.com/user-attachments/assets/b11035d4-327b-4e81-aa87-b659439fec18)
 
 ## 🛠️ Platform Demonstration
 
