@@ -1,18 +1,18 @@
 import { useState, useEffect } from "react";
 import {
-  ChatBubbleLeftRightIcon,
-  ShieldCheckIcon,
-  TrophyIcon,
-  CurrencyDollarIcon,
-  VideoCameraIcon,
-  GlobeAltIcon,
-  ChartBarIcon,
-  CalendarIcon,
-  AcademicCapIcon,
-  CpuChipIcon,
-  StarIcon,
-  UserGroupIcon
-} from "@heroicons/react/24/outline";
+  MessageSquare,
+  ShieldCheck,
+  Trophy,
+  DollarSign,
+  Video,
+  Globe,
+  BarChart,
+  Calendar,
+  GraduationCap,
+  Cpu,
+  Star,
+  Users
+} from 'lucide-react';
 import Card from "./Card.tsx";
 import Testimonial from "./Testimonial.tsx";
 
@@ -82,70 +82,70 @@ const features = [
     title: "Discussion forums",
     description:
       "Dedicated channels for peer-to-peer and mentor-to-peer support",
-    icon: ChatBubbleLeftRightIcon,
+    icon: MessageSquare,
     emoji: "💬",
     color: "bg-pink-100 text-pink-600",
   },
   {
     title: "Verified Mentors",
     description: "All mentors are verified professionals in their field",
-    icon: ShieldCheckIcon,
+    icon: ShieldCheck,
     emoji: "✅",
     color: "bg-green-100 text-green-600",
   },
   {
     title: "Gamified Learning",
     description: "Earn points and badges as you progress",
-    icon: TrophyIcon,
+    icon: Trophy,
     emoji: "🏆",
     color: "bg-yellow-100 text-yellow-600",
   },
   {
     title: "Flexible Pricing",
     description: "Choose from various pricing options",
-    icon: CurrencyDollarIcon,
+    icon: DollarSign,
     emoji: "💰",
     color: "bg-purple-100 text-purple-600",
   },
   {
     title: "Video Sessions",
     description: "High-quality video calls for immersive learning",
-    icon: VideoCameraIcon,
+    icon: Video,
     emoji: "🎥",
     color: "bg-red-100 text-red-600",
   },
   {
     title: "Global Access",
     description: "Connect with mentors worldwide",
-    icon: GlobeAltIcon,
+    icon: Globe,
     emoji: "🌐",
     color: "bg-blue-100 text-blue-600",
   },
   {
     title: "Progress Tracking",
     description: "Monitor your growth with detailed analytics",
-    icon: ChartBarIcon,
+    icon: BarChart,
     emoji: "📊",
     color: "bg-indigo-100 text-indigo-600",
   },
   {
     title: "Easy Scheduling",
     description: "Book sessions that fit your calendar",
-    icon: CalendarIcon,
+    icon: Calendar,
     emoji: "📅",
     color: "bg-teal-100 text-teal-600",
   },
   {
     title: "Skill Certifications",
     description: "Earn certificates to showcase your skills",
-    icon: AcademicCapIcon,
+    icon: GraduationCap,
     emoji: "🎓",
     color: "bg-orange-100 text-orange-600",
   },
   {
     title: "AI-Powered Matching",
     description: "Get paired with the perfect mentor for your goals",
-    icon: CpuChipIcon,
+    icon: Cpu,
     emoji: "🤖",
     color: "bg-cyan-100 text-cyan-600",
   },
@@ -209,14 +209,14 @@ function Home() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentTextIndex((prevIndex) => (prevIndex + 1) % (texts.length-1));
+      setCurrentTextIndex((prevIndex) => (prevIndex + 1) % texts.length);
     }, 3000);
     return () => clearInterval(interval);
   }, []);
 
   return (
     <div className="bg-gray-100 dark:bg-gray-900 min-h-screen">
-      <section className="bg-gradient-to-r from-blue-500 to-purple-600 text-white py-12=== md:py-20">
+      <section className="bg-gradient-to-r from-blue-500 to-purple-600 text-white py-12 md:py-20">
         <div className="container mx-auto px-4 pt-20 md:px-14">
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="md:w-1/2 mb-8 md:mb-0">
@@ -395,13 +395,13 @@ function Home() {
                     {mentor.expertise}
                   </p>
                   <div className="flex items-center mb-2">
-                    <StarIcon className="w-5 h-5 text-yellow-400 mr-1" />
+                    <Star className="w-5 h-5 text-yellow-400 mr-1" />
                     <span className="font-semibold dark:text-white">
                       {mentor.rating}
                     </span>
                   </div>
                   <div className="flex items-center text-gray-600 dark:text-gray-300">
-                    <UserGroupIcon className="w-5 h-5 mr-1" />
+                    <Users className="w-5 h-5 mr-1" />
                     <span>{mentor.sessions} sessions</span>
                   </div>
                 </div>

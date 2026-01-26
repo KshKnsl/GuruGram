@@ -21,22 +21,39 @@ export const SocketContextProvider = ({ children }: { children: React.ReactNode 
   const [socket, setSocket] = useState<Socket | null>(null);
   const [onlineUsers, setOnlineUsers] = useState<string[]>([]);
   const { user } = useAuth();
-
   useEffect(() => {
     if (user) {
+      console.log("Setting up socket connection for user:", user._id);
       const newSocket = io(import.meta.env.VITE_BACKEND_URL, {
         query: {
           userId: user._id,
         },
+        reconnection: true,
+        reconnectionAttempts: 5,
+        reconnectionDelay: 1000,
+      });
+
+      newSocket.on("connect", () => {
+        console.log("Socket connected:", newSocket.id);
+      });
+
+      newSocket.on("disconnect", (reason) => {
+        console.log("Socket disconnected:", reason);
+      });
+
+      newSocket.on("error", (error) => {
+        console.error("Socket error:", error);
+      });
+
+      newSocket.on("getOnlineUsers", (users: string[]) => {
+        console.log("Online users updated:", users);
+        setOnlineUsers(users);
       });
 
       setSocket(newSocket);
 
-      newSocket.on("getOnlineUsers", (users: string[]) => {
-        setOnlineUsers(users);
-      });
-
       return () => {
+        console.log("Closing socket connection");
         newSocket.close();
       };
     } else {

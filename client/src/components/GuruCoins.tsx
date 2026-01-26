@@ -1,4 +1,4 @@
-import { CogIcon } from '@heroicons/react/24/solid'
+import { Cog } from 'lucide-react'
 
 interface GuruCoinsProps {
   coins: number
@@ -20,7 +20,7 @@ export default function GuruCoins({ coins, size = 'md' }: GuruCoinsProps) {
 
   return (
     <div className={`flex items-center ${sizeClasses[size]}`}>
-      <CogIcon className={`${iconSizes[size]} text-yellow-500`} />
+      <Cog className={`${iconSizes[size]} text-yellow-500`} />
       <span className="font-semibold text-gray-900">{coins.toLocaleString()} GuruCoins</span>
     </div>
   )

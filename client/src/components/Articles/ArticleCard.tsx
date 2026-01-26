@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { CalendarIcon, ChatBubbleLeftIcon, HeartIcon } from '@heroicons/react/24/outline'
-import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid'
+import { Calendar, MessageSquare, Heart } from 'lucide-react'
 import MentorName from '../ui/MentorName'
 
 interface ArticleCardProps {
@@ -50,11 +49,11 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ id, _id, title, content, auth
           <span className="mb-2 sm:mb-0"><MentorName id={author} /></span>
           <div className="flex items-center space-x-4">
             <span className="flex items-center">
-              <CalendarIcon className="w-4 h-4 mr-1" />
+              <Calendar className="w-4 h-4 mr-1" />
               {date}
             </span>
             <span className="flex items-center">
-              <ChatBubbleLeftIcon className="w-4 h-4 mr-1" />
+              <MessageSquare className="w-4 h-4 mr-1" />
               {commentCount}
             </span>
             <button
@@ -62,9 +61,9 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ id, _id, title, content, auth
               className="flex items-center text-red-500 dark:text-red-400 hover:text-red-600 dark:hover:text-red-500 transition duration-300"
             >
               {isLiked ? (
-                <HeartIconSolid className="w-5 h-5 mr-1" />
+                <Heart className="w-5 h-5 mr-1 fill-current text-red-500" />
               ) : (
-                <HeartIcon className="w-5 h-5 mr-1" />
+                <Heart className="w-5 h-5 mr-1" />
               )}
               {likeCount}
             </button>

@@ -80,9 +80,7 @@ export const sendMessage = async (req, res) => {
       // const uploadResponse = await cloudinary.uploader.upload(image);
       // imageUrl = uploadResponse.secure_url;
       console.log("image");
-    }
-
-    const newMessage = new Message({
+    }    const newMessage = new Message({
       senderId: loggedInUserId,
       receiverId,
       text,
@@ -91,9 +89,16 @@ export const sendMessage = async (req, res) => {
 
     await newMessage.save();
 
+    // Send the message to the receiver
     const receiverSocketId = getReceiverSocketId(receiverId);
     if (receiverSocketId) {
       io.to(receiverSocketId).emit("newMessage", newMessage);
+    }
+    
+    // Also send the message back to the sender to update their UI
+    const senderSocketId = getReceiverSocketId(loggedInUserId);
+    if (senderSocketId) {
+      io.to(senderSocketId).emit("newMessage", newMessage);
     }
 
     res.status(201).json(newMessage);

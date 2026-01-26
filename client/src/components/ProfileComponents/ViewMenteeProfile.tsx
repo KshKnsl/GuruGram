@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { MapPinIcon, BriefcaseIcon, AcademicCapIcon, FlagIcon } from '@heroicons/react/24/outline'
+import { MapPin, Briefcase, GraduationCap, Flag } from 'lucide-react'
 
 interface Skill {
   name: string
@@ -54,17 +54,17 @@ export default function ViewMenteeProfile() {
             <h1 className="text-2xl font-bold text-gray-800">{menteeData.name}</h1>
             <div className="mt-2 flex flex-col sm:flex-row items-center gap-2 text-sm text-gray-600">
               <span className="flex items-center gap-1">
-                <MapPinIcon className="w-4 h-4" />
+                <MapPin className="w-4 h-4" />
                 {menteeData.location}
               </span>
               <span className="hidden sm:inline">•</span>
               <span className="flex items-center gap-1">
-                <BriefcaseIcon className="w-4 h-4" />
+                <Briefcase className="w-4 h-4" />
                 {menteeData.occupation}
               </span>
               <span className="hidden sm:inline">•</span>
               <span className="flex items-center gap-1">
-                <AcademicCapIcon className="w-4 h-4" />
+                <GraduationCap className="w-4 h-4" />
                 {menteeData.education}
               </span>
             </div>
@@ -103,7 +103,7 @@ export default function ViewMenteeProfile() {
                   key={index}
                   className="bg-gray-100 text-gray-800 text-sm font-medium px-2.5 py-0.5 rounded-full flex items-center gap-1"
                 >
-                  <FlagIcon className="w-3 h-3" />
+                  <Flag className="w-3 h-3" />
                   {goal}
                 </span>
               ))}

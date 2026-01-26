@@ -19,27 +19,28 @@ const ChatContainer = () => {
   const { user: authUser } = useAuth();
   const { socket } = useSocketContext();
   const messageEndRef = useRef<HTMLDivElement>(null);
-
   // Listen for new messages via socket
   useEffect(() => {
     if (socket) {
-      socket.on("newMessage", (newMessage) => {
+      const handleNewMessage = (newMessage: any) => {
+        console.log("New socket message received:", newMessage);
         // Only add message if it's relevant to current chat
         if (
           selectedUser &&
-          (newMessage.senderId === selectedUser._id ||
-            newMessage.receiverId === selectedUser._id)
+          ((newMessage.senderId === selectedUser._id && newMessage.receiverId === authUser?._id) ||
+            (newMessage.receiverId === selectedUser._id && newMessage.senderId === authUser?._id))
         ) {
+          console.log("Adding message to chat:", newMessage);
           addMessage(newMessage);
         }
-      });
-    }
-
-    return () => {
-      if (socket) {
-        socket.off("newMessage");
+      };
+      
+      socket.on("newMessage", handleNewMessage);
+      
+      return () => {
+        socket.off("newMessage", handleNewMessage);
       }
-    };
+    }
   }, [socket, selectedUser, addMessage]);
 
   useEffect(() => {
@@ -47,10 +48,12 @@ const ChatContainer = () => {
       getMessages(selectedUser._id);
     }
   }, [getMessages, selectedUser]);
-
+  // Auto-scroll to newest messages
   useEffect(() => {
-    if (messageEndRef.current && messages) {
-      messageEndRef.current.scrollIntoView({ behavior: "smooth" });
+    if (messageEndRef.current && messages.length > 0) {
+      setTimeout(() => {
+        messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
+      }, 100);
     }
   }, [messages]);
 
@@ -69,13 +72,18 @@ const ChatContainer = () => {
       <ChatHeader />
 
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
-        {messages.map((message) => (
+        {messages.length === 0 && (
+          <div className="text-center text-gray-500 dark:text-gray-400 py-4">
+            No messages yet. Start a conversation!
+          </div>
+        )}
+        {messages.map((message, index) => (
           <div
             key={message._id}
             className={`chat ${
               message.senderId === authUser?._id ? "chat-end" : "chat-start"
             }`}
-            ref={messageEndRef}
+            ref={index === messages.length - 1 ? messageEndRef : null}
           >
             <div className="chat-image avatar">
               <div className="size-10 rounded-full border border-gray-300 dark:border-gray-700">

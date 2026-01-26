@@ -1,6 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { CalendarIcon, UserCircleIcon } from '@heroicons/react/24/outline'
+import { Calendar, User } from 'lucide-react'
 import CommentSection from './CommentSection'
 import MentorName from '../ui/MentorName'
 
@@ -35,9 +35,9 @@ const ArticlePage: React.FC<ArticlePageProps> = ({ title, content, author, date,
         transition={{ duration: 0.5, delay: 0.3 }}
         className="flex items-center text-gray-600 mb-6 dark:text-gray-400"
       >
-        <UserCircleIcon className="w-5 h-5 mr-2 text-black dark:text-gray-400" />
+        <User className="w-5 h-5 mr-2 text-black dark:text-gray-400" />
         <span className="mr-4 text-black dark:text-gray-400"><MentorName id={author} /></span>
-        <CalendarIcon className="w-5 h-5 mr-2 text-black dark:text-gray-400" />
+        <Calendar className="w-5 h-5 mr-2 text-black dark:text-gray-400" />
         <span className="text-black dark:text-gray-400">{date}</span>
       </motion.div>
       <motion.div

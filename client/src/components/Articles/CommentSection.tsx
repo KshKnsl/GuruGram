@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { UserCircleIcon } from '@heroicons/react/24/solid'
+import { User } from 'lucide-react'
 
 interface Comment {
   id: string
@@ -44,7 +44,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({ comments, onAddComment 
             className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg mb-4 shadow-md"
           >
             <div className="flex items-center mb-2">
-              <UserCircleIcon className="w-6 h-6 text-gray-500 dark:text-gray-400 mr-2" />
+              <User className="w-6 h-6 text-gray-500 dark:text-gray-400 mr-2" />
               <span className="font-medium">{comment.author}</span>
               <span className="text-sm text-gray-500 ml-2">{comment.date}</span>
             </div>

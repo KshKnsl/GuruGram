@@ -1,5 +1,5 @@
 import React from 'react';
-import { StarIcon } from '@heroicons/react/24/solid';
+import { Star } from 'lucide-react';
 
 const testimonials = [
   {
@@ -72,7 +72,7 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({ image, quote, name, t
         </div>
         <div className="mt-4 flex justify-center">
           {[...Array(5)].map((_, i) => (
-            <StarIcon key={i} className="w-5 h-5 text-yellow-400" />
+            <Star key={i} className="w-5 h-5 text-yellow-400" />
           ))}
         </div>
       </div>
