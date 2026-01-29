@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import Card from "./Card.tsx";
 import Testimonial from "./Testimonial.tsx";
+import { Button } from '@/components/ui/button'
 
 const texts = [
   "Marketing",
@@ -119,7 +120,7 @@ const features = [
     description: "Connect with mentors worldwide",
     icon: Globe,
     emoji: "🌐",
-    color: "bg-blue-100 text-blue-600",
+    color: "bg-secondary text-primary",
   },
   {
     title: "Progress Tracking",
@@ -161,7 +162,7 @@ const categories = [
     color: "bg-green-100 text-green-600",
   },
   { name: "Data Science", emoji: "📊", color: "bg-teal-100 text-teal-600" },
-  { name: "UI/UX Design", emoji: "🎨", color: "bg-blue-100 text-blue-600" },
+  { name: "UI/UX Design", emoji: "🎨", color: "bg-secondary text-primary" },
   { name: "Finance", emoji: "💹", color: "bg-indigo-100 text-indigo-600" },
   { name: "Healthcare", emoji: "🏥", color: "bg-purple-100 text-purple-600" },
   { name: "Education", emoji: "📚", color: "bg-pink-100 text-pink-600" },
@@ -216,7 +217,7 @@ function Home() {
 
   return (
     <div className="bg-gray-100 dark:bg-gray-900 min-h-screen">
-      <section className="bg-gradient-to-r from-blue-500 to-purple-600 text-white py-12 md:py-20">
+      <section className="bg-indigo-600 text-white py-12 md:py-20">
         <div className="container mx-auto px-4 pt-20 md:px-14">
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="md:w-1/2 mb-8 md:mb-0">
@@ -232,9 +233,7 @@ function Home() {
                   {texts[currentTextIndex]}
                 </span>
               </div>
-              <button className="bg-white text-blue-600 font-bold py-3 px-6 rounded-full hover:bg-blue-100 transition duration-300">
-                Find Your Mentor
-              </button>
+              <Button className="rounded-full py-3 px-6">Find Your Mentor</Button>
             </div>
             <div className="md:w-1/2 relative h-64 md:h-96 w-full">
               <div className="absolute inset-0 overflow-hidden">
@@ -268,19 +267,19 @@ function Home() {
             Why Choose Our Platform?
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-            <div className="bg-gradient-to-br from-pink-400 to-red-500 rounded-lg shadow-md p-6 flex flex-col items-center text-center text-white">
+            <div className="bg-pink-400 rounded-lg shadow-md p-6 flex flex-col items-center text-center text-white">
               <div className="text-4xl mb-4">🌟</div>
               <h3 className="text-xl font-semibold mb-2">Expert Mentors</h3>
               <p>Learn from industry professionals with years of experience</p>
             </div>
-            <div className="bg-gradient-to-br from-green-400 to-blue-500 rounded-lg shadow-md p-6 flex flex-col items-center text-center text-white">
+            <div className="bg-green-400 rounded-lg shadow-md p-6 flex flex-col items-center text-center text-white">
               <div className="text-4xl mb-4">🔒</div>
               <h3 className="text-xl font-semibold mb-2">Secure Platform</h3>
               <p>
                 Your data and interactions are protected with top-notch security
               </p>
             </div>
-            <div className="bg-gradient-to-br from-yellow-400 to-orange-500 rounded-lg shadow-md p-6 flex flex-col items-center text-center text-white">
+            <div className="bg-yellow-400 rounded-lg shadow-md p-6 flex flex-col items-center text-center text-white">
               <div className="text-4xl mb-4">💼</div>
               <h3 className="text-xl font-semibold mb-2">Career Growth</h3>
               <p>
@@ -302,35 +301,35 @@ function Home() {
                 step: 1,
                 title: "Sign Up",
                 description: "Create your account and complete your profile",
-                color: "from-pink-400 to-red-500",
+                color: "bg-pink-400",
               },
               {
                 step: 2,
                 title: "Find a Mentor",
                 description:
                   "Browse our expert mentors and choose the best fit",
-                color: "from-green-400 to-blue-500",
+                color: "bg-green-400",
               },
               {
                 step: 3,
                 title: "Schedule a Session",
                 description:
                   "Book a time that works for both you and your mentor",
-                color: "from-yellow-400 to-orange-500",
+                color: "bg-yellow-400",
               },
               {
                 step: 4,
                 title: "Start Learning",
                 description:
                   "Join your session and begin your learning journey",
-                color: "from-purple-400 to-indigo-500",
+                color: "bg-purple-400",
               },
             ].map((item, index) => (
               <div
                 key={index}
-                className={`bg-gradient-to-br ${item.color} rounded-lg shadow-md p-6 flex flex-col items-center text-center text-white`}
+                className={`${item.color} rounded-lg shadow-md p-6 flex flex-col items-center text-center text-white`}
               >
-                <div className="bg-white text-blue-600 rounded-full w-12 h-12 flex items-center justify-center mb-4">
+                <div className="bg-white text-primary rounded-full w-12 h-12 flex items-center justify-center mb-4">
                   <span className="text-xl font-bold">{item.step}</span>
                 </div>
                 <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
@@ -432,7 +431,7 @@ function Home() {
         </div>
       </section>
 
-      <section className="bg-gradient-to-r from-blue-500 to-purple-600 text-white py-12 md:py-20">
+      <section className="bg-indigo-600 text-white py-12 md:py-20">
         <div className="container mx-auto px-4  md:px-14">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-3xl font-bold mb-6">
@@ -442,9 +441,9 @@ function Home() {
               Join thousands of learners who are achieving their goals with
               personalized mentorship
             </p>
-            <button className="bg-white text-blue-600 font-bold py-3 px-8 rounded-full hover:bg-blue-100 transition duration-300 text-lg">
+            <Button className="rounded-full py-3 px-8">
               Get Started Now
-            </button>
+            </Button>
           </div>
         </div>
       </section>

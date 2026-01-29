@@ -4,10 +4,10 @@ import { getMessages, getUsersForSidebar, sendMessage } from "../controllers/mes
 import Mentor from '../models/Mentor.model.js'
 const router = express.Router();
 
-router.post("/users", getUsersForSidebar);
-router.get("/:id", getMessages);
+router.post("/users", protect, getUsersForSidebar);
+router.get("/:id", protect, getMessages);
 
-router.post("/send/:id", sendMessage);
+router.post("/send/:id", protect, sendMessage);
 
 const badgeCriteria = [
   { articles: 1, title: "First Article", description: "Congratulations on writing your first article!" },

@@ -103,7 +103,7 @@ const AllMentors: React.FC = () => {
         {mentor.specialties.map((specialty, index) => (
         <span 
           key={index} 
-          className="m-1 px-3 py-1 text-sm bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 rounded-full"
+          className="m-1 px-3 py-1 text-sm bg-secondary text-primary dark:bg-secondary dark:text-primary rounded-full"
         >
           {specialty}
         </span>
@@ -127,7 +127,7 @@ const AllMentors: React.FC = () => {
           placeholder="Search mentors..."
           value={filters.search}
           onChange={handleFilterChange}
-          className="w-full p-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white  bg-gray-100"
+          className="w-full p-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:border-gray-600 dark:text-white  bg-gray-100"
         />
         <div className="flex flex-col sm:flex-row gap-4">
           <select

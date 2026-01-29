@@ -1,4 +1,4 @@
-import { useChatStore } from "../Pages/chat/store/useChatStore";
+import { useChat } from "../context/ChatContext";
 import { useEffect, useRef } from "react";
 
 import ChatHeader from "./ChatHeader";
@@ -15,7 +15,7 @@ const ChatContainer = () => {
     isMessagesLoading,
     selectedUser,
     addMessage,
-  } = useChatStore();
+  } = useChat();
   const { user: authUser } = useAuth();
   const { socket } = useSocketContext();
   const messageEndRef = useRef<HTMLDivElement>(null);

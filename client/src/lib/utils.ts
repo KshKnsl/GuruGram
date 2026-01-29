@@ -1,4 +1,11 @@
-export const INTERESTS = [
+import { clsx, type ClassValue } from "clsx"
+import { twMerge } from "tailwind-merge"
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}
+
+export const INTERESTS: string[] = [
     "Robotics", "Cybersecurity", "Blockchain", "Virtual Reality", "Augmented Reality", "Quantum Computing", "Biotechnology", "Nanotechnology",
     "Painting", "Drawing", "Sculpture", "Photography", "Film", "Theater", "Dance", "Music", "Classical Music", "Jazz", "Rock", "Pop", "Hip Hop",
     "Electronic Music", "Opera", "Ballet", "Modern Art", "Contemporary Art", "Art History", "Museums", "Physics", "Chemistry", "Biology",

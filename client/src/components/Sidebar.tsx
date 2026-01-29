@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react"
-import { useChatStore } from "../Pages/chat/store/useChatStore"
-import { useAuthStore } from "../Pages/chat/store/useAuthStore"
+import { useChat } from "../context/ChatContext"
+import { useSocketContext } from "../context/SocketContext"
 import SidebarSkeleton from "./skeletons/SlidebarSkeleton"
 import { Users, Menu, X } from "lucide-react"
 
 const Sidebar = () => {
-  const { getUsers, users, selectedUser, setSelectedUser, isUsersLoading } = useChatStore()
-  const { onlineUsers } = useAuthStore()
+  const { getUsers, users, selectedUser, setSelectedUser, isUsersLoading } = useChat()
+  const { onlineUsers } = useSocketContext()
   const [showOnlineOnly, setShowOnlineOnly] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
@@ -39,7 +39,7 @@ const Sidebar = () => {
               type="checkbox"
               checked={showOnlineOnly}
               onChange={(e) => setShowOnlineOnly(e.target.checked)}
-              className="form-checkbox h-4 w-4 text-blue-600 transition duration-150 ease-in-out"
+              className="form-checkbox h-4 w-4 text-primary transition duration-150 ease-in-out"
             />
             <span className="text-sm">Show online only</span>
           </label>

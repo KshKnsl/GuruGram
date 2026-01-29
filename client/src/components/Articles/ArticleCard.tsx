@@ -40,7 +40,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ id, _id, title, content, auth
     >
       <div className="p-6">
         <h2 className="text-xl font-semibold mb-2">
-          <Link to={`/articles/${articleId}`} className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-600 transition duration-300">
+          <Link to={`/articles/${articleId}`} className="text-primary dark:text-primary hover:brightness-90 transition duration-300">
             {title}
           </Link>
         </h2>

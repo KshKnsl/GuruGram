@@ -2,12 +2,12 @@ import { Facebook, Twitter, Linkedin, Instagram, Mail, Phone, MapPin } from 'luc
 
 const Footer = () => {
   return (
-    <div className="bg-gradient-to-br from-stone-900 to-slate-900 text-white py-12 w-screen">
+    <div className="bg-stone-900 text-white py-12 w-screen">
       <div className="mx-auto px-4  md:px-14">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div className="space-y-4">
             <h5 className="text-2xl font-bold mb-4">GuruGram</h5>
-            <p className="text-blue-100">
+            <p className="text-primary">
               Our mentoring platform connects candidates with industry experts
               to provide personalized guidance and support.
             </p>
@@ -57,7 +57,7 @@ const Footer = () => {
           </div>
           <div>
             <h5 className="text-xl font-semibold mb-4">Newsletter</h5>
-            <p className="mb-4 text-blue-100">Stay updated with our latest news and offers.</p>
+            <p className="mb-4 text-primary">Stay updated with our latest news and offers.</p>
             <form className="flex flex-col sm:flex-row gap-2">
               <input
                 type="email"

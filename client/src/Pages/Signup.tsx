@@ -5,8 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AuthContext } from "../context/AuthContext";
 import { GoogleLogin } from "@react-oauth/google";
-import { INTERESTS } from "../constants";
-import { useAuthStore } from "./chat/store/useAuthStore.ts"; // Import useAuthStore
+import { INTERESTS } from "../lib/utils";
 
 interface Skill {
   name: string;
@@ -58,7 +57,6 @@ const SignUp: React.FC = () => {
 
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
-  const { connectSocket } = useAuthStore(); // Destructure connectSocket
 
   useEffect(() => {
     setFilteredInterests(
@@ -109,7 +107,6 @@ const SignUp: React.FC = () => {
       console.log(result);
       if (response.ok) {
         toast.success('Account created successfully!');
-        connectSocket(); // Connect socket after successful signup
         setTimeout(() => {
             if (role === 'mentee') {
             navigate('/login');
@@ -366,7 +363,7 @@ const SignUp: React.FC = () => {
               <button
                 type="button"
                 onClick={addSkill}
-                className="mt-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="mt-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-primary bg-secondary hover:bg-secondary/95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
               >
                 Add Skill
               </button>
@@ -472,7 +469,7 @@ const SignUp: React.FC = () => {
             <div>
               <button
                 type="submit"
-                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-primary-foreground bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
                 disabled={isLoading}
               >
                 <span className="absolute left-0 inset-y-0 flex items-center pl-3">

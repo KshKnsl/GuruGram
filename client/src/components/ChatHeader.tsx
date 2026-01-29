@@ -1,26 +1,11 @@
 import { X } from "lucide-react";
-import { useAuthStore } from "../Pages/chat/store/useAuthStore";
-import { useChatStore } from "../Pages/chat/store/useChatStore";
+import { useSocketContext } from "../context/SocketContext";
+import { useChat } from "../context/ChatContext";
 import { Link } from "react-router-dom";
-// import ReactStars from "react-rating-stars-component";
 
-// const RatingStars = ({ rating, setRating }: { rating: number; setRating: (rating: number) => void }) => {
-//   return (
-//     <ReactStars
-//       count={5}
-//       onChange={(newRating: number) => setRating(newRating)}
-//       size={24}
-//       activeColor="#ffd700"
-//       value={rating}
-//     />
-//   );
-//};
 const ChatHeader = () => {
-  const { selectedUser, setSelectedUser } = useChatStore();
-  const { onlineUsers } = useAuthStore();
-  // const [] = useState(0);
-
-
+  const { selectedUser, setSelectedUser } = useChat();
+  const { onlineUsers } = useSocketContext()
   const role = localStorage.getItem("role");
 
   if (!selectedUser) {
@@ -52,18 +37,7 @@ const ChatHeader = () => {
           </div>
         </div>
         <div className="flex items-center gap-4">
-          {/* {role === "mentee" && (
-            <div className="flex items-center gap-2">
-              <RatingStars rating={rating} setRating={setRating} />
-              <button
-                onClick={handleRatingSubmit}
-                className="flex items-center px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
-              >
-                <Star className="w-4 h-4 mr-1" />
-                Rate
-              </button>
-            </div>
-          )} */}
+
           {/* Video call button */}
           <Link
             to="/call"

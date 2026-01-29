@@ -1,11 +1,11 @@
-import { useChatStore } from "./store/useChatStore";
+import { useChat } from "../../context/ChatContext";
 
 import Sidebar from "../../components/Sidebar";
 import NoChatSelected from "../../components/NoChatSelected";
 import ChatContainer from "../../components/ChatContainer";
 const ChatPage = () => {
 
-  const { selectedUser } = useChatStore();
+  const { selectedUser } = useChat();
   return (
     <div className="min-h-screen bg-zinc-400 dark:bg-zinc-700">
       <div className="flex items-center justify-center md:pt-20 md:px-4 ">

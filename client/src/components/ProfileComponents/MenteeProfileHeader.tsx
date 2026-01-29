@@ -1,4 +1,4 @@
-import { Card } from 'react-bootstrap';
+import Card from '../ui/Card'
 
 interface MenteeProfileHeaderProps {
   name: string;
@@ -8,17 +8,10 @@ interface MenteeProfileHeaderProps {
 
 function MenteeProfileHeader({ name, bio, profileImage }: MenteeProfileHeaderProps) {
   return (
-    <Card className="bg-dark text-light text-center">
-      <Card.Img 
-        variant="top" 
-        src={profileImage} 
-        alt={`${name}'s profile`} 
-        style={{ width: '150px', margin: 'auto', borderRadius: '50%' }} 
-      />
-      <Card.Body>
-        <Card.Title>{name}</Card.Title>
-        <Card.Text>{bio}</Card.Text>
-      </Card.Body>
+    <Card className="p-6 text-center">
+      <img src={profileImage} alt={`${name}'s profile`} className="w-36 h-36 rounded-full mx-auto mb-4" />
+      <h2 className="text-2xl font-bold mb-1">{name}</h2>
+      <p className="text-sm text-gray-600">{bio}</p>
     </Card>
   );
 }

@@ -1,4 +1,5 @@
-import { Card, Badge } from 'react-bootstrap';
+import Card from '../ui/Card'
+import Badge from '../ui/Badge'
 
 interface MenteeSkillsProps {
   skills: string[];
@@ -6,15 +7,13 @@ interface MenteeSkillsProps {
 
 function MenteeSkills({ skills }: MenteeSkillsProps) {
   return (
-    <Card className="bg-dark text-light">
-      <Card.Body>
-        <Card.Title>Skills and Interests</Card.Title>
+    <Card className="p-4">
+      <h3 className="text-lg font-semibold mb-2">Skills and Interests</h3>
+      <div className="flex flex-wrap gap-2">
         {skills.map((skill: string, index: number) => (
-          <Badge key={index} pill bg="info" className="m-1">
-            {skill}
-          </Badge>
+          <Badge key={index}>{skill}</Badge>
         ))}
-      </Card.Body>
+      </div>
     </Card>
   );
 }

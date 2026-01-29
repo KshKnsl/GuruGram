@@ -1,8 +1,7 @@
-import { Container, Row, Col, Card } from 'react-bootstrap';
-import MenteeProfileHeader from './MenteeProfileHeader.tsx';
-import MenteeSkills from './MenteeSkills.tsx';
-import MenteeGoals from './MenteeGoals.tsx';
-import MentorInfo from './MentorInfo.tsx';
+import MenteeProfileHeader from './MenteeProfileHeader'
+import MenteeSkills from './MenteeSkills'
+import MenteeGoals from './MenteeGoals'
+import MentorInfo from './MentorInfo'
 
 function MenteeProfile() 
 {
@@ -51,36 +50,36 @@ function MenteeProfile()
     ],
   };
   return (
-    <Container fluid className="bg-dark text-light vh-100 dark:bg-gray-900 dark:text-white" style={{ marginTop: '80px' }}>
-      <Row className="mt-5">
-        <Col md={4}>
-          <Card className="shadow-sm p-3 mb-5 bg-dark text-light rounded dark:bg-gray-800 dark:text-white">
+    <div className="container mx-auto px-4 bg-slate-50 dark:bg-gray-900 text-slate-900 dark:text-white min-h-screen" style={{ marginTop: '80px' }}>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-5">
+        <div className="md:col-span-1">
+          <div className="shadow-sm p-3 mb-5 rounded bg-white dark:bg-gray-800">
             <MenteeProfileHeader
               name={mentee.name}
               bio={mentee.bio}
               profileImage={mentee.profileImage}
             />
-          </Card>
-        </Col>
-        <Col md={8}>
-          <Card className="shadow-sm p-3 mb-4 bg-dark text-light rounded dark:bg-gray-800 dark:text-white">
+          </div>
+        </div>
+        <div className="md:col-span-2">
+          <div className="shadow-sm p-3 mb-4 rounded bg-white dark:bg-gray-800">
             <MenteeSkills skills={mentee.skills} />
-          </Card>
-          <Card className="shadow-sm p-3 mb-4 bg-dark text-light rounded dark:bg-gray-800 dark:text-white">
+          </div>
+          <div className="shadow-sm p-3 mb-4 rounded bg-white dark:bg-gray-800">
             <MenteeGoals goals={mentee.goals} />
-          </Card>
+          </div>
 
           {/* Scrollable Mentor Section */}
-          <Card className="shadow-sm p-3 mt-4 bg-dark text-light rounded dark:bg-gray-800 dark:text-white">
-            <div className="mentor-list">
+          <div className="shadow-sm p-3 mt-4 rounded bg-white dark:bg-gray-800">
+            <div className="mentor-list space-y-4">
               {mentee.mentors.map((mentor, index) => (
                 <MentorInfo key={index} mentor={mentor} />
               ))}
             </div>
-          </Card>
-        </Col>
-      </Row>
-    </Container>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 

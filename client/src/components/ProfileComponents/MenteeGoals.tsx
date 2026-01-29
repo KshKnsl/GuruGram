@@ -1,4 +1,4 @@
-import { ListGroup } from 'react-bootstrap';
+import { ListGroup, ListGroupItem } from '../ui/ListGroup'
 
 interface MenteeGoalsProps {
   goals: string[];
@@ -6,14 +6,10 @@ interface MenteeGoalsProps {
 
 function MenteeGoals({ goals }: MenteeGoalsProps) {
   return (
-    <ListGroup className="bg-dark text-light">
-      <ListGroup.Item className="bg-dark text-light" active>
-        Current Goals
-      </ListGroup.Item>
+    <ListGroup>
+      <ListGroupItem className="bg-slate-100 font-semibold">Current Goals</ListGroupItem>
       {goals.map((goal, index) => (
-        <ListGroup.Item className="bg-dark text-light" key={index}>
-          {goal}
-        </ListGroup.Item>
+        <ListGroupItem key={index}>{goal}</ListGroupItem>
       ))}
     </ListGroup>
   );

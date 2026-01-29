@@ -64,7 +64,7 @@ const ArticlesPage: React.FC<ArticlesPageProps> = ({ articles, onLike }) => {
         >
           <Link
             to="/articles/new"
-            className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition duration-300 inline-block"
+            className="bg-primary text-primary-foreground px-6 py-3 rounded-lg hover:bg-primary/90 transition duration-300 inline-block"
           >
             Write New Article
           </Link>

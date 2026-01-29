@@ -2,9 +2,15 @@ import type React from "react"
 import { useState, useEffect, useCallback } from "react"
 import { motion } from "framer-motion"
 import { useNavigate } from "react-router-dom"
-import ReactQuill from "react-quill"
-import "react-quill/dist/quill.snow.css"
-import { debounce } from "lodash"
+
+function debounce<F extends (...args: any[]) => void>(fn: F, wait = 0) {
+  let timeout: ReturnType<typeof setTimeout> | null = null
+  return (...args: Parameters<F>) => {
+    if (timeout) clearTimeout(timeout)
+    timeout = setTimeout(() => fn(...args), wait)
+  }
+}
+
 import { Eye, EyeOff } from "lucide-react"
 import axios from "axios"
 
@@ -119,7 +125,7 @@ const ArticleEditor: React.FC<ArticleEditorProps> = ({ onSubmit }) => {
             id="title"
             value={title}
             onChange={handleTitleChange}
-            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 dark:bg-gray-700 dark:border-gray-600 dark:text-white bg-white ${
+            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary transition duration-300 dark:bg-gray-700 dark:border-gray-600 dark:text-white bg-white ${
               errors.title ? "border-red-500" : "border-gray-300"
             }`}
             required
@@ -143,22 +149,16 @@ const ArticleEditor: React.FC<ArticleEditorProps> = ({ onSubmit }) => {
                 dangerouslySetInnerHTML={{ __html: content }}
               />
             ) : (
-              <ReactQuill
-                theme="snow"
+              <textarea
+                id="content"
                 value={content}
-                onChange={handleContentChange}
-                modules={{
-                  toolbar: [
-                    [{ header: [1, 2, 3, 4, 5, 6, false] }],
-                    ["bold", "italic", "underline", "strike"],
-                    [{ list: "ordered" }, { list: "bullet" }],
-                    ["link", "image"],
-                    ["clean"],
-                  ],
-                }}
-                className={`bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${
+                onChange={(e) => handleContentChange(e.target.value)}
+                rows={12}
+                className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary transition duration-300 dark:bg-gray-700 dark:border-gray-600 dark:text-white bg-white ${
                   errors.content ? "border-red-500" : "border-gray-300"
                 }`}
+                aria-invalid={errors.content ? "true" : "false"}
+                aria-describedby={errors.content ? "content-error" : undefined}
               />
             )}
             <button
@@ -181,7 +181,7 @@ const ArticleEditor: React.FC<ArticleEditorProps> = ({ onSubmit }) => {
             type="submit"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed dark:bg-blue-500 dark:hover:bg-blue-600"
+            className="bg-primary text-primary-foreground px-6 py-3 rounded-lg hover:bg-primary/90 transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed dark:bg-primary/90 dark:hover:bg-primary/80"
             disabled={isPublishing}
           >
             {isPublishing ? "Publishing..." : "Publish Article"}

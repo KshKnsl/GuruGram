@@ -1,4 +1,3 @@
-import { Container, Row, Col } from 'react-bootstrap';
 import MenteeProfileHeader from './MenteeProfileHeader';
 import MenteeSkills from './MenteeSkills';
 import MenteeGoals from './MenteeGoals';
@@ -21,22 +20,22 @@ function MenteeProfile() {
   };
 
   return (
-    <Container fluid className="mt-5">
-      <Row>
-        <Col md={4}>
+    <div className="container mx-auto mt-8 px-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="md:col-span-1">
           <MenteeProfileHeader 
             name={mentee.name} 
             bio={mentee.bio} 
             profileImage={mentee.profileImage} 
           />
-        </Col>
-        <Col md={8}>
+        </div>
+        <div className="md:col-span-2 space-y-4">
           <MenteeSkills skills={mentee.skills} />
           <MenteeGoals goals={mentee.goals} />
           <MentorInfo mentor={mentee.mentor} />
-        </Col>
-      </Row>
-    </Container>
+        </div>
+      </div>
+    </div>
   );
 }
 

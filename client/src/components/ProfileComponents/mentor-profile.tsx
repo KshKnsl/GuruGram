@@ -152,7 +152,7 @@ export default function MentorProfile({
               {specialties.map((specialty, index) => (
                   <span
                     key={index}
-                    className="bg-blue-100 text-blue-800 text-sm font-medium px-2.5 py-0.5 rounded-full"
+                    className="bg-secondary text-primary text-sm font-medium px-2.5 py-0.5 rounded-full"
                   >
                     {specialty}
                   </span>
@@ -184,7 +184,7 @@ export default function MentorProfile({
             {articles.map((article) => (
               <div key={article._id} className="bg-gray-50 p-4 rounded-lg">
                 <h3 className="text-xl font-semibold mb-2">
-                  <Link to={`/articles/${article._id}`} className="text-blue-600 hover:underline">
+                  <Link to={`/articles/${article._id}`} className="text-primary hover:underline">
                     {article.title}
                   </Link>
                 </h3>
@@ -201,7 +201,7 @@ export default function MentorProfile({
 
       <div className="bg-gray-50 px-6 py-4 sm:px-8 sm:py-6 flex-col gap-2">
         <Link to="/chat"
-          className="w-full mt-4 flex justify-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+          className="w-full mt-4 flex justify-center bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
         >
           Connect and chat
         </Link>

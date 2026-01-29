@@ -7,44 +7,31 @@ import menteeRoutes from "./routes/mentee.routes.js";
 import articleRoutes from "./routes/article.routes.js";
 import { KJUR } from 'jsrsasign';
 import { app, server } from "./middlewares/socket.js";
+import morgan from 'morgan';
 
 import messageRoutes from "./routes/message.routes.js";
-import { inNumberArray, isBetween, isRequiredAllOrNone, validateRequest } from './validations.js';
+
+// Validation utilities removed per request
+
 
 dotenv.config();
 app.use(cors());
+app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.options('*', cors());
 
 app.get("/", (req, res) => {
   res.send("Welcome to the API");
 });
 
-const propValidations = {
-  role: inNumberArray([0, 1]),
-  expirationSeconds: isBetween(1800, 172800)
-};
-
-const schemaValidations = [isRequiredAllOrNone(['meetingNumber', 'role'])];
-
 const coerceRequestBody = (body) => ({
   ...body,
-  ...['role', 'expirationSeconds'].reduce(
-    (acc, cur) => ({ ...acc, [cur]: typeof body[cur] === 'string' ? parseInt(body[cur]) : body[cur] }),
-    {}
-  )
+  role: typeof body?.role === 'string' ? parseInt(body.role, 10) : body?.role,
+  expirationSeconds: typeof body?.expirationSeconds === 'string' ? parseInt(body.expirationSeconds, 10) : body?.expirationSeconds,
 });
 
 app.post('/generateSignature', (req, res) => {
-  const requestBody = coerceRequestBody(req.body);
-  const validationErrors = validateRequest(requestBody, propValidations, schemaValidations);
-
-  if (validationErrors.length > 0) {
-    return res.status(400).json({ errors: validationErrors });
-  }
-
-  const { meetingNumber, role, expirationSeconds } = requestBody;
+  const { meetingNumber, role, expirationSeconds } = coerceRequestBody(req.body);
   const iat = Math.floor(Date.now() / 1000);
   const exp = expirationSeconds ? iat + expirationSeconds : iat + 60 * 60 * 2;
   const oHeader = { alg: 'HS256', typ: 'JWT' };
@@ -63,6 +50,44 @@ app.post('/generateSignature', (req, res) => {
   const sPayload = JSON.stringify(oPayload);
   const sdkJWT = KJUR.jws.JWS.sign('HS256', sHeader, sPayload, process.env.ZOOM_MEETING_SDK_SECRET);
   return res.json({ signature: sdkJWT });
+});
+
+// Create a Zoom meeting for the current account (server-side)
+app.post('/api/zoom/createMeeting', async (req, res) => {
+  const { topic = 'GuruGram Meeting', type = 1, duration = 60, start_time } = req.body || {};
+  const apiKey = process.env.ZOOM_MEETING_SDK_KEY;
+  const apiSecret = process.env.ZOOM_MEETING_SDK_SECRET;
+  if (!apiKey || !apiSecret) return res.status(500).json({ error: 'Zoom API credentials are not configured on the server.' });
+
+  try {
+    // Create a short-lived JWT for Zoom REST API auth
+    const iat = Math.floor(Date.now() / 1000);
+    const exp = iat + 60; // 1 minute validity
+    const oHeader = { alg: 'HS256', typ: 'JWT' };
+    const oPayload = { iss: apiKey, exp };
+    const sHeader = JSON.stringify(oHeader);
+    const sPayload = JSON.stringify(oPayload);
+    const jwt = KJUR.jws.JWS.sign('HS256', sHeader, sPayload, apiSecret);
+
+    const response = await fetch('https://api.zoom.us/v2/users/me/meetings', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ topic, type, duration, start_time }),
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+      return res.status(response.status).json({ error: 'Zoom API error', details: data });
+    }
+
+    return res.json({ meetingNumber: data.id, password: data.password, join_url: data.join_url, raw: data });
+  } catch (err) {
+    console.error('Create meeting failed:', err);
+    return res.status(500).json({ error: 'Failed to create meeting', details: err?.message || err });
+  }
 });
 
 app.use("/api/mentor", mentorRoutes);

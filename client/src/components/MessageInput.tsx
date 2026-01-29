@@ -1,5 +1,5 @@
 import { useRef, useState, ChangeEvent, FormEvent } from "react";
-import { useChatStore } from "../Pages/chat/store/useChatStore";
+import { useChat } from "../context/ChatContext";
 import { Image, Send, X } from "lucide-react";
 import toast from "react-hot-toast";
 
@@ -7,7 +7,7 @@ const MessageInput = () => {
   const [text, setText] = useState<string>("");
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const { sendMessage } = useChatStore();
+  const { sendMessage } = useChat();
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];

@@ -54,7 +54,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({ comments, onAddComment 
       </AnimatePresence>
       <form onSubmit={handleSubmit} className="mt-6">
         <textarea
-          className="w-full p-3 border rounded-lg resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 bg-gray-100"
+          className="w-full p-3 border rounded-lg resize-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 bg-gray-100"
           rows={3}
           placeholder="Add a comment..."
           value={newComment}
@@ -64,7 +64,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({ comments, onAddComment 
           type="submit"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="mt-2 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition duration-300 dark:bg-blue-500 dark:hover:bg-blue-600"
+          className="mt-2 bg-primary text-primary-foreground px-6 py-2 rounded-lg hover:bg-primary/90 transition duration-300 dark:bg-primary/90 dark:hover:bg-primary/80"
         >
           Post Comment
         </motion.button>

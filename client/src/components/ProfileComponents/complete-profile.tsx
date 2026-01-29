@@ -10,7 +10,7 @@ export default function CompleteProfile() {
         <div className="p-8 md:p-10">
           <div className="flex justify-center mb-6">
             <div className="p-3 bg-blue-100 dark:bg-blue-900 rounded-full">
-              <ClipboardList className="w-12 h-12 text-blue-600 dark:text-blue-400" />
+              <ClipboardList className="w-12 h-12 text-primary" />
             </div>
           </div>
           <h1 className="text-3xl font-extrabold text-center text-gray-900 dark:text-white mb-4">
@@ -22,12 +22,12 @@ export default function CompleteProfile() {
           </p>
           <div className="flex justify-center mb-8">
             <div className="w-full max-w-xs bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-              <div className="bg-blue-600 dark:bg-blue-500 h-2 rounded-full w-1/4"></div>
+              <div className="bg-primary dark:bg-primary/90 h-2 rounded-full w-1/4"></div>
             </div>
           </div>
           <button
             onClick={() => navigate("/profile-completion")}
-            className="w-full bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center group"
+            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-3 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center group"
           >
             Start Profile Setup
             <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />
