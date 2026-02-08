@@ -5,10 +5,10 @@ import { ZoomMtg } from "@zoom/meetingsdk";
 
 interface CallProps {
   meetingNumber: string;
-  passWord: string;
+  password: string;
 }
 
-function Call({ meetingNumber, passWord}: CallProps) {
+function Call({ meetingNumber, password}: CallProps) {
   const [userName, setUserName] = useState("");
 
   const menteeId = localStorage.getItem("_id");
@@ -49,7 +49,7 @@ function Call({ meetingNumber, passWord}: CallProps) {
 
   // Local meeting state (can be created server-side or passed via props)
   const [localMeetingNumber, setLocalMeetingNumber] = useState<string>(meetingNumber ?? "");
-  const [localPassword, setLocalPassword] = useState<string>(passWord ?? "");
+  const [localPassword, setLocalPassword] = useState<string>(password ?? "");
   const [topic, setTopic] = useState<string>("GuruGram Meeting");
   const [creating, setCreating] = useState(false);
   const [creatingError, setCreatingError] = useState<string | null>(null);
@@ -130,7 +130,7 @@ function Call({ meetingNumber, passWord}: CallProps) {
           signature: signature,
           sdkKey: sdkKey,
           meetingNumber: localMeetingNumber,
-          password: localPassword,
+          passWord: localPassword,
           userName: userName,
           userEmail: userEmail,
           tk: registrantToken,
