@@ -11,7 +11,7 @@ async function createMentor(data) {
       email: data.email,
       password: data.password,
       dob: data.dob,
-      avatar: data.avatar || "https://avatar.iran.liara.run/public/boy",
+      avatar: data.avatar || "https://xsgames.co/randomusers/assets/avatars/pixel/10.jpg",
       bio: data.bio,
       socialLinks: data.socialLinks,
       points: data.points || 100,

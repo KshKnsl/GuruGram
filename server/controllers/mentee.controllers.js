@@ -11,7 +11,7 @@ async function createMentee(data) {
       email: data.email,
       password: data.password,
       dob: data.dob,
-      avatar: data.avatar || "https://avatar.iran.liara.run/public/boy",
+      avatar: data.avatar || "https://xsgames.co/randomusers/assets/avatars/pixel/10.jpg",
       bio: data.bio,
       socialLinks: data.socialLinks,
       interests: data.interests || ["Reading"],
@@ -48,7 +48,7 @@ async function updateMentee(data) {
   const update = {
     name: data.name,
     dob: data.dob,
-    avatar: data.avatar || "https://avatar.iran.liara.run/public",
+    avatar: data.avatar || "https://xsgames.co/randomusers/assets/avatars/pixel/10.jpg",
     bio: data.bio,
     socialLinks: data.socialLinks || [],
     interests: data.interests || ["Reading"],

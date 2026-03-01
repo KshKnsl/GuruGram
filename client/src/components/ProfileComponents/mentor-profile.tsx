@@ -37,7 +37,7 @@ interface MentorProfileProps {
 
 export default function MentorProfile({
   name,
-  avatar = "https://avatar.iran.liara.run/public/boy",
+  avatar = "https://xsgames.co/randomusers/assets/avatars/pixel/10.jpg",
   location = "Not specified",
   occupation = "Not specified",
   education = "Not specified",

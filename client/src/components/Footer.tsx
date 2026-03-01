@@ -1,4 +1,4 @@
-import { Facebook, Twitter, Linkedin, Instagram, Mail, Phone, MapPin, ArrowRight } from 'lucide-react'
+import { Facebook, Twitter, Linkedin, Instagram, ArrowRight } from 'lucide-react'
 import { useState } from 'react'
 import Logo from '../assets/Logo.gif'
 

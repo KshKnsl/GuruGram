@@ -97,7 +97,7 @@ const ChatContainer = () => {
               <img
                 src={
                   isMine
-                    ? authUser?.avatar || "https://avatar.iran.liara.run/public/boy"
+                    ? authUser?.avatar || "https://xsgames.co/randomusers/assets/avatars/pixel/10.jpg"
                     : selectedUser?.avatar || "/avatar.png"
                 }
                 alt="avatar"

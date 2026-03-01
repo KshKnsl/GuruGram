@@ -7,7 +7,7 @@ const menteeSchema = new mongoose.Schema(
     email: { type: String, required: true },
     password: { type: String, required: true, select: false },
     dob: { type: Date },
-    avatar: { type: String, default: "https://avatar.iran.liara.run/public/boy" },
+    avatar: { type: String, default: "https://xsgames.co/randomusers/assets/avatars/pixel/10.jpg" },
     bio: { type: String, default: "Experienced software engineer with a passion for mentoring. Specialized in distributed systems and machine learning. Committed to helping the next generation of developers excel in their careers." },
     socialLinks: { type: [String], default: [] },
     interests: { type: [String], default: ["Reading"] },

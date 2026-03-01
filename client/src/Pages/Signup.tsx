@@ -40,7 +40,7 @@ const SignUp: React.FC = () => {
     email: '',
     password: '',
     dob: '',
-    avatar: 'https://avatar.iran.liara.run/public/boy',
+    avatar: 'https://xsgames.co/randomusers/assets/avatars/pixel/10.jpg',
     bio: '',
     socialLinks: [],
     location: '',
