@@ -23,10 +23,10 @@ function MenteeProfile() {
     <div className="container mx-auto mt-8 px-4">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="md:col-span-1">
-          <MenteeProfileHeader 
-            name={mentee.name} 
-            bio={mentee.bio} 
-            profileImage={mentee.profileImage} 
+          <MenteeProfileHeader
+            name={mentee.name}
+            bio={mentee.bio}
+            profileImage={mentee.profileImage}
           />
         </div>
         <div className="md:col-span-2 space-y-4">

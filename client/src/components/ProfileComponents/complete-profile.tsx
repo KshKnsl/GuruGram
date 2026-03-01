@@ -5,37 +5,50 @@ export default function CompleteProfile() {
   const navigate = useNavigate()
 
   return (
-    <div className="container mx-auto px-4 py-8 flex items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="w-full max-w-lg bg-white dark:bg-gray-800 rounded-xl shadow-2xl overflow-hidden">
+    <div className="min-h-screen bg-stone-50 dark:bg-gray-950 flex items-center justify-center px-4 py-12">
+      <div className="w-full max-w-md bg-white dark:bg-gray-900 border border-amber-500/20 overflow-hidden">
         <div className="p-8 md:p-10">
-          <div className="flex justify-center mb-6">
-            <div className="p-3 bg-blue-100 dark:bg-blue-900 rounded-full">
-              <ClipboardList className="w-12 h-12 text-primary" />
-            </div>
+          {/* Icon */}
+          <div className="w-14 h-14 border border-amber-500/30 bg-amber-500/10 flex items-center justify-center mb-8">
+            <ClipboardList className="w-6 h-6 text-amber-500" />
           </div>
-          <h1 className="text-3xl font-extrabold text-center text-gray-900 dark:text-white mb-4">
+
+          {/* Label */}
+          <div className="flex items-center gap-3 mb-4">
+            <span className="inline-block w-6 h-px bg-amber-500 shrink-0" />
+            <span className="text-xs font-medium tracking-widest uppercase text-amber-500">Get Started</span>
+          </div>
+
+          <h1 className="font-serif-display text-2xl font-bold text-gray-900 dark:text-stone-100 mb-3">
             Complete Your Mentor Profile
           </h1>
-          <p className="text-center text-gray-600 dark:text-gray-300 mb-8 max-w-md mx-auto">
-            Take a moment to set up your professional profile. This will help mentees find and connect with you more
-            easily.
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-8 leading-relaxed">
+            Take a moment to set up your professional profile. This will help mentees find and connect with you more easily.
           </p>
-          <div className="flex justify-center mb-8">
-            <div className="w-full max-w-xs bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-              <div className="bg-primary dark:bg-primary/90 h-2 rounded-full w-1/4"></div>
+
+          {/* Progress bar */}
+          <div className="mb-8">
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="text-xs tracking-widest uppercase text-gray-400">Profile completion</span>
+              <span className="text-xs text-amber-500 font-medium">25%</span>
+            </div>
+            <div className="w-full bg-stone-200 dark:bg-gray-800 h-1">
+              <div className="bg-amber-500 h-1 w-1/4 transition-all duration-500" />
             </div>
           </div>
+
           <button
             onClick={() => navigate("/profile-completion")}
-            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-3 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center group"
+            className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-amber-500 hover:bg-amber-400 text-gray-900 text-sm font-medium tracking-widest uppercase transition-colors duration-200 group"
           >
             Start Profile Setup
-            <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
           </button>
         </div>
-        <div className="bg-gray-100 dark:bg-gray-700 px-8 py-4 md:px-10 md:py-6">
-          <p className="text-sm text-gray-600 dark:text-gray-300 text-center">
-            Your profile helps you stand out and connect with potential mentees. Let's make it shine!
+
+        <div className="border-t border-amber-500/20 px-8 py-4 md:px-10 bg-amber-500/5">
+          <p className="text-xs text-gray-500 dark:text-gray-400 text-center">
+            Your profile helps you stand out and connect with potential mentees.
           </p>
         </div>
       </div>

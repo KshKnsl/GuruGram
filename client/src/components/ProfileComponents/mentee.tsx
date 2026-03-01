@@ -29,11 +29,18 @@ export default function MenteePage() {
   }, [menteeId]);
 
   if (!menteeData2) {
-    return <div>Loading...</div>;
+    return (
+      <div className="min-h-screen bg-stone-50 dark:bg-gray-950 flex items-center justify-center">
+        <div className="flex items-center gap-3 text-xs tracking-widest uppercase text-amber-500">
+          <span className="w-4 h-4 border-2 border-amber-500 border-t-transparent rounded-full animate-spin" />
+          Loading...
+        </div>
+      </div>
+    );
   }
   
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="min-h-screen bg-stone-50 dark:bg-gray-950 pt-24 pb-12 px-4">
       <MenteeProfile name={''} avatar={''} location={''} occupation={''} education={''} bio={''} skills={[]} goals={[]} {...(menteeData2 || {})} />
     </div>
   )

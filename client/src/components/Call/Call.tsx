@@ -152,45 +152,71 @@ function Call({ meetingNumber, password}: CallProps) {
   }
 
   return (
-    <div className="pt-20 container flex flex-col items-center justify-center dark:bg-gray-900 w-screen">
-      <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg text-center max-w-md w-full">
-        <h1 className="text-2xl font-bold mb-4">Zoom Meeting</h1>
+    <div className="min-h-screen pt-20 bg-stone-50 dark:bg-gray-950 flex items-center justify-center px-4">
+      <div className="bg-white dark:bg-gray-900 border border-amber-500/20 p-8 w-full max-w-md">
+        {/* Header */}
+        <div className="mb-8">
+          <div className="flex items-center gap-3 mb-3">
+            <span className="inline-block w-6 h-px bg-amber-500 shrink-0" />
+            <span className="text-xs font-medium tracking-widest uppercase text-amber-500">Video Session</span>
+          </div>
+          <h1 className="font-serif-display text-2xl font-bold text-gray-900 dark:text-stone-100">
+            Zoom Meeting
+          </h1>
+        </div>
 
-        <div className="mb-4 text-left">
-          <label className="block text-sm font-medium mb-1">Topic</label>
+        {/* Topic input */}
+        <div className="mb-5">
+          <label className="block text-xs font-medium tracking-widest uppercase text-gray-500 dark:text-gray-400 mb-2">
+            Topic
+          </label>
           <input
             value={topic}
             onChange={(e) => setTopic(e.target.value)}
-            className="w-full px-3 py-2 border rounded-md"
+            className="w-full px-4 py-2.5 text-sm bg-transparent border border-amber-500/20 text-gray-900 dark:text-stone-100 placeholder:text-gray-400 focus:outline-none focus:border-amber-500 transition-colors"
             placeholder="Meeting topic"
           />
         </div>
 
-        <div className="flex gap-2 justify-center mb-4">
+        {/* Actions */}
+        <div className="flex gap-3 mb-6">
           <button
             onClick={createMeeting}
             disabled={creating}
-            className="bg-primary text-primary-foreground px-4 py-2 rounded hover:bg-primary/90 transition duration-300 dark:bg-primary/90 dark:hover:bg-primary/80"
+            className="flex-1 px-5 py-2.5 bg-amber-500 hover:bg-amber-400 text-gray-900 text-xs font-medium tracking-widest uppercase transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
           >
             {creating ? 'Creating...' : 'Create Meeting'}
           </button>
           <button
             onClick={getSignature}
-            className="bg-secondary text-secondary-foreground px-4 py-2 rounded hover:bg-secondary/90 transition duration-300 dark:bg-secondary/90 dark:hover:bg-secondary/80"
+            className="flex-1 px-5 py-2.5 border border-amber-500/30 text-xs font-medium tracking-widest uppercase text-amber-600 dark:text-amber-400 hover:bg-amber-500 hover:text-gray-900 hover:border-amber-500 transition-all duration-200"
           >
             Join Meeting
           </button>
         </div>
 
+        {/* Meeting details */}
         {localMeetingNumber && (
-          <div className="text-sm text-left mt-2">
-            <div><strong>Meeting:</strong> {localMeetingNumber}</div>
-            <div><strong>Password:</strong> {localPassword || '(none)'}</div>
-            <div className="mt-2 text-xs text-gray-500">You can share these details with the other participant.</div>
+          <div className="border border-amber-500/20 p-4 space-y-2">
+            <div className="flex items-center justify-between text-sm">
+              <span className="text-xs tracking-widest uppercase text-gray-400">Meeting ID</span>
+              <span className="font-medium text-gray-900 dark:text-stone-100">{localMeetingNumber}</span>
+            </div>
+            <div className="flex items-center justify-between text-sm">
+              <span className="text-xs tracking-widest uppercase text-gray-400">Password</span>
+              <span className="font-medium text-gray-900 dark:text-stone-100">{localPassword || '(none)'}</span>
+            </div>
+            <p className="text-xs text-gray-400 pt-1 border-t border-amber-500/10">
+              Share these details with the other participant.
+            </p>
           </div>
         )}
 
-        {creatingError && <p className="text-red-600 mt-3">{creatingError}</p>}
+        {creatingError && (
+          <p className="mt-4 text-xs text-red-500 border border-red-500/20 bg-red-500/5 px-4 py-2.5">
+            {creatingError}
+          </p>
+        )}
       </div>
     </div>
   );

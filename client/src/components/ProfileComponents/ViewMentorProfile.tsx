@@ -45,93 +45,99 @@ export default function ViewMentorProfile() {
   }, [id])
 
   if (!mentorData) {
-    return <div>Loading...</div>
+    return (
+      <div className="min-h-screen bg-stone-50 dark:bg-gray-950 flex items-center justify-center">
+        <div className="flex items-center gap-3 text-xs tracking-widest uppercase text-amber-500">
+          <span className="w-4 h-4 border-2 border-amber-500 border-t-transparent rounded-full animate-spin" />
+          Loading...
+        </div>
+      </div>
+    )
   }
 
   return (
-    <div className="bg-white shadow-lg rounded-lg overflow-hidden max-w-3xl mx-auto">
+    <div className="border border-amber-500/20 bg-white dark:bg-gray-900 max-w-3xl mx-auto overflow-hidden">
       <div className="p-6 sm:p-8">
-        <div className="flex flex-col sm:flex-row items-center gap-4 mb-6">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row items-center gap-5 mb-8">
           <img
             src={mentorData.avatar || "/placeholder.svg"}
             alt={mentorData.name}
-            className="w-24 h-24 rounded-full object-cover"
+            className="w-24 h-24 rounded-full object-cover border border-amber-500/20 shrink-0"
           />
-          <div className="text-center sm:text-left flex-grow">
-            <h1 className="text-2xl font-bold text-gray-800">{mentorData.name}</h1>
-            <div className="mt-2 flex flex-col sm:flex-row items-center gap-2 text-sm text-gray-600">
-              <span className="flex items-center gap-1">
-                <MapPin className="w-4 h-4" />
-                {mentorData.location}
-              </span>
-              <span className="hidden sm:inline">•</span>
-              <span className="flex items-center gap-1">
-                <Briefcase className="w-4 h-4" />
-                {mentorData.occupation}
-              </span>
-              <span className="hidden sm:inline">•</span>
-              <span className="flex items-center gap-1">
-                <GraduationCap className="w-4 h-4" />
-                {mentorData.education}
-              </span>
+          <div className="text-center sm:text-left grow">
+            <h1 className="font-serif-display text-2xl font-bold text-gray-900 dark:text-stone-100">{mentorData.name}</h1>
+            <div className="mt-2 flex flex-wrap justify-center sm:justify-start items-center gap-x-3 gap-y-1 text-xs text-gray-500 dark:text-gray-400">
+              <span className="flex items-center gap-1"><MapPin className="w-3.5 h-3.5 text-amber-500" />{mentorData.location}</span>
+              <span className="flex items-center gap-1"><Briefcase className="w-3.5 h-3.5 text-amber-500" />{mentorData.occupation}</span>
+              <span className="flex items-center gap-1"><GraduationCap className="w-3.5 h-3.5 text-amber-500" />{mentorData.education}</span>
             </div>
           </div>
-          <div className="flex flex-col items-center sm:items-end gap-2">
-            <div className="flex items-center gap-1 text-yellow-500">
-              <Star className="w-5 h-5" />
-              <span className="font-bold">{mentorData.rating.toFixed(1)}</span>
+          <div className="flex flex-col items-center sm:items-end gap-2 shrink-0">
+            <div className="flex items-center gap-1.5 border border-amber-500/20 px-3 py-1.5">
+              <Star className="w-4 h-4 text-amber-500 fill-amber-500" />
+              <span className="text-sm font-semibold text-gray-900 dark:text-stone-100">{mentorData.rating.toFixed(1)}</span>
             </div>
-           
           </div>
         </div>
 
-        <div className="space-y-6">
+        <div className="space-y-8">
+          {/* Bio */}
           <div>
-            <h2 className="text-lg font-semibold text-gray-800 mb-2">Bio</h2>
-            <p className="text-gray-600">{mentorData.bio}</p>
+            <div className="flex items-center gap-3 mb-3">
+              <span className="inline-block w-5 h-px bg-amber-500 shrink-0" />
+              <span className="text-xs font-medium tracking-widest uppercase text-amber-500">Bio</span>
+            </div>
+            <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{mentorData.bio}</p>
           </div>
 
+          {/* Skills */}
           <div>
-            <h2 className="text-lg font-semibold text-gray-800 mb-2">Skills</h2>
-            <div className="space-y-2">
+            <div className="flex items-center gap-3 mb-3">
+              <span className="inline-block w-5 h-px bg-amber-500 shrink-0" />
+              <span className="text-xs font-medium tracking-widest uppercase text-amber-500">Skills</span>
+            </div>
+            <div className="space-y-3">
               {mentorData.skills.map((skill, index) => (
-                <div key={index} className="flex items-center gap-2">
-                  <span className="w-24 text-sm text-gray-600">{skill.name}</span>
-                  <div className="flex-1 bg-gray-200 rounded-full h-2">
-                    <div
-                      className="bg-blue-600 rounded-full h-2"
-                      style={{ width: `${skill.level}%` }}
-                    ></div>
+                <div key={index} className="flex items-center gap-3">
+                  <span className="w-24 text-xs text-gray-600 dark:text-gray-400 shrink-0">{skill.name}</span>
+                  <div className="flex-1 bg-stone-100 dark:bg-gray-800 h-1.5">
+                    <div className="bg-amber-500 h-1.5 transition-all duration-500" style={{ width: `${skill.level}%` }} />
                   </div>
-                  <span className="text-sm text-gray-600 w-8 text-right">{skill.level}%</span>
+                  <span className="text-xs text-gray-500 dark:text-gray-400 w-8 text-right">{skill.level}%</span>
                 </div>
               ))}
             </div>
           </div>
 
+          {/* Specialties */}
           <div>
-            <h2 className="text-lg font-semibold text-gray-800 mb-2">Specialties</h2>
+            <div className="flex items-center gap-3 mb-3">
+              <span className="inline-block w-5 h-px bg-amber-500 shrink-0" />
+              <span className="text-xs font-medium tracking-widest uppercase text-amber-500">Specialties</span>
+            </div>
             <div className="flex flex-wrap gap-2">
               {mentorData.specialties.map((specialty, index) => (
-                <span
-                  key={index}
-                  className="bg-blue-100 text-blue-800 text-sm font-medium px-2.5 py-0.5 rounded-full"
-                >
+                <span key={index} className="inline-flex items-center px-3 py-1 border border-amber-500/20 bg-amber-500/8 text-xs font-medium text-amber-700 dark:text-amber-400">
                   {specialty}
                 </span>
               ))}
             </div>
           </div>
 
+          {/* Badges */}
           <div>
-            <h2 className="text-lg font-semibold text-gray-800 mb-2">Badges</h2>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+            <div className="flex items-center gap-3 mb-3">
+              <span className="inline-block w-5 h-px bg-amber-500 shrink-0" />
+              <span className="text-xs font-medium tracking-widest uppercase text-amber-500">Badges</span>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               {mentorData.badges.map((badge, index) => (
-                <div key={index} className="flex items-center gap-2 bg-gray-50 p-2 rounded-lg">
-                  <Trophy className="w-8 h-8 text-yellow-500" />
+                <div key={index} className="flex items-center gap-3 border border-amber-500/20 p-3">
+                  <Trophy className="w-7 h-7 text-amber-500 shrink-0" />
                   <div>
-                    <h3 className="font-medium text-gray-800">{badge.name}</h3>
-                    <p className="text-xs text-gray-600">{badge.description}</p>
+                    <h3 className="text-xs font-semibold text-gray-900 dark:text-stone-100">{badge.name}</h3>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">{badge.description}</p>
                   </div>
                 </div>
               ))}
@@ -140,10 +146,8 @@ export default function ViewMentorProfile() {
         </div>
       </div>
 
-      <div className="bg-gray-50 px-6 py-4 sm:px-8 sm:py-6">
-        <button
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
-        >
+      <div className="border-t border-amber-500/20 px-6 py-4 sm:px-8 bg-amber-500/5">
+        <button className="w-full flex items-center justify-center px-6 py-2.5 bg-amber-500 hover:bg-amber-400 text-gray-900 text-xs font-medium tracking-widest uppercase transition-colors duration-200">
           Request Mentorship
         </button>
       </div>

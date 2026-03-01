@@ -50,10 +50,10 @@ function MenteeProfile()
     ],
   };
   return (
-    <div className="container mx-auto px-4 bg-slate-50 dark:bg-gray-900 text-slate-900 dark:text-white min-h-screen" style={{ marginTop: '80px' }}>
+    <div className="container mx-auto px-4 bg-stone-50 dark:bg-gray-950 text-gray-900 dark:text-stone-100 min-h-screen" style={{ marginTop: '80px' }}>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-5">
         <div className="md:col-span-1">
-          <div className="shadow-sm p-3 mb-5 rounded bg-white dark:bg-gray-800">
+          <div className="border border-amber-500/20 p-3 mb-5 bg-white dark:bg-gray-900">
             <MenteeProfileHeader
               name={mentee.name}
               bio={mentee.bio}
@@ -62,15 +62,13 @@ function MenteeProfile()
           </div>
         </div>
         <div className="md:col-span-2">
-          <div className="shadow-sm p-3 mb-4 rounded bg-white dark:bg-gray-800">
+          <div className="border border-amber-500/20 p-3 mb-4 bg-white dark:bg-gray-900">
             <MenteeSkills skills={mentee.skills} />
           </div>
-          <div className="shadow-sm p-3 mb-4 rounded bg-white dark:bg-gray-800">
+          <div className="border border-amber-500/20 p-3 mb-4 bg-white dark:bg-gray-900">
             <MenteeGoals goals={mentee.goals} />
           </div>
-
-          {/* Scrollable Mentor Section */}
-          <div className="shadow-sm p-3 mt-4 rounded bg-white dark:bg-gray-800">
+          <div className="border border-amber-500/20 p-3 mt-4 bg-white dark:bg-gray-900">
             <div className="mentor-list space-y-4">
               {mentee.mentors.map((mentor, index) => (
                 <MentorInfo key={index} mentor={mentor} />
