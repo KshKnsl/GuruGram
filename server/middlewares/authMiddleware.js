@@ -3,7 +3,6 @@ import Mentor from "../models/Mentor.model.js";
 import Mentee from "../models/Mentee.model.js";
 
 const protect = async (req, res, next) => {
-  // Support tokens from Authorization header or x-auth-token
   const authHeader = req.header("Authorization");
   const token = authHeader?.startsWith("Bearer ") ? authHeader.split(" ")[1] : req.header("x-auth-token");
 
@@ -21,7 +20,6 @@ const protect = async (req, res, next) => {
       return res.status(401).json({ message: "Token is not valid" });
     }
 
-    // Try to determine user role by checking mentor then mentee collections
     const userId = decoded.id;
     let role = null;
 

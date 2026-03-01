@@ -14,6 +14,7 @@ interface FormData {
   bio: string
   skills: { name: string; level: number }[]
   specialties: string[]
+  goals: string[]
 }
 
 const locationOptions = [
@@ -136,16 +137,45 @@ export default function ProfileCompletion() {
     bio: "",
     skills: [{ name: "", level: 0 }],
     specialties: [""],
+    goals: [""],
   })
 
   const navigate = useNavigate()
+  const role = localStorage.getItem("role")
 
   useEffect(() => {
     const userId = localStorage.getItem("_id")
     if (!userId) {
       navigate("/login")
+      return
     }
-  }, [navigate])
+    const endpoint =
+      role === "mentor"
+        ? `${import.meta.env.VITE_BACKEND_URL}/api/mentor/${userId}`
+        : `${import.meta.env.VITE_BACKEND_URL}/api/mentee/${userId}`
+    fetch(endpoint)
+      .then((r) => r.json())
+      .then((data) => {
+        const getVal = (val: string, opts: string[]) =>
+          opts.includes(val) ? val : val ? "Other" : ""
+        const getCustom = (val: string, opts: string[]) =>
+          opts.includes(val) ? "" : val || ""
+        setFormData((prev) => ({
+          ...prev,
+          location: getVal(data.location, locationOptions),
+          customLocation: getCustom(data.location, locationOptions),
+          occupation: getVal(data.occupation, occupationOptions),
+          customOccupation: getCustom(data.occupation, occupationOptions),
+          education: getVal(data.education, educationOptions),
+          customEducation: getCustom(data.education, educationOptions),
+          bio: data.bio || "",
+          skills: data.skills?.length ? data.skills : [{ name: "", level: 0 }],
+          specialties: data.specialties?.length ? data.specialties : [""],
+          goals: data.goals?.length ? data.goals : [""],
+        }))
+      })
+      .catch(console.error)
+  }, [navigate, role])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target
@@ -170,11 +200,20 @@ export default function ProfileCompletion() {
     setFormData({ ...formData, specialties: newSpecialties })
   }
 
+  const handleGoalChange = (index: number, value: string) => {
+    const newGoals = [...formData.goals]
+    newGoals[index] = value
+    setFormData({ ...formData, goals: newGoals })
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
       const userId = localStorage.getItem("_id")
-      const endpoint = `${import.meta.env.VITE_BACKEND_URL}/api/mentor/updateMentor`
+      const endpoint =
+        role === "mentor"
+          ? `${import.meta.env.VITE_BACKEND_URL}/api/mentor/updateMentor`
+          : `${import.meta.env.VITE_BACKEND_URL}/api/mentee/updateMentee`
 
       const submissionData = {
         ...formData,
@@ -189,9 +228,7 @@ export default function ProfileCompletion() {
         body: JSON.stringify({ ...submissionData, _id: userId }),
       })
       if (res.ok) {
-        const data = await res.json()
-        console.log(data)
-        navigate("/profile/mentor")
+        navigate(role === "mentor" ? "/profile/mentor" : "/profile")
       } else {
         console.error("Failed to update profile:", res)
       }
@@ -287,6 +324,53 @@ export default function ProfileCompletion() {
           </motion.div>
         )
       case 4:
+        if (role === "mentee") {
+          return (
+            <motion.div key="step4-goals" {...fadeInOut}>
+              <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white">Goals</h2>
+              <div className="space-y-4">
+                {formData.goals.map((goal, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.2 }}
+                    className="flex space-x-2"
+                  >
+                    <input
+                      type="text"
+                      value={goal}
+                      onChange={(e) => handleGoalChange(index, e.target.value)}
+                      placeholder="e.g. Learn React, Land a job at FAANG"
+                      className="flex-1 px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const newGoals = [...formData.goals]
+                        newGoals.splice(index, 1)
+                        setFormData({ ...formData, goals: newGoals })
+                      }}
+                      className="p-2 text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 focus:outline-none"
+                    >
+                      <Trash2 size={20} />
+                    </button>
+                  </motion.div>
+                ))}
+                <motion.button
+                  type="button"
+                  onClick={() => setFormData({ ...formData, goals: [...formData.goals, ""] })}
+                  className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:bg-blue-500 dark:hover:bg-blue-600"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Plus size={20} className="mr-2" /> Add Goal
+                </motion.button>
+              </div>
+            </motion.div>
+          )
+        }
         return (
           <motion.div key="step4" {...fadeInOut}>
             <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white">Specialties</h2>
@@ -426,7 +510,7 @@ export default function ProfileCompletion() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            Complete Your Profile
+            Edit Your Profile
           </motion.h1>
           <motion.div
             className="mb-8"
@@ -451,7 +535,7 @@ export default function ProfileCompletion() {
               <span>Basic Info</span>
               <span>Bio</span>
               <span>Skills</span>
-              <span>Specialties</span>
+              <span>{role === "mentee" ? "Goals" : "Specialties"}</span>
             </div>
           </motion.div>
           <form onSubmit={handleSubmit}>

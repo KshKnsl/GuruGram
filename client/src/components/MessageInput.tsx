@@ -49,63 +49,64 @@ const MessageInput = () => {
   };
 
   return (
-    <div className="p-4 w-full text-black dark:text-white">
+    <div className="px-4 py-3 border-t border-amber-500/20 bg-white dark:bg-gray-900 shrink-0">
       {imagePreview && (
-        <div className="mb-3 flex items-center gap-2">
-          <div className="relative">
+        <div className="mb-3">
+          <div className="relative inline-block">
             <img
               src={imagePreview}
               alt="Preview"
-              className="w-20 h-20 object-cover rounded-lg border border-zinc-700 dark:border-zinc-300"
+              className="h-20 w-20 object-cover border border-amber-500/30"
             />
             <button
               onClick={removeImage}
-              className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-gray-300 dark:bg-gray-700
-              flex items-center justify-center"
               type="button"
               title="Remove image"
+              className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-gray-900 dark:bg-stone-100 text-white dark:text-gray-900 flex items-center justify-center"
             >
-              <X className="size-3" />
+              <X className="w-3 h-3" />
             </button>
           </div>
         </div>
       )}
 
       <form onSubmit={handleSendMessage} className="flex items-center gap-2">
-        <div className="flex-1 flex gap-2">
-          <input
-            type="text"
-            className="w-full input input-bordered rounded-lg input-sm sm:input-md bg-gray-100 dark:bg-gray-800"
-            placeholder="Type a message..."
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-          />
-          <input
-            type="file"
-            accept="image/*"
-            className="hidden"
-            ref={fileInputRef}
-            onChange={handleImageChange}
-            title="Upload an image"
-          />
+        <input
+          type="file"
+          accept="image/*"
+          className="hidden"
+          ref={fileInputRef}
+          onChange={handleImageChange}
+          title="Upload an image"
+        />
+        <button
+          type="button"
+          onClick={() => fileInputRef.current?.click()}
+          title="Attach image"
+          className={`p-2 border transition-colors shrink-0 ${
+            imagePreview
+              ? "border-amber-500 text-amber-500"
+              : "border-amber-500/20 text-gray-400 hover:border-amber-500 hover:text-amber-500"
+          }`}
+        >
+          <Image className="w-4 h-4" />
+        </button>
 
-          <button
-            type="button"
-            className={`hidden sm:flex btn btn-circle bg-slate-50 dark:bg-gray-700
-                     ${imagePreview ? "text-emerald-500" : "text-zinc-800 dark:text-zinc-300"}`}
-            onClick={() => fileInputRef.current?.click()}
-            title="Upload an image"
-          >
-            <Image size={20} />
-          </button>
-        </div>
+        <input
+          type="text"
+          className="flex-1 px-4 py-2.5 text-sm bg-transparent border border-amber-500/20 text-gray-900 dark:text-stone-100 placeholder:text-gray-400 dark:placeholder:text-gray-600 focus:outline-none focus:border-amber-500 transition-colors"
+          placeholder="Type a message..."
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+        />
+
         <button
           type="submit"
-          className="btn sm:flex btn-circle bg-emerald-500 text-white hover:bg-emerald-600 disabled:bg-gray-400  dark:bg-gray-700"
           disabled={!text.trim() && !imagePreview}
           title="Send message"
+          className="p-2.5 bg-amber-500 hover:bg-amber-400 text-gray-900 transition-colors disabled:opacity-40 disabled:cursor-not-allowed shrink-0"
         >
-          <Send size={22} />
+          <Send className="w-4 h-4" />
         </button>
       </form>
     </div>

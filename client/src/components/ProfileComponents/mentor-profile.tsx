@@ -1,4 +1,4 @@
-import { MapPin, Briefcase, GraduationCap, Star, Trophy } from 'lucide-react'
+import { MapPin, Briefcase, GraduationCap, Star, Trophy, Pencil } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import GuruCoins from '../GuruCoins'
 import { useEffect, useState } from 'react'
@@ -206,10 +206,11 @@ export default function MentorProfile({
           Connect and chat
         </Link>
         <Link
-          to="/complete-profile"
-          className="w-full mt-4 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 ease-in-out text-center block"
+          to="/profile-completion"
+          className="w-full mt-4 flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
         >
-          Complete or Update Your Profile
+          <Pencil className="w-4 h-4" />
+          Edit Profile
         </Link>
       </div>
     </div>

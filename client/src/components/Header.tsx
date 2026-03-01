@@ -29,7 +29,7 @@ const NavbarLinks = ({ onClick }: { onClick: () => void }) => {
               : ''
             }`}
         >
-          <link.icon className="h-3.5 w-3.5 flex-shrink-0" />
+          <link.icon className="h-3.5 w-3.5 shrink-0" />
           {link.label}
         </Link>
       ))}
@@ -53,15 +53,13 @@ const Navbar = () => {
   const toggleMenu = useCallback(() => setIsOpen((prev) => !prev), [])
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300
-      ${scrolled
-        ? 'bg-white/95 dark:bg-gray-950/95 backdrop-blur-md border-b border-amber-500/15 shadow-sm'
-        : 'bg-white/80 dark:bg-gray-950/80 backdrop-blur-sm border-b border-transparent'
-      }`}>
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-stone-50 dark:bg-gray-950 border-b border-amber-500/20
+      ${scrolled ? 'shadow-sm' : ''}
+    `}>
       <div className="max-w-7xl mx-auto px-6 md:px-10">
         <div className="flex items-center justify-between h-16">
 
-          <Link to="/" className="flex items-center gap-3 flex-shrink-0 group">
+          <Link to="/" className="flex items-center gap-3 shrink-0 group">
             <img src={Logo} alt="Logo" className="h-16 w-auto" />
           </Link>
 
@@ -137,7 +135,7 @@ const Navbar = () => {
       </div>
 
       {isOpen && (
-        <div className="md:hidden border-t border-amber-500/15 bg-white/98 dark:bg-gray-950/98 backdrop-blur-md">
+        <div className="md:hidden border-t border-amber-500/15 bg-stone-50 dark:bg-gray-950">
           <div className="px-6 py-4 flex flex-col gap-1">
             <NavbarLinks onClick={() => setIsOpen(false)} />
           </div>

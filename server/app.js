@@ -11,7 +11,6 @@ import morgan from 'morgan';
 
 import messageRoutes from "./routes/message.routes.js";
 
-// Validation utilities removed per request
 
 
 dotenv.config();
@@ -52,7 +51,6 @@ app.post('/generateSignature', (req, res) => {
   return res.json({ signature: sdkJWT });
 });
 
-// Create a Zoom meeting for the current account (server-side)
 app.post('/api/zoom/createMeeting', async (req, res) => {
   const { topic = 'GuruGram Meeting', type = 1, duration = 60, start_time } = req.body || {};
   const apiKey = process.env.ZOOM_MEETING_SDK_KEY;
@@ -60,9 +58,8 @@ app.post('/api/zoom/createMeeting', async (req, res) => {
   if (!apiKey || !apiSecret) return res.status(500).json({ error: 'Zoom API credentials are not configured on the server.' });
 
   try {
-    // Create a short-lived JWT for Zoom REST API auth
     const iat = Math.floor(Date.now() / 1000);
-    const exp = iat + 60; // 1 minute validity
+    const exp = iat + 60;
     const oHeader = { alg: 'HS256', typ: 'JWT' };
     const oPayload = { iss: apiKey, exp };
     const sHeader = JSON.stringify(oHeader);

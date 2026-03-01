@@ -2,9 +2,7 @@ import Mentor from "../models/Mentor.model.js";
 import Mentee from "../models/Mentee.model.js";
 import Message from "../models/message.model.js";
 import { getReceiverSocketId, io } from "../middlewares/socket.js";
-//import cloudinary from "../lib/cloudinary";
 
-// Fetch users excluding the logged-in user
 export const getUsersForSidebar = async (req, res) => {
   console.log("here");
   try {
@@ -32,7 +30,6 @@ export const getUsersForSidebar = async (req, res) => {
   }
 };
 
-// Fetch messages between the logged-in user and another user
 export const getMessages = async (req, res) => {
   try {
     console.log("getMessages controller");
@@ -53,7 +50,6 @@ export const getMessages = async (req, res) => {
       ],
     }).sort({ createdAt: 1 });
 
-    // sanitize message objects for client
     const sanitized = messages.map((m) => ({
       _id: m._id.toString(),
       senderId: m.senderId.toString(),
@@ -70,7 +66,6 @@ export const getMessages = async (req, res) => {
   }
 };
 
-// Send a new message
 export const sendMessage = async (req, res) => {
   try {
     const { text, image } = req.body;
@@ -85,7 +80,6 @@ export const sendMessage = async (req, res) => {
 
     console.log("sendMessage controller", receiverId, loggedInUserId, text);
 
-    // Basic receiver validation (must exist in either Mentor or Mentee)
     const receiverIsMentor = await Mentor.findById(receiverId).select("_id");
     const receiverIsMentee = await Mentee.findById(receiverId).select("_id");
     if (!receiverIsMentor && !receiverIsMentee) {
@@ -94,7 +88,6 @@ export const sendMessage = async (req, res) => {
 
     let imageUrl;
     if (image) {
-      // Upload base64 image to cloudinary if implemented
       console.log("image present in message request");
     }
 
@@ -116,13 +109,11 @@ export const sendMessage = async (req, res) => {
       createdAt: newMessage.createdAt,
     };
 
-    // Send the message to the receiver
     const receiverSocketId = getReceiverSocketId(receiverId);
     if (receiverSocketId) {
       io.to(receiverSocketId).emit("newMessage", payload);
     }
 
-    // Also send the message back to the sender to update their UI
     const senderSocketId = getReceiverSocketId(loggedInUserId);
     if (senderSocketId) {
       io.to(senderSocketId).emit("newMessage", payload);

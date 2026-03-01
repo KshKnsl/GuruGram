@@ -17,7 +17,7 @@ import MentorChatPage from "./Pages/MentorChat";
 
 import Article from "./Pages/Articles/[id]";
 import ArticlesPage from "./Pages/Articles";
-import ArticleEditor from "./components/Articles/ArticleEditor";
+import NewArticle from "./Pages/Articles/NewArticle";
 
 import CompleteProfile from './components/ProfileComponents/complete-profile'
 import MenteeProfile from './components/ProfileComponents/mentee'
@@ -105,9 +105,9 @@ export default function App() {
   return (
     <AuthProvider>
       <ThemeProvider value={{ themeMode, darkTheme, lightTheme }}>
-        <div className="min-h-screen flex flex-col dark:bg-gray-900 bg-white text-black dark:text-white">
+        <div className="min-h-screen flex flex-col bg-stone-50 dark:bg-gray-950 text-gray-900 dark:text-stone-100">
           <Header />
-          <main className="flex-grow pt-16">
+          <main className="grow pt-16">
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
@@ -122,7 +122,7 @@ export default function App() {
 
               <Route path="/call" element={<Call meetingNumber={'6943829690'} password={'4Yjz7F'} />} />
 
-              <Route path="/articles/new" element={<ArticleEditor onSubmit={handleNewArticle} />} />
+              <Route path="/articles/new" element={<NewArticle onSubmit={handleNewArticle} />} />
               <Route path="/articles" element={<ArticlesPage articles={articles} onLike={handleLike} />} />
               <Route path="/articles/:id" element={<Article />} />
 

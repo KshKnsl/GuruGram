@@ -1,4 +1,3 @@
-// controllers/articleController.js
 import Article from '../models/Article.model.js';
 import Mentor from '../models/Mentor.model.js';
 
@@ -38,7 +37,6 @@ export const createArticle = async (req, res) => {
     console.log('Creating a new article');
     const newArticle = await article.save();
 
-    // Update mentor's articles
     const mentor = await Mentor.findById(req.body.author);
     if (mentor) {
       mentor.articles.push(newArticle._id);

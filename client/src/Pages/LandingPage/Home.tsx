@@ -1,4 +1,5 @@
 import { useState, useEffect, type ReactNode } from "react";
+import { Link } from "react-router-dom";
 
 const texts = [
   "Marketing","AWS","Career","Web Development",
@@ -76,20 +77,16 @@ function SectionTitle({ children }: { children: ReactNode }) {
   );
 }
 
-function PrimaryButton({ children }: { children: ReactNode }) {
-  return (
-    <button className="clip-skew px-9 py-4 text-xs font-medium tracking-widest uppercase cursor-pointer bg-amber-500 hover:bg-amber-400 text-gray-900 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_40px_rgba(201,168,76,0.35)] border-0">
-      {children}
-    </button>
-  );
+function PrimaryButton({ children, to, onClick }: { children: ReactNode; to?: string; onClick?: () => void }) {
+  const cls = "clip-skew px-9 py-4 text-xs font-medium tracking-widest uppercase cursor-pointer bg-amber-500 hover:bg-amber-400 text-gray-900 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_40px_rgba(201,168,76,0.35)] border-0";
+  if (to) return <Link to={to} className={cls}>{children}</Link>;
+  return <button onClick={onClick} className={cls}>{children}</button>;
 }
 
-function GhostButton({ children }: { children: ReactNode }) {
-  return (
-    <button className="px-8 py-4 text-xs font-light tracking-widest uppercase cursor-pointer bg-transparent border border-amber-500/30 text-gray-700 dark:text-stone-300 hover:border-amber-500 hover:text-amber-500 transition-all duration-300">
-      {children}
-    </button>
-  );
+function GhostButton({ children, to, onClick }: { children: ReactNode; to?: string; onClick?: () => void }) {
+  const cls = "px-8 py-4 text-xs font-light tracking-widest uppercase cursor-pointer bg-transparent border border-amber-500/30 text-gray-700 dark:text-stone-300 hover:border-amber-500 hover:text-amber-500 transition-all duration-300";
+  if (to) return <Link to={to} className={cls}>{children}</Link>;
+  return <button onClick={onClick} className={cls}>{children}</button>;
 }
 
 function ShowcaseCard({ c, active }: { c: typeof cardData[number]; active: boolean }) {
@@ -110,9 +107,9 @@ function ShowcaseCard({ c, active }: { c: typeof cardData[number]; active: boole
               Available for 1-on-1 sessions
             </p>
           </div>
-          <span className="mt-4 self-start text-xs tracking-widest uppercase font-medium text-amber-500 border-b border-amber-500 pb-0.5 cursor-pointer hover:opacity-70 transition-opacity">
+          <Link to="/all/mentors" className="mt-4 self-start text-xs tracking-widest uppercase font-medium text-amber-500 border-b border-amber-500 pb-0.5 cursor-pointer hover:opacity-70 transition-opacity">
             Connect Now →
-          </span>
+          </Link>
         </div>
       </div>
     </div>
@@ -137,7 +134,7 @@ function StepCard({ s, isLast }: { s: typeof steps[number]; isLast: boolean }) {
 
 function MentorCard({ m }: { m: typeof mentors[number] }) {
   return (
-    <div className="overflow-hidden cursor-pointer transition-all duration-300 group bg-white dark:bg-gray-800 border border-amber-500/20 hover:-translate-y-1.5 hover:border-amber-500/50 hover:shadow-xl dark:hover:shadow-[0_24px_60px_rgba(0,0,0,0.5)]">
+    <Link to="/all/mentors" className="overflow-hidden cursor-pointer transition-all duration-300 group bg-white dark:bg-gray-800 border border-amber-500/20 hover:-translate-y-1.5 hover:border-amber-500/50 hover:shadow-xl dark:hover:shadow-[0_24px_60px_rgba(0,0,0,0.5)]">
       <img src={m.img} alt={m.name} className="w-full h-48 object-cover object-top grayscale-20 group-hover:grayscale-0 transition-all duration-300" />
       <div className="p-5">
         <h3 className="font-serif-display text-lg font-bold mb-1 text-gray-900 dark:text-stone-100">
@@ -151,7 +148,7 @@ function MentorCard({ m }: { m: typeof mentors[number] }) {
           <span>{m.sessions} sessions</span>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 
@@ -188,10 +185,10 @@ function TestiCard({ t }: { t: typeof testimonials[number] }) {
 
 function CatButton({ c }: { c: typeof categories[number] }) {
   return (
-    <button className="flex items-center gap-2 px-6 py-3 text-sm cursor-pointer bg-transparent border border-amber-500/20 text-gray-700 dark:text-stone-300 hover:border-amber-500 hover:bg-amber-500/10 hover:text-amber-600 dark:hover:text-amber-400 transition-all duration-200">
+    <Link to="/all/mentors" className="flex items-center gap-2 px-6 py-3 text-sm cursor-pointer bg-transparent border border-amber-500/20 text-gray-700 dark:text-stone-300 hover:border-amber-500 hover:bg-amber-500/10 hover:text-amber-600 dark:hover:text-amber-400 transition-all duration-200">
       <span>{c.emoji}</span>
       <span>{c.name}</span>
-    </button>
+    </Link>
   );
 }
 
@@ -206,7 +203,7 @@ export default function Home() {
   return (
     <div className="font-dm min-h-screen overflow-x-hidden bg-stone-50 text-gray-900 dark:bg-gray-950 dark:text-stone-100 transition-colors duration-300">
 
-      <section className="relative min-h-screen flex items-center px-6 md:px-16 lg:px-24 py-32 overflow-hidden bg-linear-to-br from-stone-50 via-stone-50 to-amber-50/50 dark:from-gray-950 dark:via-gray-950 dark:to-amber-950/20">
+        <section id="hero" className="relative min-h-screen flex items-center px-6 md:px-16 lg:px-24 py-16 overflow-hidden bg-linear-to-br from-stone-50 via-stone-50 to-amber-50/50 dark:from-gray-950 dark:via-gray-950 dark:to-amber-950/20">
         <div className="absolute inset-0 pointer-events-none [background:radial-gradient(ellipse_80%_60%_at_70%_40%,rgba(201,168,76,0.06)_0%,transparent_70%)] dark:[background:radial-gradient(ellipse_80%_60%_at_70%_40%,rgba(201,168,76,0.1)_0%,transparent_70%)]" />
         <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center relative z-10">
           <div>
@@ -223,8 +220,8 @@ export default function Home() {
               <span key={idx} className="block animate-[fadeIn_0.4s_ease]">{texts[idx]}</span>
             </div>
             <div className="flex flex-wrap gap-4 items-center">
-              <PrimaryButton>Find Your Mentor</PrimaryButton>
-              <GhostButton>See How It Works</GhostButton>
+              <PrimaryButton to="/all/mentors">Find Your Mentor</PrimaryButton>
+              <GhostButton onClick={() => document.querySelector('#how-it-works')?.scrollIntoView({ behavior: 'smooth' })}>See How It Works</GhostButton>
             </div>
           </div>
           <div className="hidden lg:flex justify-center">
@@ -237,7 +234,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="px-6 md:px-16 lg:px-24 py-28 bg-stone-50 dark:bg-gray-950">
+      <section id="how-it-works" className="px-6 md:px-16 lg:px-24 py-16 bg-stone-50 dark:bg-gray-950">
         <div className="max-w-7xl mx-auto">
           <div className="mb-16">
             <SectionLabel>Process</SectionLabel>
@@ -253,7 +250,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="px-6 md:px-16 lg:px-24 py-28 bg-gray-50 dark:bg-gray-900">
+      <section className="px-6 md:px-16 lg:px-24 py-16 bg-gray-50 dark:bg-gray-900">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-16">
             <div>
@@ -262,7 +259,7 @@ export default function Home() {
                 Top-rated <em className="not-italic text-amber-500">mentors</em> this week
               </SectionTitle>
             </div>
-            <GhostButton>Browse All →</GhostButton>
+            <GhostButton to="/all/mentors">Browse All →</GhostButton>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {mentors.map((m, i) => <MentorCard key={i} m={m} />)}
@@ -270,7 +267,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="px-6 md:px-16 lg:px-24 py-28 bg-stone-50 dark:bg-gray-950">
+      <section className="px-6 md:px-16 lg:px-24 py-16 bg-stone-50 dark:bg-gray-950">
         <div className="max-w-7xl mx-auto">
           <div className="mb-16">
             <SectionLabel>Platform</SectionLabel>
@@ -284,7 +281,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="px-6 md:px-16 lg:px-24 py-28 bg-gray-50 dark:bg-gray-900">
+      <section className="px-6 md:px-16 lg:px-24 py-16 bg-gray-50 dark:bg-gray-900">
         <div className="max-w-7xl mx-auto">
           <div className="mb-16">
             <SectionLabel>Stories</SectionLabel>
@@ -292,27 +289,24 @@ export default function Home() {
               What our <em className="not-italic text-amber-500">mentees</em> say
             </SectionTitle>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
             {testimonials.map((t, i) => <TestiCard key={i} t={t} />)}
           </div>
-        </div>
-      </section>
-
-      <section className="px-6 md:px-16 lg:px-24 py-28 bg-stone-50 dark:bg-gray-950">
-        <div className="max-w-7xl mx-auto">
-          <div className="mb-16">
-            <SectionLabel>Explore</SectionLabel>
-            <SectionTitle>
-              Browse by <em className="not-italic text-amber-500">domain</em>
-            </SectionTitle>
-          </div>
-          <div className="flex flex-wrap gap-3">
-            {categories.map((c, i) => <CatButton key={i} c={c} />)}
+          <div className="border-t border-amber-500/20 pt-16">
+            <div className="mb-10">
+              <SectionLabel>Explore</SectionLabel>
+              <SectionTitle>
+                Browse by <em className="not-italic text-amber-500">domain</em>
+              </SectionTitle>
+            </div>
+            <div className="flex flex-wrap gap-3">
+              {categories.map((c, i) => <CatButton key={i} c={c} />)}
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="relative px-6 md:px-16 lg:px-24 py-36 text-center overflow-hidden bg-gray-50 dark:bg-gray-900 border-t border-amber-500/20">
+      <section className="relative px-6 md:px-16 lg:px-24 py-16 text-center overflow-hidden bg-gray-50 dark:bg-gray-900 border-t border-amber-500/20">
         <div className="absolute inset-0 pointer-events-none [background:radial-gradient(ellipse_60%_60%_at_50%_50%,rgba(201,168,76,0.06)_0%,transparent_70%)]" />
         <div className="w-12 h-0.5 bg-amber-500 mx-auto mb-16 relative z-10" />
         <h2 className="font-serif-display text-6xl lg:text-9xl font-black leading-none mb-8 tracking-tight relative z-10 text-gray-900 dark:text-stone-100">
@@ -322,8 +316,8 @@ export default function Home() {
           Join thousands of learners achieving their goals with world-class personalized mentorship.
         </p>
         <div className="flex flex-wrap gap-4 justify-center relative z-10">
-          <PrimaryButton>Get Started — It's Free</PrimaryButton>
-          <GhostButton>Become a Mentor</GhostButton>
+          <PrimaryButton to="/signup">Get Started — It's Free</PrimaryButton>
+          <GhostButton to="/signup">Become a Mentor</GhostButton>
         </div>
       </section>
 

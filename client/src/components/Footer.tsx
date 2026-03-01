@@ -15,11 +15,6 @@ const footerLinks = {
     { label: 'My Profile',      href: '/profile'       },
     { label: 'Complete Profile',href: '/complete-profile' },
   ],
-  legal: [
-    { label: 'Privacy Policy',  href: '#' },
-    { label: 'Terms of Service',href: '#' },
-    { label: 'Cookie Policy',   href: '#' },
-  ],
 }
 
 const socials = [
@@ -34,7 +29,7 @@ const Footer = () => {
 
   return (
     <footer className="bg-gray-950 dark:bg-gray-950 text-stone-300 border-t border-amber-500/20">
-      <div className="max-w-7xl mx-auto px-6 md:px-10 py-20">
+      <div className="max-w-7xl mx-auto px-6 md:px-10 pt-20">
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8">
 
@@ -63,20 +58,6 @@ const Footer = () => {
               ))}
             </div>
 
-            <div className="space-y-3">
-              <a href="mailto:info@gurugram.com" className="flex items-center gap-3 text-sm text-gray-400 hover:text-amber-500 transition-colors duration-200 group">
-                <Mail className="h-4 w-4 text-amber-500/60 group-hover:text-amber-500 shrink-0" />
-                info@gurugram.com
-              </a>
-              <a href="tel:+91789465463" className="flex items-center gap-3 text-sm text-gray-400 hover:text-amber-500 transition-colors duration-200 group">
-                <Phone className="h-4 w-4 text-amber-500/60 group-hover:text-amber-500 shrink-0" />
-                +91 789 465 463
-              </a>
-              <p className="flex items-start gap-3 text-sm text-gray-400">
-                <MapPin className="h-4 w-4 text-amber-500/60 shrink-0 mt-0.5" />
-                123 Mentor Street, Knowledge City
-              </p>
-            </div>
           </div>
 
           <div className="lg:col-span-2 space-y-4">
@@ -144,17 +125,10 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="mt-16 pt-8 border-t border-amber-500/15 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="mt-16 py-6 border-t border-amber-500/15 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-gray-600 tracking-wide">
             © {new Date().getFullYear()} GuruGram. All rights reserved.
           </p>
-          <div className="flex items-center gap-6">
-            {footerLinks.legal.map(({ label, href }) => (
-              <a key={label} href={href} className="text-xs text-gray-600 hover:text-amber-500 transition-colors duration-200 tracking-wide">
-                {label}
-              </a>
-            ))}
-          </div>
         </div>
 
       </div>

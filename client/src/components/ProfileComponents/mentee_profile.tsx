@@ -1,4 +1,5 @@
-import { MapPin, Briefcase, GraduationCap, Flag } from 'lucide-react'
+import { MapPin, Briefcase, GraduationCap, Flag, Pencil } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 interface Skill {
   name: string
@@ -97,6 +98,15 @@ export default function MenteeProfile({
           </div>
         </div>
       </div>
+      <div className="bg-gray-50 px-6 py-4 sm:px-8 sm:py-6">
+        <Link
+          to="/profile-completion"
+          className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+        >
+          <Pencil className="w-4 h-4" />
+          Edit Profile
+        </Link>
       </div>
+    </div>
   )
 }

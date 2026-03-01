@@ -62,34 +62,33 @@ const mentorSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-mentorSchema.pre("save", async function (next) {
-  if (this.password === undefined || this.password.length == 0) this.password = "GooGleAuthAccount";
-  if (!this.isModified("password")) next();
-  const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt);
+mentorSchema.pre("save", async function () {
+  if (this.password === undefined || this.password.length === 0) {
+    this.password = "GooGleAuthAccount";
+  }
+  if (!this.isModified("password")) {
+  } else {
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+  }
 
-  // Badge assignment logic
   const articlesWritten = this.articles.length;
   let badge = null;
-
   for (let i = badgeCriteria.length - 1; i >= 0; i--) {
     if (articlesWritten >= badgeCriteria[i].articles) {
       badge = badgeCriteria[i];
       break;
     }
   }
-
   if (badge) {
-    const existingBadge = this.badges.find(b => b.name === badge.title);
+    const existingBadge = this.badges.find((b) => b.name === badge.title);
     if (!existingBadge) {
       this.badges.push({
         name: badge.title,
-        description: badge.description
+        description: badge.description,
       });
     }
   }
-
-  next();
 });
 
 mentorSchema.methods.matchPassword = async function (enteredPassword) {

@@ -7,7 +7,7 @@ const menteeSchema = new mongoose.Schema(
     email: { type: String, required: true },
     password: { type: String, required: true, select: false },
     dob: { type: Date },
-    avatar: { type: String, default: "https://avatar.iran.liara.run/public/boy" }, // For profile picture
+    avatar: { type: String, default: "https://avatar.iran.liara.run/public/boy" },
     bio: { type: String, default: "Experienced software engineer with a passion for mentoring. Specialized in distributed systems and machine learning. Committed to helping the next generation of developers excel in their careers." },
     socialLinks: { type: [String], default: [] },
     interests: { type: [String], default: ["Reading"] },
@@ -38,15 +38,14 @@ const menteeSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-menteeSchema.pre("save", async function (next) 
-{
-  if(this.password === undefined || this.password.length==0) this.password= "GooGleAuthAccount";
-  if (!this.isModified("password"))
-    next();
+menteeSchema.pre("save", async function () {
+  if (this.password === undefined || this.password.length === 0) {
+    this.password = "GooGleAuthAccount";
+  }
+  if (!this.isModified("password")) return;
+
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
-
-  next();
 });
 
 menteeSchema.methods.matchPassword = async function (enteredPassword) {

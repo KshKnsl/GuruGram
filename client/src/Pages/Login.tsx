@@ -5,6 +5,8 @@ import { ToastContainer, toast } from "react-toastify";
 import { AuthContext } from "../context/AuthContext.tsx";
 import { GoogleLogin } from "@react-oauth/google";
 
+const inputClass = `w-full px-4 py-3 text-sm bg-transparent border border-amber-500/20 text-gray-900 dark:text-stone-100 placeholder:text-gray-400 dark:placeholder:text-gray-600 focus:outline-none focus:border-amber-500 transition-colors duration-200`;
+
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -28,15 +30,9 @@ const Login: React.FC = () => {
       });
       if (response.ok) {
         toast.success("Login successful!");
-
         const { token, mentee } = await response.json();
-        console.log(token);
-        console.log(mentee);
-        
         login(token, mentee._id, mentee.email, role);
-
-        console.log(role);
-        if (role == "mentor") {
+        if (role === "mentor") {
           navigate("/profile/mentor");
         } else {
           navigate("/profile");
@@ -45,7 +41,6 @@ const Login: React.FC = () => {
         toast.error("Login failed. Please check your credentials.");
       }
     } catch (error) {
-      console.error("Login error:", error);
       toast.error("An error occurred. Please try again.");
     }
   };
@@ -64,157 +59,120 @@ const Login: React.FC = () => {
       });
       if (res.ok) {
         const { token, ...rest } = await res.json();
-        console.log(rest);
-        console.log(role);
         if (role === "mentee") {
           login(token, rest.mentee._id, rest.mentee.email, role);
         } else {
           login(token, rest.mentor._id, rest.mentor.email, role);
         }
-        toast.success("Google login successful!", {
-          position: "top-right",
-          autoClose: 4000,
-        });
+        toast.success("Google login successful!", { position: "top-right", autoClose: 4000 });
       } else {
-        toast.error(
-          `Google login failed. Please try again.${await res.text()}`,
-          {
-            position: "top-right",
-            autoClose: 4000,
-          }
-        );
+        toast.error(`Google login failed. Please try again.${await res.text()}`, { position: "top-right", autoClose: 4000 });
       }
     } catch (error) {
-        console.error("Google login error:", error);
-      toast.error("An error occurred during Google login.", {
-        position: "top-right",
-        autoClose: 4000,
-      });
+      toast.error("An error occurred during Google login.", { position: "top-right", autoClose: 4000 });
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-gray-100">
-            Sign in to GuruGram
-          </h2>
-        </div>
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="rounded-md shadow-sm -space-y-px">
+    <div className="min-h-screen flex items-center justify-center bg-stone-50 dark:bg-gray-950">
+      <div className="w-full max-w-md px-8 py-16">
+        <div className="w-full">
+          <div className="mb-10">
+            <span className="block text-xs font-medium tracking-widest uppercase text-amber-500 mb-2">Welcome back</span>
+            <h1 className="font-serif-display text-4xl font-black text-gray-900 dark:text-stone-100">
+              Sign in
+            </h1>
+          </div>
+
+          <div className="flex mb-8 border border-amber-500/20">
+            {(["mentee", "mentor"] as const).map((r) => (
+              <button
+                key={r}
+                type="button"
+                onClick={() => setRole(r)}
+                className={`flex-1 py-2.5 text-xs font-medium tracking-widest uppercase transition-all duration-200
+                  ${role === r
+                    ? "bg-amber-500 text-gray-900"
+                    : "bg-transparent text-gray-500 dark:text-gray-400 hover:text-amber-500"
+                  }`}
+              >
+                {r}
+              </button>
+            ))}
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label htmlFor="email-address" className="sr-only">
-                Email address
+              <label className="block text-xs font-medium tracking-widest uppercase text-gray-500 dark:text-gray-400 mb-2">
+                Email
               </label>
               <input
-                id="email-address"
-                name="email"
                 type="email"
                 autoComplete="email"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-gray-100 rounded-t-md focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm bg-white dark:bg-gray-900"
-                placeholder="Email address"
+                className={inputClass}
+                placeholder="you@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
-            <div className="relative">
-              <label htmlFor="password" className="sr-only">
+
+            <div>
+              <label className="block text-xs font-medium tracking-widest uppercase text-gray-500 dark:text-gray-400 mb-2">
                 Password
               </label>
-              <input
-                id="password"
-                name="password"
-                type={showPassword ? "text" : "password"}
-                autoComplete="current-password"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-gray-100 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm bg-white dark:bg-gray-900"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <button
-                type="button"
-                className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? (
-                  <EyeOff className="h-5 w-5 text-gray-400 dark:text-gray-500" />
-                ) : (
-                  <Eye className="h-5 w-5 text-gray-400 dark:text-gray-500" />
-                )}
-              </button>
-            </div>
-          </div>
-
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <input
-                id="remember-me"
-                name="remember-me"
-                type="checkbox"
-                className="h-4 w-4 text-indigo-600 dark:text-indigo-400 focus:ring-indigo-500 border-gray-300 dark:border-gray-700 rounded"
-              />
-              <label
-                htmlFor="remember-me"
-                className="ml-2 block text-sm text-gray-900 dark:text-gray-100"
-              >
-                Remember me
-              </label>
-            </div>
-
-            <div className="text-sm">
-              <a
-                href="#"
-                className="font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300"
-              >
-                Forgot your password?
-              </a>
-            </div>
-          </div>
-
-          <div>
-            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-              I am a:
-            </label>
-            <div className="mt-2">
-              <div className="flex items-center justify-center">
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  autoComplete="current-password"
+                  required
+                  className={inputClass}
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
                 <button
                   type="button"
-                  className={`${
-                    role === "mentee"
-                      ? "bg-indigo-600 text-white"
-                      : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
-                  } px-3 py-2 rounded-l-md border border-gray-300 dark:border-gray-700 text-sm font-medium focus:outline-none`}
-                  onClick={() => setRole("mentee")}
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-amber-500 transition-colors"
                 >
-                  Mentee
-                </button>
-                <button
-                  type="button"
-                  className={`${
-                    role === "mentor"
-                      ? "bg-indigo-600 text-white"
-                      : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
-                  } px-3 py-2 rounded-r-md border border-gray-300 dark:border-gray-700 text-sm font-medium focus:outline-none`}
-                  onClick={() => setRole("mentor")}
-                >
-                  Mentor
+                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </button>
               </div>
             </div>
+
+            <div className="flex items-center justify-between pt-1">
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  className="w-3.5 h-3.5 border border-amber-500/30 accent-amber-500"
+                />
+                <span className="text-xs text-gray-500 dark:text-gray-400">Remember me</span>
+              </label>
+              <a href="#" className="text-xs text-amber-500 hover:text-amber-400 transition-colors">
+                Forgot password?
+              </a>
+            </div>
+
+            <button
+              type="submit"
+              className="clip-skew w-full flex items-center justify-center gap-2 py-3.5 mt-2 bg-amber-500 hover:bg-amber-400 text-gray-900 text-xs font-medium tracking-widest uppercase transition-all duration-200"
+            >
+              <LogIn className="h-3.5 w-3.5" />
+              Sign In
+            </button>
+          </form>
+
+          <div className="my-8 flex items-center gap-4">
+            <span className="flex-1 h-px bg-amber-500/15" />
+            <span className="text-xs tracking-widest uppercase text-gray-400">or</span>
+            <span className="flex-1 h-px bg-amber-500/15" />
           </div>
 
-          <div>
+          <div className="flex justify-center">
             <GoogleLogin
               onSuccess={handleGoogleLogin}
-              onError={() =>
-                toast.error("Google login failed. Please try again.", {
-                  position: "top-right",
-                  autoClose: 4000,
-                })
-              }
+              onError={() => toast.error("Google login failed. Please try again.", { position: "top-right", autoClose: 4000 })}
               type="standard"
               theme="filled_black"
               size="large"
@@ -222,25 +180,9 @@ const Login: React.FC = () => {
             />
           </div>
 
-          <div>
-            <button
-              type="submit"
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-primary-foreground bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
-            >
-              <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                <LogIn className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" />
-              </span>
-              Sign in
-            </button>
-          </div>
-        </form>
-        <div className="text-center">
-          <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+          <p className="mt-8 text-center text-sm text-gray-500 dark:text-gray-400">
             Don't have an account?{" "}
-            <Link
-              to="/signup"
-              className="font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300"
-            >
+            <Link to="/signup" className="text-amber-500 hover:text-amber-400 transition-colors font-medium">
               Sign up
             </Link>
           </p>

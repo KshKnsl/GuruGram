@@ -1,10 +1,10 @@
-import nodemailer from 'nodemailer';
-import dotenv from 'dotenv';
+import nodemailer from "nodemailer";
+import dotenv from "dotenv";
 
 dotenv.config();
 
 let transporter = nodemailer.createTransport({
-  service: 'gmail',
+  service: "gmail",
   auth: {
     user: process.env.EMAIL,
     pass: process.env.EMAILPASSWORD,
@@ -12,101 +12,167 @@ let transporter = nodemailer.createTransport({
 });
 
 const baseStyle = `
-  body { font-family: 'Inter', sans-serif; line-height: 1.6; color: #4B5563; background-color: #F3F4F6; }
-  .container { max-width: 600px; margin: 0 auto; padding: 20px; background-color: #FFFFFF; border-radius: 8px; }
-  h1 { color: #2563EB; font-size: 24px; font-weight: bold; }
-  .cta-button { display: inline-block; padding: 10px 20px; background-color: #2563EB; color: #ffffff; text-decoration: none; border-radius: 8px; font-weight: bold; }
-  .cta-button:hover { background-color: #1D4ED8; }
-  .footer { margin-top: 20px; padding-top: 20px; border-top: 1px solid #E5E7EB; font-size: 12px; color: #6B7280; }
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'DM Sans', Georgia, sans-serif; background-color: #0b0b0b; color: #d6d3cb; -webkit-font-smoothing: antialiased; }
+  .wrapper { background-color: #0b0b0b; padding: 48px 16px; }
+  .container { max-width: 580px; margin: 0 auto; background-color: #0f0f0f; border: 1px solid rgba(201,168,76,0.18); }
+
+  .header { padding: 36px 40px 28px; border-bottom: 1px solid rgba(201,168,76,0.12); }
+  .brand { font-family: 'Playfair Display', Georgia, serif; font-size: 22px; font-weight: 900; color: #f5f0e8; letter-spacing: -0.5px; }
+  .brand span { color: #c9a84c; }
+  .accent-line { display: block; width: 32px; height: 2px; background-color: #c9a84c; margin-top: 10px; }
+
+  .hero { padding: 44px 40px 36px; border-bottom: 1px solid rgba(201,168,76,0.12); }
+  .label { display: block; font-size: 10px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: #c9a84c; margin-bottom: 14px; }
+  .headline { font-family: 'Playfair Display', Georgia, serif; font-size: 36px; font-weight: 900; line-height: 1.15; color: #f5f0e8; letter-spacing: -0.5px; }
+  .headline em { font-style: italic; color: #c9a84c; }
+  .subtext { margin-top: 16px; font-size: 14px; font-weight: 300; line-height: 1.7; color: #9ca3af; }
+
+  .body-section { padding: 36px 40px; border-bottom: 1px solid rgba(201,168,76,0.12); }
+
+  .feature-item { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 18px; }
+  .feature-dot { flex-shrink: 0; width: 6px; height: 6px; background-color: #c9a84c; margin-top: 7px; }
+  .feature-text { font-size: 14px; line-height: 1.6; color: #d6d3cb; }
+  .feature-text strong { color: #f5f0e8; font-weight: 500; }
+
+  .stat-row { display: flex; border: 1px solid rgba(201,168,76,0.15); margin-bottom: 28px; }
+  .stat-item { flex: 1; padding: 18px 16px; text-align: center; border-right: 1px solid rgba(201,168,76,0.15); }
+  .stat-item:last-child { border-right: none; }
+  .stat-number { display: block; font-family: 'Playfair Display', Georgia, serif; font-size: 24px; font-weight: 900; color: #c9a84c; }
+  .stat-label { display: block; font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: #6b7280; margin-top: 4px; }
+
+  .cta-section { padding: 36px 40px; text-align: center; border-bottom: 1px solid rgba(201,168,76,0.12); }
+  .cta-button { display: inline-block; padding: 14px 36px; background-color: #c9a84c; color: #0b0b0b; text-decoration: none; font-size: 11px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%); }
+  .cta-note { margin-top: 16px; font-size: 12px; color: #6b7280; }
+
+  .footer { padding: 28px 40px; }
+  .footer-brand { font-family: 'Playfair Display', Georgia, serif; font-size: 14px; font-weight: 900; color: #3d3d3d; margin-bottom: 10px; }
+  .footer-text { font-size: 11px; color: #4b5563; line-height: 1.6; }
+  .footer-link { color: #c9a84c; text-decoration: none; }
 `;
 
+const shell = (content) => `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>${baseStyle}</style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="container">
+      <div class="header">
+        <div class="brand">Guru<span>Gram</span></div>
+        <span class="accent-line"></span>
+      </div>
+      ${content}
+      <div class="footer">
+        <div class="footer-brand">GuruGram</div>
+        <div class="footer-text">
+          You're receiving this because you have an account at GuruGram.<br />
+          Questions? Reach us at <a href="mailto:info@gurugram.com" class="footer-link">info@gurugram.com</a><br />
+          &copy; ${new Date().getFullYear()} GuruGram. All rights reserved.
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>`;
+
 async function sendMail(name, toEmail, purpose) {
-  let content = '';
-  let subject = '';
+  let content = "";
+  let subject = "";
 
   switch (purpose) {
-    case 'CreateAccount':
-      subject = 'Welcome to GuruGram - Your Mentorship Journey Begins!';
-      content = `
-        <html>
-          <head>
-            <style>${baseStyle}</style>
-          </head>
-          <body>
-            <div class="container">
-              <h1>Welcome to GuruGram, ${name}!</h1>
-              <p>We're thrilled to have you join our community of students and industry professionals.</p>
-              <p>With GuruGram, you can:</p>
-              <ul>
-                <li>Connect with personalized mentors</li>
-                <li>Develop industry-standard skills</li>
-                <li>Get career guidance from top professionals</li>
-                <li>Access mentorship sessions remotely</li>
-                <li>Benefit from our smart matching algorithm</li>
-              </ul>
-              <p>Ready to start your mentorship journey? Click the button below:</p>
-              <p><a href="https://gurugram.vercel.app" class="cta-button">Explore GuruGram</a></p>
-              <p>If you have any questions, our support team is always here to help.</p>
-              <div class="footer">
-                <p>Best regards,</p>
-                <p>The GuruGram Team</p>
-              </div>
-            </div>
-          </body>
-        </html>
-      `;
+    case "CreateAccount":
+      subject = "Welcome to GuruGram — Your Mentorship Journey Begins";
+      content = shell(`
+        <div class="hero">
+          <span class="label">Welcome aboard</span>
+          <h1 class="headline">Hello, <em>${name}</em>.<br />Your journey starts now.</h1>
+          <p class="subtext">You've joined a community of ambitious learners and world-class mentors. We're glad you're here.</p>
+        </div>
+
+        <div class="body-section">
+          <div class="stat-row">
+            <div class="stat-item"><span class="stat-number">12K+</span><span class="stat-label">Mentors</span></div>
+            <div class="stat-item"><span class="stat-number">98K+</span><span class="stat-label">Sessions</span></div>
+            <div class="stat-item"><span class="stat-number">4.9★</span><span class="stat-label">Rating</span></div>
+          </div>
+
+          <div class="feature-item">
+            <div class="feature-dot"></div>
+            <div class="feature-text"><strong>Personalized matching</strong> — our AI pairs you with mentors aligned to your exact goals and learning style.</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-dot"></div>
+            <div class="feature-text"><strong>1-on-1 sessions</strong> — book directly with industry professionals, no back-and-forth.</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-dot"></div>
+            <div class="feature-text"><strong>Track your growth</strong> — detailed progress analytics and milestone badges along the way.</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-dot"></div>
+            <div class="feature-text"><strong>Global access</strong> — connect with experts across 140+ countries and time zones.</div>
+          </div>
+        </div>
+
+        <div class="cta-section">
+          <a href="https://gurugram.vercel.app" class="cta-button">Explore GuruGram</a>
+          <p class="cta-note">Find your mentor and book your first session today.</p>
+        </div>
+      `);
       break;
 
-    case 'Login':
-      subject = 'Welcome Back to GuruGram!';
-      content = `
-        <html>
-          <head>
-            <style>${baseStyle}</style>
-          </head>
-          <body>
-            <div class="container">
-              <h1>Welcome back, ${name}!</h1>
-              <p>We're glad to see you again on GuruGram. Your mentorship journey continues!</p>
-              <p>Here's what's new since your last visit:</p>
-              <ul>
-                <li>5 new mentor recommendations based on your interests</li>
-                <li>3 upcoming webinars in your field</li>
-                <li>New feature: Skill Assessment - track your progress and identify areas for improvement</li>
-              </ul>
-              <p>Ready to continue your growth? Click the button below:</p>
-              <p><a href="https://gurugram.vercel.app" class="cta-button">Go to My Dashboard</a></p>
-              <p>Remember, consistent engagement leads to the best mentorship experience!</p>
-              <div class="footer">
-                <p>Best regards,</p>
-                <p>The GuruGram Team</p>
-              </div>
-            </div>
-          </body>
-        </html>
-      `;
+    case "Login":
+      subject = "Welcome Back to GuruGram";
+      content = shell(`
+        <div class="hero">
+          <span class="label">Welcome back</span>
+          <h1 class="headline">Good to see you again, <em>${name}</em>.</h1>
+          <p class="subtext">Your mentorship journey continues. Here's what's waiting for you.</p>
+        </div>
+
+        <div class="body-section">
+          <div class="feature-item">
+            <div class="feature-dot"></div>
+            <div class="feature-text"><strong>5 new mentor recommendations</strong> based on your updated interests and goals.</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-dot"></div>
+            <div class="feature-text"><strong>3 upcoming webinars</strong> in your field — early access available for active members.</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-dot"></div>
+            <div class="feature-text"><strong>Skill Assessment</strong> is now live — track your progress and identify where to focus next.</div>
+          </div>
+        </div>
+
+        <div class="cta-section">
+          <a href="https://gurugram.vercel.app" class="cta-button">Go to Dashboard</a>
+          <p class="cta-note">Consistent sessions lead to the best results.</p>
+        </div>
+      `);
       break;
 
     default:
-      subject = 'GuruGram Update';
-      content = `
-        <html>
-          <head>
-            <style>${baseStyle}</style>
-          </head>
-          <body>
-            <div class="container">
-              <h1>Hello, ${name}!</h1>
-              <p>We hope you're having a great experience with GuruGram.</p>
-              <p>If you have any questions or need assistance, please don't hesitate to reach out to our support team.</p>
-              <div class="footer">
-                <p>Best regards,</p>
-                <p>The GuruGram Team</p>
-              </div>
-            </div>
-          </body>
-        </html>
-      `;
+      subject = "A note from GuruGram";
+      content = shell(`
+        <div class="hero">
+          <span class="label">GuruGram</span>
+          <h1 class="headline">Hello, <em>${name}</em>.</h1>
+          <p class="subtext">We hope you're having a great experience. If you have any questions or need support, we're always here.</p>
+        </div>
+
+        <div class="cta-section">
+          <a href="https://gurugram.vercel.app" class="cta-button">Visit GuruGram</a>
+          <p class="cta-note">Our support team is available anytime at <a href="mailto:info@gurugram.com" style="color:#c9a84c;">info@gurugram.com</a></p>
+        </div>
+      `);
   }
 
   try {
@@ -116,9 +182,9 @@ async function sendMail(name, toEmail, purpose) {
       subject: subject,
       html: content,
     });
-    console.log('Email sent successfully');
+    console.log("Email sent successfully");
   } catch (error) {
-    console.error('Error sending email:', error);
+    console.error("Error sending email:", error);
   }
 }
 

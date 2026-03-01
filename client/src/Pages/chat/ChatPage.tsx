@@ -3,22 +3,17 @@ import { useChat } from "../../context/ChatContext";
 import Sidebar from "../../components/Sidebar";
 import NoChatSelected from "../../components/NoChatSelected";
 import ChatContainer from "../../components/ChatContainer";
-const ChatPage = () => {
 
+const ChatPage = () => {
   const { selectedUser } = useChat();
   return (
-    <div className="min-h-screen bg-zinc-400 dark:bg-zinc-700">
-      <div className="flex items-center justify-center md:pt-20 md:px-4 ">
-        <div className="bg-gray-100 rounded-lg shadow-cl w-full max-w-6xl md:h-[calc(100vh-8rem)] h-screen">
-          <div className="flex h-full rounded-lg overflow-hidden">
-            <Sidebar />
-
-            {!selectedUser ? <NoChatSelected /> : <ChatContainer />}
-          </div>
-        </div>
+    <div className="min-h-screen bg-stone-50 dark:bg-gray-950 flex flex-col md:items-center md:justify-center md:px-4 md:py-8">
+      <div className="w-full max-w-7xl md:h-[calc(100vh-5rem)] h-screen border border-amber-500/20 flex overflow-hidden bg-white dark:bg-gray-900">
+        <Sidebar />
+        {!selectedUser ? <NoChatSelected /> : <ChatContainer />}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ChatPage
+export default ChatPage;
