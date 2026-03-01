@@ -1,90 +1,165 @@
-import { Facebook, Twitter, Linkedin, Instagram, Mail, Phone, MapPin } from 'lucide-react';
+import { Facebook, Twitter, Linkedin, Instagram, Mail, Phone, MapPin, ArrowRight } from 'lucide-react'
+import { useState } from 'react'
+import Logo from '../assets/Logo.gif'
+
+const footerLinks = {
+  platform: [
+    { label: 'Find a Mentor',   href: '/all/mentors'   },
+    { label: 'Articles',        href: '/articles'      },
+    { label: 'Write Article',   href: '/articles/new'  },
+    { label: 'Chat',            href: '/chat'          },
+  ],
+  account: [
+    { label: 'Sign Up',         href: '/signup'        },
+    { label: 'Log In',          href: '/login'         },
+    { label: 'My Profile',      href: '/profile'       },
+    { label: 'Complete Profile',href: '/complete-profile' },
+  ],
+  legal: [
+    { label: 'Privacy Policy',  href: '#' },
+    { label: 'Terms of Service',href: '#' },
+    { label: 'Cookie Policy',   href: '#' },
+  ],
+}
+
+const socials = [
+  { icon: Facebook,  href: 'https://www.facebook.com/gurugramofficial', label: 'Facebook'  },
+  { icon: Twitter,   href: 'https://twitter.com/gurugram',              label: 'Twitter'   },
+  { icon: Linkedin,  href: 'https://www.linkedin.com/company/gurugram/',label: 'LinkedIn'  },
+  { icon: Instagram, href: 'https://www.instagram.com/gurugramofficial/',label: 'Instagram' },
+]
 
 const Footer = () => {
+  const [email, setEmail] = useState('')
+
   return (
-    <div className="bg-stone-900 text-white py-12 w-screen">
-      <div className="mx-auto px-4  md:px-14">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          <div className="space-y-4">
-            <h5 className="text-2xl font-bold mb-4">GuruGram</h5>
-            <p className="text-primary">
-              Our mentoring platform connects candidates with industry experts
-              to provide personalized guidance and support.
-            </p>
-            <div className="flex space-x-4">
-              <a href="https://www.facebook.com/gurugramofficial" target="_blank" rel="noopener noreferrer" className="hover:text-blue-300 transition-colors">
-                <Facebook size={24} />
+    <footer className="bg-gray-950 dark:bg-gray-950 text-stone-300 border-t border-amber-500/20">
+      <div className="max-w-7xl mx-auto px-6 md:px-10 py-20">
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8">
+
+          <div className="lg:col-span-4 space-y-6">
+            <div>
+              <img src={Logo} alt="GuruGram" className="h-14 w-auto mb-2" />
+              <div className="w-8 h-0.5 bg-amber-500 mb-4" />
+              <p className="text-sm leading-relaxed text-gray-400">
+                Connecting ambitious learners with seasoned industry experts for personalized 1-on-1 mentorship that accelerates real growth.
+              </p>
+            </div>
+
+            <div className="flex items-center gap-4">
+              {socials.map(({ icon: Icon, href, label }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  className="w-8 h-8 flex items-center justify-center border border-amber-500/20 text-gray-500
+                             hover:border-amber-500 hover:text-amber-500 transition-all duration-200"
+                >
+                  <Icon className="h-3.5 w-3.5" />
+                </a>
+              ))}
+            </div>
+
+            <div className="space-y-3">
+              <a href="mailto:info@gurugram.com" className="flex items-center gap-3 text-sm text-gray-400 hover:text-amber-500 transition-colors duration-200 group">
+                <Mail className="h-4 w-4 text-amber-500/60 group-hover:text-amber-500 shrink-0" />
+                info@gurugram.com
               </a>
-              <a href="https://twitter.com/gurugram" target="_blank" rel="noopener noreferrer" className="hover:text-blue-300 transition-colors">
-                <Twitter size={24} />
+              <a href="tel:+91789465463" className="flex items-center gap-3 text-sm text-gray-400 hover:text-amber-500 transition-colors duration-200 group">
+                <Phone className="h-4 w-4 text-amber-500/60 group-hover:text-amber-500 shrink-0" />
+                +91 789 465 463
               </a>
-              <a href="https://www.linkedin.com/company/gurugram/" target="_blank" rel="noopener noreferrer" className="hover:text-blue-300 transition-colors">
-                <Linkedin size={24} />
-              </a>
-              <a href="https://www.instagram.com/gurugramofficial/" target="_blank" rel="noopener noreferrer" className="hover:text-blue-300 transition-colors">
-                <Instagram size={24} />
-              </a>
+              <p className="flex items-start gap-3 text-sm text-gray-400">
+                <MapPin className="h-4 w-4 text-amber-500/60 shrink-0 mt-0.5" />
+                123 Mentor Street, Knowledge City
+              </p>
             </div>
           </div>
-          <div>
-            <h5 className="text-xl font-semibold mb-4">Quick Links</h5>
-            <ul className="space-y-2">
-              {["Home", "About Us", "Mentor Sign-up", "Candidate Sign-up", "Login"].map((item, index) => (
-                <li key={index}>
-                  <a href="#" className="hover:text-blue-300 transition-colors no-underline">
-                    {item}
+
+          <div className="lg:col-span-2 space-y-4">
+            <h3 className="text-xs font-medium tracking-widest uppercase text-amber-500">
+              Platform
+            </h3>
+            <ul className="space-y-3">
+              {footerLinks.platform.map(({ label, href }) => (
+                <li key={label}>
+                  <a href={href} className="text-sm text-gray-400 hover:text-stone-100 transition-colors duration-200 flex items-center gap-2 group">
+                    <span className="w-0 group-hover:w-3 h-px bg-amber-500 transition-all duration-200 overflow-hidden" />
+                    {label}
                   </a>
                 </li>
               ))}
             </ul>
           </div>
-          <div>
-            <h5 className="text-xl font-semibold mb-4">Contact Us</h5>
-            <ul className="space-y-2">
-              <li className="flex items-center">
-                <Mail size={20} className="mr-2" />
-                <a href="mailto:info@gurugram.com" className="hover:text-blue-300 transition-colors no-underline">info@gurugram.com</a>
-              </li>
-              <li className="flex items-center">
-                <Phone size={20} className="mr-2" />
-                <a href="tel:+91234567890" className="hover:text-blue-300 transition-colors no-underline">+91 789465463</a>
-              </li>
-              <li className="flex items-center">
-                <MapPin size={20} className="mr-2" />
-                <span>123 Mentor Street, Knowledge City</span>
-              </li>
+
+          <div className="lg:col-span-2 space-y-4">
+            <h3 className="text-xs font-medium tracking-widest uppercase text-amber-500">
+              Account
+            </h3>
+            <ul className="space-y-3">
+              {footerLinks.account.map(({ label, href }) => (
+                <li key={label}>
+                  <a href={href} className="text-sm text-gray-400 hover:text-stone-100 transition-colors duration-200 flex items-center gap-2 group">
+                    <span className="w-0 group-hover:w-3 h-px bg-amber-500 transition-all duration-200 overflow-hidden" />
+                    {label}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
-          <div>
-            <h5 className="text-xl font-semibold mb-4">Newsletter</h5>
-            <p className="mb-4 text-primary">Stay updated with our latest news and offers.</p>
-            <form className="flex flex-col sm:flex-row gap-2">
+
+          <div className="lg:col-span-4 space-y-4">
+            <h3 className="text-xs font-medium tracking-widest uppercase text-amber-500">
+              Newsletter
+            </h3>
+            <p className="text-sm text-gray-400 leading-relaxed">
+              Get exclusive resources, expert insights, and the latest mentorship opportunities delivered to your inbox.
+            </p>
+            <div className="flex gap-0">
               <input
                 type="email"
-                placeholder="Enter your email"
-                className="px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300 text-gray-200 bg-gray-100"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                placeholder="your@email.com"
+                className="flex-1 px-4 py-2.5 text-sm bg-gray-900 border border-amber-500/20 border-r-0
+                           text-stone-200 placeholder:text-gray-600
+                           focus:outline-none focus:border-amber-500
+                           transition-colors duration-200"
               />
               <button
                 type="submit"
-                className="bg-yellow-400 text-blue-900 px-4 py-2 rounded-md hover:bg-yellow-300 transition-colors"
+                className="clip-skew px-4 py-2.5 bg-amber-500 hover:bg-amber-400 text-gray-900
+                           transition-colors duration-200 flex items-center gap-1.5
+                           text-xs font-medium tracking-widest uppercase shrink-0"
               >
-                Subscribe
+                <ArrowRight className="h-3.5 w-3.5" />
               </button>
-            </form>
-            <p className="my-4 text-blue-100">Get access to exclusive resources, connect with like-minded learners, and stay updated with the latest in your field.</p>
+            </div>
+            <p className="text-xs text-gray-600 leading-relaxed">
+              No spam. Unsubscribe at any time.
+            </p>
           </div>
         </div>
-        <hr className="my-8 border-blue-400" />
-        <div className="text-center text-blue-200">
-          <p>&copy; {new Date().getFullYear()} GuruGram. All rights reserved.</p>
-          <div className="mt-2 space-x-4">
-            <a href="#" className="hover:text-blue-300 transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-blue-300 transition-colors">Terms of Service</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
 
-export default Footer;
+        <div className="mt-16 pt-8 border-t border-amber-500/15 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-xs text-gray-600 tracking-wide">
+            © {new Date().getFullYear()} GuruGram. All rights reserved.
+          </p>
+          <div className="flex items-center gap-6">
+            {footerLinks.legal.map(({ label, href }) => (
+              <a key={label} href={href} className="text-xs text-gray-600 hover:text-amber-500 transition-colors duration-200 tracking-wide">
+                {label}
+              </a>
+            ))}
+          </div>
+        </div>
+
+      </div>
+    </footer>
+  )
+}
+
+export default Footer

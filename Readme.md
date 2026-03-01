@@ -60,12 +60,6 @@ We aim to continuously evolve with:
 
 We love your input! Whether you're reporting a bug, discussing ideas, or contributing code, we'd love to have you on board.
 
-## 🛡️ Challenges and Learnings
-
-1. **Zoom Integration:** Efficient API integration for a seamless video chat experience.
-2. **Secure Interactions:** Ensuring privacy and data security.
-3. **User Adoption:** Effective strategies to attract and engage users.
-
 ## 📜 License
 
 This project is licensed under the MIT License. See the [LICENSE.md](LICENSE.md) file for more details.

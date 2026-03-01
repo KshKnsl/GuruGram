@@ -5,25 +5,31 @@ import Logo from '../assets/Logo.gif'
 import ThemeBtn from './ui/ThemeBtn'
 import { AuthContext } from "../context/AuthContext";
 
-const NavbarLinks = ({ onClick }: { onClick: () => void }) => {
-  const location = useLocation();
-  const links = [
-    { to: '/all/mentors', label: 'Mentors', icon: Users },
-    { to: '/articles/new', label: 'Write Article', icon: Edit3 },
-    { to: '/articles', label: 'Articles', icon: BookOpen },
-    { to: '/chat', label: 'Chat', icon: Users },
-  ]
+const links = [
+  { to: '/all/mentors',   label: 'Mentors',       icon: Users   },
+  { to: '/articles/new',  label: 'Write Article', icon: Edit3   },
+  { to: '/articles',      label: 'Articles',      icon: BookOpen },
+  { to: '/chat',          label: 'Chat',           icon: Users   },
+]
 
+const NavbarLinks = ({ onClick }: { onClick: () => void }) => {
+  const location = useLocation()
   return (
     <>
       {links.map((link) => (
         <Link
           key={link.to}
           to={link.to}
-          className={`text-gray-800 dark:text-gray-200 hover:text-blue-500  px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300 flex items-center ${location.pathname === link.to ? 'bg-blue-200 dark:bg-blue-200 text-red-600 dark:text-red-600' : ''}`}
           onClick={onClick}
+          className={`relative flex items-center gap-2 px-3 py-2 text-xs font-medium tracking-widest uppercase transition-all duration-200
+            text-gray-600 dark:text-gray-400
+            hover:text-amber-500 dark:hover:text-amber-500
+            ${location.pathname === link.to
+              ? 'text-amber-500 dark:text-amber-500 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-px after:bg-amber-500'
+              : ''
+            }`}
         >
-          <link.icon className="mr-2 h-4 w-4" />
+          <link.icon className="h-3.5 w-3.5 flex-shrink-0" />
           {link.label}
         </Link>
       ))}
@@ -34,109 +40,146 @@ const NavbarLinks = ({ onClick }: { onClick: () => void }) => {
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-
-  const { logout } = useContext(AuthContext);
-  const auth = useContext(AuthContext);
+  const { logout } = useContext(AuthContext)
+  const auth = useContext(AuthContext)
+  const location = useLocation()
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20)
-    }
+    const handleScroll = () => setScrolled(window.scrollY > 20)
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
   const toggleMenu = useCallback(() => setIsOpen((prev) => !prev), [])
+
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-white dark:bg-gray-900' : 'bg-white dark:text-white dark:bg-black'} `}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300
+      ${scrolled
+        ? 'bg-white/95 dark:bg-gray-950/95 backdrop-blur-md border-b border-amber-500/15 shadow-sm'
+        : 'bg-white/80 dark:bg-gray-950/80 backdrop-blur-sm border-b border-transparent'
+      }`}>
+      <div className="max-w-7xl mx-auto px-6 md:px-10">
         <div className="flex items-center justify-between h-16">
-          <div className="flex items-center">
-            <Link to="/" className="flex-shrink-0">
-              <img src={Logo} alt="Logo" width={60} height={60} className="h-16 w-auto" />
-            </Link>
+
+          <Link to="/" className="flex items-center gap-3 flex-shrink-0 group">
+            <img src={Logo} alt="Logo" className="h-16 w-auto" />
+          </Link>
+
+          <div className="hidden md:flex items-center gap-1">
+            <NavbarLinks onClick={() => setIsOpen(false)} />
           </div>
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-4">
-              <NavbarLinks onClick={() => setIsOpen(false)} />
-            </div>
+
+          <div className="hidden md:flex items-center gap-2">
+            {auth.user ? (
+              <>
+                <Link
+                  to="/profile"
+                  className={`flex items-center gap-2 px-4 py-2 text-xs font-medium tracking-widest uppercase transition-all duration-200 border
+                    ${location.pathname === '/profile'
+                      ? 'border-amber-500 text-amber-500 bg-amber-500/10'
+                      : 'border-amber-500/25 text-gray-700 dark:text-gray-300 hover:border-amber-500 hover:text-amber-500'
+                    }`}
+                >
+                  <User className="h-3.5 w-3.5" />
+                  Profile
+                </Link>
+                <button
+                  onClick={logout}
+                  className="flex items-center gap-2 px-4 py-2 text-xs font-medium tracking-widest uppercase transition-all duration-200
+                    border border-amber-500/25 text-gray-700 dark:text-gray-300
+                    hover:border-amber-500 hover:text-amber-500"
+                >
+                  <LogOut className="h-3.5 w-3.5" />
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/signup"
+                  className={`flex items-center gap-2 px-4 py-2 text-xs font-medium tracking-widest uppercase transition-all duration-200 border
+                    ${location.pathname === '/signup'
+                      ? 'border-amber-500 text-amber-500 bg-amber-500/10'
+                      : 'border-amber-500/25 text-gray-700 dark:text-gray-300 hover:border-amber-500 hover:text-amber-500'
+                    }`}
+                >
+                  <UserPlus className="h-3.5 w-3.5" />
+                  Sign Up
+                </Link>
+                <Link
+                  to="/login"
+                  className={`clip-skew flex items-center gap-2 px-4 py-2 text-xs font-medium tracking-widest uppercase transition-all duration-200
+                    ${location.pathname === '/login'
+                      ? 'bg-amber-400 text-gray-900'
+                      : 'bg-amber-500 text-gray-900 hover:bg-amber-400'
+                    }`}
+                >
+                  <LogIn className="h-3.5 w-3.5" />
+                  Log In
+                </Link>
+              </>
+            )}
+            <ThemeBtn />
           </div>
-          <div className="hidden md:block">
-            <div className="ml-4 flex items-center md:ml-6 space-x-2">
-              {auth.user ? (
-                <>
-                  <Link to="/profile" className={`bg-gray-100 text-gray-800  hover:text-blue-500 dark:hover:text-blue-300 px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 flex items-center ${location.pathname === '/profile' ? 'bg-blue-500 dark:bg-blue-700 text-yellow-500' : ''}`}>
-                    <User className="mr-2 h-4 w-4" />
-                    Profile
-                  </Link>
-                  <button onClick={logout} className="bg-gray-100 text-gray-800 hover:text-blue-500 dark:hover:text-blue-300 px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 flex items-center">
-                    <LogOut className="mr-2 h-4 w-4" />
-                    Logout
-                  </button>
-                </>
-              ) : (
-                <>
-                  <Link to="/signup" className={`bg-gray-100 text-gray-800 hover:text-blue-500 dark:hover:text-blue-300 px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 border border-blue-500 dark:border-blue-700 flex items-center ${location.pathname === '/signup' ? 'bg-blue-500 dark:bg-blue-700 text-yellow-500' : ''}`}>
-                    <UserPlus className="mr-2 h-4 w-4" />
-                    Sign Up
-                  </Link>
-                  <Link to="/login" className={`bg-gray-100 text-gray-800  hover:text-blue-500 dark:hover:text-blue-300 px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 dark:bg-blue-700 flex items-center ${location.pathname === '/login' ? 'bg-blue-500 dark:bg-blue-700 text-yellow-500' : ''}`}>
-                    <LogIn className="mr-2 h-4 w-4" />
-                    Log In
-                  </Link>
-                </>
-              )}
-              <ThemeBtn />
-            </div>
-          </div>
-          <div className="md:hidden">
+
+          <div className="md:hidden flex items-center gap-2">
+            <ThemeBtn />
             <button
-              className="bg-gray-100 px-2 py-2 rounded-md text-sm font-medium transition-colors duration-300 bg-transparent"
               onClick={toggleMenu}
-              aria-expanded={isOpen ? 'true' : 'false'}
+              aria-expanded={isOpen}
               aria-label="Toggle menu"
+              className="p-2 text-gray-700 dark:text-gray-300 hover:text-amber-500 dark:hover:text-amber-500 transition-colors duration-200"
             >
-              <span className="sr-only">Open main menu</span>
-              {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
           </div>
         </div>
       </div>
 
       {isOpen && (
-        <div className="md:hidden bg-gray-100 dark:bg-gray-900">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+        <div className="md:hidden border-t border-amber-500/15 bg-white/98 dark:bg-gray-950/98 backdrop-blur-md">
+          <div className="px-6 py-4 flex flex-col gap-1">
             <NavbarLinks onClick={() => setIsOpen(false)} />
           </div>
-          <div className="pt-4 pb-3 border-t border-gray-300 dark:border-gray-700">
-            <div className="flex items-center justify-between px-5 space-x-2">
-              {auth.user ? (
-                <>
-                  <Link to="/profile" className={`bg-gray-100 w-full text-gray-800 dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-300 px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 flex items-center ${location.pathname === '/profile' ? 'bg-blue-500 dark:bg-blue-700 text-yellow-500' : ''}`}>
-                    <User className="mr-2 h-4 w-4" />
-                    Profile
-                  </Link>
-                  <button onClick={logout} className="bg-gray-100 w-full text-gray-800 dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-300 px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 flex items-center">
-                    <LogOut className="mr-2 h-4 w-4" />
-                    Logout
-                  </button>
-                </>
-              ) : (
-                <>
-                  <Link to="/signup" className={`bg-gray-100 w-full text-gray-800 dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-300 px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 border border-blue-500 dark:border-blue-700 flex items-center ${location.pathname === '/signup' ? 'bg-blue-500 dark:bg-blue-700 text-yellow-500' : ''}`}>
-                    <UserPlus className="mr-2 h-4 w-4" />
-                    Sign Up
-                  </Link>
-                  <Link to="/login" className={`bg-gray-100 w-full text-gray-800 dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-300 px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 dark:bg-blue-700 flex items-center ${location.pathname === '/login' ? 'bg-blue-500 dark:bg-blue-700 text-yellow-500' : ''}`}>
-                    <LogIn className="mr-2 h-4 w-4" />
-                    Log In
-                  </Link>
-                </>
-              )}
-            </div>
-            <div className="mt-3 px-5">
-              <ThemeBtn />
-            </div>
+          <div className="px-6 pb-5 pt-2 border-t border-amber-500/15 flex flex-col gap-2">
+            {auth.user ? (
+              <>
+                <Link
+                  to="/profile"
+                  onClick={() => setIsOpen(false)}
+                  className="flex items-center gap-2 px-4 py-2.5 text-xs font-medium tracking-widest uppercase border border-amber-500/25 text-gray-700 dark:text-gray-300 hover:border-amber-500 hover:text-amber-500 transition-all duration-200"
+                >
+                  <User className="h-3.5 w-3.5" />
+                  Profile
+                </Link>
+                <button
+                  onClick={() => { logout(); setIsOpen(false); }}
+                  className="flex items-center gap-2 px-4 py-2.5 text-xs font-medium tracking-widest uppercase border border-amber-500/25 text-gray-700 dark:text-gray-300 hover:border-amber-500 hover:text-amber-500 transition-all duration-200"
+                >
+                  <LogOut className="h-3.5 w-3.5" />
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/signup"
+                  onClick={() => setIsOpen(false)}
+                  className="flex items-center gap-2 px-4 py-2.5 text-xs font-medium tracking-widest uppercase border border-amber-500/25 text-gray-700 dark:text-gray-300 hover:border-amber-500 hover:text-amber-500 transition-all duration-200"
+                >
+                  <UserPlus className="h-3.5 w-3.5" />
+                  Sign Up
+                </Link>
+                <Link
+                  to="/login"
+                  onClick={() => setIsOpen(false)}
+                  className="clip-skew flex items-center gap-2 px-4 py-2.5 text-xs font-medium tracking-widest uppercase bg-amber-500 hover:bg-amber-400 text-gray-900 transition-all duration-200"
+                >
+                  <LogIn className="h-3.5 w-3.5" />
+                  Log In
+                </Link>
+              </>
+            )}
           </div>
         </div>
       )}
