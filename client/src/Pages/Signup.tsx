@@ -1,11 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Eye, EyeOff, UserPlus, Search, Plus, X } from 'lucide-react';
 import { Link, useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'sonner';
 import { AuthContext } from "../context/AuthContext";
 import { GoogleLogin } from "@react-oauth/google";
 import { INTERESTS } from "../lib/utils";
+import { Input } from "../components/ui/input";
+import { Button } from "../components/ui/button";
+import Badge from "../components/ui/Badge";
+import { Textarea } from '@/components/ui/textarea';
 
 interface Skill {
   name: string;
@@ -30,7 +33,7 @@ interface UserData {
   totalMentees: number;
 }
 
-const inputClass = `w-full px-3 py-2 text-sm bg-transparent border border-amber-500/20 text-gray-900 dark:text-stone-100 placeholder:text-gray-400 dark:placeholder:text-gray-600 focus:outline-none focus:border-amber-500 transition-colors duration-200`;
+// using shared Input component instead of manual class
 const labelClass = `block text-xs font-medium tracking-widest uppercase text-gray-500 dark:text-gray-400 mb-2`;
 
 const SignUp: React.FC = () => {
@@ -153,12 +156,12 @@ const SignUp: React.FC = () => {
           login(token, rest.mentor._id, rest.mentor.email, role);
           navigate("/complete-profile");
         }
-        toast.success("Google login successful!", { position: "top-right", autoClose: 4000 });
+        toast.success("Google login successful!");
       } else {
-        toast.error(`Google login failed. Please try again.${await res.text()}`, { position: "top-right", autoClose: 4000 });
+        toast.error(`Google login failed. Please try again.${await res.text()}`, { duration: 4000 });
       }
     } catch (error) {
-      toast.error("An error occurred during Google login.", { position: "top-right", autoClose: 4000 });
+      toast.error("An error occurred during Google login.", { duration: 4000 });
     }
   };
 
@@ -205,24 +208,23 @@ const SignUp: React.FC = () => {
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className={labelClass}>Full Name</label>
-                  <input id="name" name="name" type="text" required className={inputClass} placeholder="John Doe" value={userData.name} onChange={handleInputChange} />
+                  <Input id="name" name="name" type="text" required placeholder="John Doe" value={userData.name} onChange={handleInputChange} />
                 </div>
                 <div>
                   <label className={labelClass}>Email</label>
-                  <input id="email-address" name="email" type="email" autoComplete="email" required className={inputClass} placeholder="you@example.com" value={userData.email} onChange={handleInputChange} />
+                  <Input id="email-address" name="email" type="email" autoComplete="email" required placeholder="you@example.com" value={userData.email} onChange={handleInputChange} />
                 </div>
               </div>
 
               <div>
                 <label className={labelClass}>Password</label>
                 <div className="relative">
-                  <input
+                  <Input
                     id="password"
                     name="password"
                     type={showPassword ? 'text' : 'password'}
                     autoComplete="current-password"
                     required
-                    className={inputClass}
                     placeholder="••••••••"
                     value={userData.password}
                     onChange={handleInputChange}
@@ -240,32 +242,32 @@ const SignUp: React.FC = () => {
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className={labelClass}>Date of Birth</label>
-                  <input id="dob" name="dob" type="date" required className={inputClass} value={userData.dob} onChange={handleInputChange} />
+                  <Input id="dob" name="dob" type="date" required value={userData.dob} onChange={handleInputChange} />
                 </div>
                 <div>
                   <label className={labelClass}>Location</label>
-                  <input id="location" name="location" type="text" className={inputClass} placeholder="City, Country" value={userData.location} onChange={handleInputChange} />
+                  <Input id="location" name="location" type="text" placeholder="City, Country" value={userData.location} onChange={handleInputChange} />
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className={labelClass}>Occupation</label>
-                  <input id="occupation" name="occupation" type="text" className={inputClass} placeholder="Software Engineer" value={userData.occupation} onChange={handleInputChange} />
+                  <Input id="occupation" name="occupation" type="text" placeholder="Software Engineer" value={userData.occupation} onChange={handleInputChange} />
                 </div>
                 <div>
                   <label className={labelClass}>Education</label>
-                  <input id="education" name="education" type="text" className={inputClass} placeholder="B.Sc. Computer Science" value={userData.education} onChange={handleInputChange} />
+                  <Input id="education" name="education" type="text" placeholder="B.Sc. Computer Science" value={userData.education} onChange={handleInputChange} />
                 </div>
               </div>
 
               <div>
                 <label className={labelClass}>Bio</label>
-                <textarea
+                <Textarea
                   id="bio"
                   name="bio"
                   rows={2}
-                  className={`${inputClass} resize-none`}
+                  className="resize-none"
                   placeholder="Tell us about yourself..."
                   value={userData.bio}
                   onChange={handleInputChange}
@@ -293,21 +295,21 @@ const SignUp: React.FC = () => {
                 <div className="space-y-2 max-h-28 overflow-y-auto pr-0.5">
                   {userData.skills.map((skill, index) => (
                     <div key={index} className="flex gap-2 items-center">
-                      <input
+                      <Input
                         type="text"
                         value={skill.name}
                         onChange={(e) => handleSkillChange(index, 'name', e.target.value)}
                         placeholder="Skill name"
-                        className={`${inputClass} flex-1`}
+                        className="flex-1"
                       />
-                      <input
+                      <Input
                         type="number"
                         value={skill.level}
                         onChange={(e) => handleSkillChange(index, 'level', parseInt(e.target.value))}
                         placeholder="0–100"
                         min="0"
                         max="100"
-                        className={`${inputClass} w-20`}
+                        className="w-20"
                       />
                       <button
                         type="button"
@@ -324,11 +326,10 @@ const SignUp: React.FC = () => {
               {role === 'mentee' && (
                 <div>
                   <label className={labelClass}>Goals (comma-separated)</label>
-                  <input
+                  <Input
                     type="text"
                     name="goals"
                     id="goals"
-                    className={inputClass}
                     placeholder="Learn React, Land a job at FAANG, ..."
                     value={userData.goals.join(', ')}
                     onChange={(e) => setUserData(prevData => ({ ...prevData, goals: e.target.value.split(', ').map(goal => goal.trim()) }))}
@@ -340,11 +341,10 @@ const SignUp: React.FC = () => {
                 <div className="grid grid-cols-2 gap-3">
                   <div className="col-span-2">
                     <label className={labelClass}>Specialties (comma-separated)</label>
-                    <input
+                    <Input
                       type="text"
                       name="specialties"
                       id="specialties"
-                      className={inputClass}
                       placeholder="React, Node.js, ..."
                       value={userData.specialties.join(', ')}
                       onChange={(e) => setUserData(prevData => ({ ...prevData, specialties: e.target.value.split(', ').map(s => s.trim()) }))}
@@ -352,11 +352,11 @@ const SignUp: React.FC = () => {
                   </div>
                   <div>
                     <label className={labelClass}>Ranking (0–5)</label>
-                    <input type="number" name="ranking" id="ranking" className={inputClass} value={userData.ranking} onChange={handleInputChange} step="0.1" min="0" max="5" />
+                    <Input type="number" name="ranking" id="ranking" value={userData.ranking} onChange={handleInputChange} step="0.1" min="0" max="5" />
                   </div>
                   <div>
                     <label className={labelClass}>Total Mentees</label>
-                    <input type="number" name="totalMentees" id="totalMentees" className={inputClass} value={userData.totalMentees} onChange={handleInputChange} min="0" />
+                    <Input type="number" name="totalMentees" id="totalMentees" value={userData.totalMentees} onChange={handleInputChange} min="0" />
                   </div>
                 </div>
               )}
@@ -366,9 +366,8 @@ const SignUp: React.FC = () => {
                   {role === 'mentee' ? 'Interests' : 'Field of Expertise'}
                 </label>
                 <div className="relative mb-2">
-                  <input
+                  <Input
                     type="text"
-                    className={`${inputClass} pr-10`}
                     placeholder="Search..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
@@ -379,18 +378,17 @@ const SignUp: React.FC = () => {
                 </div>
                 <div className="max-h-24 overflow-y-auto flex flex-wrap gap-1.5 p-2 border border-amber-500/15 bg-white dark:bg-gray-900">
                   {filteredInterests.map((interest) => (
-                    <button
+                    <Badge
                       key={interest}
-                      type="button"
                       onClick={handleInterestToggle(interest)}
-                      className={`px-3 py-1 text-xs font-medium tracking-wide uppercase transition-all duration-150 border
-                        ${interests.includes(interest)
-                          ? 'border-amber-500 bg-amber-500/10 text-amber-600 dark:text-amber-400'
-                          : 'border-amber-500/20 text-gray-500 dark:text-gray-400 hover:border-amber-500/50 hover:text-amber-500'
-                        }`}
+                      className={`cursor-pointer ${
+                        interests.includes(interest)
+                          ? 'bg-amber-500/10 text-amber-600 dark:text-amber-400'
+                          : ''
+                      }`}
                     >
                       {interest}
-                    </button>
+                    </Badge>
                   ))}
                 </div>
                 {interests.length > 0 && (
@@ -398,14 +396,15 @@ const SignUp: React.FC = () => {
                 )}
               </div>
 
-              <button
+              <Button
                 type="submit"
                 disabled={isLoading}
-                className="clip-skew w-full flex items-center justify-center gap-2 py-2.5 bg-amber-500 hover:bg-amber-400 text-gray-900 text-xs font-medium tracking-widest uppercase transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
+                variant="default"
+                className="clip-skew w-full"
               >
                 <UserPlus className="h-3.5 w-3.5" />
                 {isLoading ? 'Creating Account...' : 'Create Account'}
-              </button>
+              </Button>
 
               <div className="flex items-center gap-4">
                 <span className="flex-1 h-px bg-amber-500/15" />
@@ -416,7 +415,7 @@ const SignUp: React.FC = () => {
               <div className="flex justify-center">
                 <GoogleLogin
                   onSuccess={handleGoogleLogin}
-                  onError={() => toast.error("Google login failed. Please try again.", { position: "top-right", autoClose: 4000 })}
+                  onError={() => toast.error("Google login failed. Please try again.", { duration: 4000 })}
                   type="standard"
                   theme="filled_blue"
                   size="large"
@@ -440,7 +439,6 @@ const SignUp: React.FC = () => {
         </form>
 
       </div>
-      <ToastContainer />
     </div>
   );
 };

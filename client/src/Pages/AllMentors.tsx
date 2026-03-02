@@ -2,12 +2,27 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Search, MapPin, GraduationCap, Star, Users } from 'lucide-react';
+import { Input } from '../components/ui/input';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '../components/ui/select';
+
+function randomColor() {
+  const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD', '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E9'];
+  return colors[Math.floor(Math.random() * colors.length)];
+}
+
+function hexToRgba(hex: string, alpha: number) {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
 
 interface Mentor {
   _id: string;
   name: string;
   email: string;
   avatar: string;
+  coverPhoto?: string;
   bio: string;
   location: string;
   occupation: string;
@@ -23,23 +38,34 @@ interface FilterState {
   location: string;
 }
 
-const MentorCard: React.FC<{ mentor: Mentor }> = ({ mentor }) => (
+const MentorCard: React.FC<{ mentor: Mentor }> = ({ mentor }) => {
+  const randomBg = randomColor();
+  const hasCover = mentor.coverPhoto && mentor.coverPhoto !== "https://via.placeholder.com/1200x300?text=Cover";
+  const gradientFrom = hasCover ? 'rgba(0, 0, 0, 0.6)' : hexToRgba(randomBg, 0.6);
+  return (
   <Link
     to={`/profile/mentor/${mentor._id}`}
     className="group flex flex-col overflow-hidden border border-amber-500/20 bg-white dark:bg-gray-900 hover:border-amber-500/50 hover:-translate-y-1 transition-all duration-300"
   >
-    <div className="relative overflow-hidden h-48 bg-gray-100 dark:bg-gray-800">
-      <img
-        src={mentor.avatar || "/placeholder.svg"}
-        alt={`${mentor.name}'s avatar`}
-        className="w-full h-full object-cover object-top grayscale-[15%] group-hover:grayscale-0 transition-all duration-300"
-        onError={(e) => { (e.target as HTMLImageElement).src = "/placeholder.svg"; }}
-      />
-      <div className="absolute inset-0 bg-gradient-to-t from-gray-950/60 via-transparent to-transparent" />
+    <div
+      className="relative overflow-hidden h-48"
+      style={{
+        background: hasCover ? `url(${mentor.coverPhoto}) center/cover` : randomBg
+      }}
+    >
+      <div className="absolute inset-0 flex items-center justify-center">
+        <img
+          src={mentor.avatar || "/placeholder.svg"}
+          alt={`${mentor.name}'s avatar`}
+          className="w-20 h-20 rounded-full object-cover border-4 border-white shadow-lg group-hover:scale-105 transition-transform duration-300"
+          onError={(e) => { (e.target as HTMLImageElement).src = "/placeholder.svg"; }}
+        />
+      </div>
+      <div className="absolute inset-0" style={{ background: `linear-gradient(to top, ${gradientFrom}, transparent)` }} />
       <div className="absolute bottom-3 left-4 flex items-center gap-1.5">
         <Star className="h-3 w-3 text-amber-500 fill-amber-500" />
-        <span className="text-xs font-medium text-white">{(mentor.ranking ?? 0).toFixed(1)}</span>
-        <span className="text-xs text-gray-300">({mentor.totalMentees ?? 0} mentees)</span>
+        <span className="text-xs font-medium" style={{ color: hasCover ? 'white' : 'black' }}>{(mentor.ranking ?? 0).toFixed(1)}</span>
+        <span className="text-xs" style={{ color: hasCover ? '#d1d5db' : 'gray' }}>({mentor.totalMentees ?? 0} mentees)</span>
       </div>
     </div>
 
@@ -87,9 +113,10 @@ const MentorCard: React.FC<{ mentor: Mentor }> = ({ mentor }) => (
           </span>
         )}
       </div>
-    </div>
-  </Link>
-);
+      </div>
+    </Link>
+  );
+};
 
 const AllMentors: React.FC = () => {
   const [mentors, setMentors] = useState<Mentor[]>([]);
@@ -131,7 +158,6 @@ const AllMentors: React.FC = () => {
     );
   });
 
-  const selectClass = `w-full px-4 py-3 text-sm bg-white dark:bg-gray-900 border border-amber-500/20 text-gray-700 dark:text-stone-300 focus:outline-none focus:border-amber-500 transition-colors duration-200 appearance-none cursor-pointer`;
 
   if (loading) return (
     <div className="min-h-screen bg-stone-50 dark:bg-gray-950 flex items-center justify-center">
@@ -172,28 +198,46 @@ const AllMentors: React.FC = () => {
       <div className="px-6 md:px-16 lg:px-24 py-10 bg-stone-50 dark:bg-gray-950 border-b border-amber-500/15">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-4">
           <div className="relative flex-1">
-            <input
+            <Input
               type="text"
               name="search"
               placeholder="Search by name, skill, location..."
               value={filters.search}
               onChange={handleFilterChange}
-              className="w-full pl-10 pr-4 py-3 text-sm bg-white dark:bg-gray-900 border border-amber-500/20 text-gray-900 dark:text-stone-100 placeholder:text-gray-400 dark:placeholder:text-gray-600 focus:outline-none focus:border-amber-500 transition-colors duration-200"
+              className="pl-10"
             />
             <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
           </div>
-          <select name="specialty" value={filters.specialty} onChange={handleFilterChange} className={`md:w-56 ${selectClass}`}>
-            <option value="">All Specialties</option>
-            {[...new Set(mentors.flatMap(m => m.specialties))].map((s, i) => (
-              <option key={i} value={s}>{s}</option>
-            ))}
-          </select>
-          <select name="location" value={filters.location} onChange={handleFilterChange} className={`md:w-48 ${selectClass}`}>
-            <option value="">All Locations</option>
-            {[...new Set(mentors.map(m => m.location))].map((l, i) => (
-              <option key={i} value={l}>{l}</option>
-            ))}
-          </select>
+          <div className="md:w-56">
+            <Select value={filters.specialty} onValueChange={(v) => setFilters(prev => ({ ...prev, specialty: v === 'all' ? '' : v }))}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="All Specialties" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Specialties</SelectItem>
+                {[...new Set(mentors
+                  .flatMap(m => m.specialties)
+                  .filter(Boolean))].map((s, i) => (
+                  <SelectItem key={i} value={s}>{s}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="md:w-48">
+            <Select value={filters.location} onValueChange={(v) => setFilters(prev => ({ ...prev, location: v === 'all' ? '' : v }))}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="All Locations" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Locations</SelectItem>
+                {[...new Set(mentors
+                  .map(m => m.location)
+                  .filter(Boolean))].map((l, i) => (
+                  <SelectItem key={i} value={l}>{l}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
         </div>
       </div>
 

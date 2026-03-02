@@ -3,7 +3,8 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-export default async function uploadImage(localUrl, id) {
+export default async function uploadImage(localUrl, id, options = {}) {
+    const { width = 500, height = 500 } = options;
     cloudinary.config({ 
         cloud_name: process.env.CLOUD_NAME, 
         api_key: process.env.CLOUNIDARY_API_KEY, 
@@ -15,8 +16,8 @@ export default async function uploadImage(localUrl, id) {
     const autoCropUrl = cloudinary.url(public_id, {
         crop: 'auto',
         gravity: 'auto',
-        width: 500,
-        height: 500,
+        width,
+        height,
     });
     
     return autoCropUrl;

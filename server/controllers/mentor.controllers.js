@@ -4,6 +4,12 @@ import jwt from "jsonwebtoken";
 import { OAuth2Client } from "google-auth-library";
 import { sendMail } from "../utils/mail.util.js";
 
+// helper to pick a random avatar between 1 and 50
+function randomAvatarUrl() {
+  const id = Math.floor(Math.random() * 50) + 1; // 1..50
+  return `https://xsgames.co/randomusers/assets/avatars/pixel/${id}.jpg`;
+}
+
 async function createMentor(data) {
   try {
     const newMentor = new Mentor({
@@ -11,7 +17,8 @@ async function createMentor(data) {
       email: data.email,
       password: data.password,
       dob: data.dob,
-      avatar: data.avatar || "https://xsgames.co/randomusers/assets/avatars/pixel/10.jpg",
+      avatar: data.avatar || randomAvatarUrl(),
+      coverPhoto: data.coverPhoto || "",
       bio: data.bio,
       socialLinks: data.socialLinks,
       points: data.points || 100,
@@ -57,9 +64,15 @@ async function findMentor(id) {
 async function updateMentor(data) 
 {
   console.log(data);
+  // ensure avatar default applied when none provided
+  const update = {
+    ...data,
+    avatar: data.avatar || randomAvatarUrl(),
+    ...(data.coverPhoto !== undefined && { coverPhoto: data.coverPhoto }),
+  };
   try 
   {
-    let result = await Mentor.findByIdAndUpdate(data._id, data);
+    let result = await Mentor.findByIdAndUpdate(data._id, update);
     console.log(result);
     return { success: true, message: "Mentor updated successfully" };
   } 

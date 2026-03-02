@@ -3,6 +3,17 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { ChevronLeft, ChevronRight, Plus, Trash2 } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
+import { SectionTitle, SectionLabel } from '../../components/ui/Section'
+import { Input } from '../../components/ui/input'
+import { Textarea } from '../../components/ui/textarea'
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from '../../components/ui/select'
+import axios from "axios"
 
 interface FormData {
   location: string
@@ -15,6 +26,8 @@ interface FormData {
   skills: { name: string; level: number }[]
   specialties: string[]
   goals: string[]
+  coverPhoto?: string
+  avatar?: string
 }
 
 const locationOptions = [
@@ -138,6 +151,8 @@ export default function ProfileCompletion() {
     skills: [{ name: "", level: 0 }],
     specialties: [""],
     goals: [""],
+    coverPhoto: "",
+    avatar: "",
   })
 
   const navigate = useNavigate()
@@ -172,6 +187,8 @@ export default function ProfileCompletion() {
           skills: data.skills?.length ? data.skills : [{ name: "", level: 0 }],
           specialties: data.specialties?.length ? data.specialties : [""],
           goals: data.goals?.length ? data.goals : [""],
+          coverPhoto: data.coverPhoto || "",
+          avatar: data.avatar || "",
         }))
       })
       .catch(console.error)
@@ -204,6 +221,46 @@ export default function ProfileCompletion() {
     const newGoals = [...formData.goals]
     newGoals[index] = value
     setFormData({ ...formData, goals: newGoals })
+  }
+
+  const handleCoverUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    const userId = localStorage.getItem("_id")
+    if (!file || !userId || !role) return
+    const formDataObj = new FormData()
+    formDataObj.append("image", file)
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/${role}/${userId}/uploadCover`,
+        formDataObj,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      )
+      if (res.data && res.data.newCover) {
+        setFormData((prev) => ({ ...prev, coverPhoto: res.data.newCover }));
+      }
+    } catch (err) {
+      console.error("Cover upload failed", err)
+    }
+  }
+
+  const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    const userId = localStorage.getItem("_id")
+    if (!file || !userId || !role) return
+    const formDataObj = new FormData()
+    formDataObj.append("image", file)
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/${role}/${userId}/uploadAvatar`,
+        formDataObj,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      )
+      if (res.data && res.data.newAvatar) {
+        setFormData((prev) => ({ ...prev, avatar: res.data.newAvatar }));
+      }
+    } catch (err) {
+      console.error("Avatar upload failed", err)
+    }
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -242,8 +299,30 @@ export default function ProfileCompletion() {
       case 1:
         return (
           <motion.div key="step1" {...fadeInOut}>
-            <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white">Basic Information</h2>
+            <SectionLabel>Basic Information</SectionLabel>
             <div className="space-y-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Avatar
+                </label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleAvatarUpload}
+                  className="block w-full text-sm text-gray-900 bg-white border border-gray-300 rounded-lg cursor-pointer focus:outline-none"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Cover Photo
+                </label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleCoverUpload}
+                  className="block w-full text-sm text-gray-900 bg-white border border-gray-300 rounded-lg cursor-pointer focus:outline-none"
+                />
+              </div>
               {renderSelect("location", "Location", locationOptions)}
               {formData.location === "Other" &&
                 renderInput("customLocation", "Specify Location", "text", "Enter your location")}
@@ -259,14 +338,14 @@ export default function ProfileCompletion() {
       case 2:
         return (
           <motion.div key="step2" {...fadeInOut}>
-            <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white">Professional Bio</h2>
+            <SectionLabel>Professional Bio</SectionLabel>
             <div className="space-y-6">{renderTextarea("bio", "Bio", "Write a short professional bio")}</div>
           </motion.div>
         )
       case 3:
         return (
           <motion.div key="step3" {...fadeInOut}>
-            <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white">Skills</h2>
+            <SectionLabel>Skills</SectionLabel>
             <div className="space-y-4">
               {formData.skills.map((skill, index) => (
                 <motion.div
@@ -277,26 +356,31 @@ export default function ProfileCompletion() {
                   transition={{ duration: 0.2 }}
                   className="flex space-x-2"
                 >
-                  <select
-                    value={skill.name}
-                    onChange={(e) => handleSkillChange(index, "name", e.target.value)}
-                    className="flex-1 px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
-                  >
-                    <option value="">Select a skill</option>
-                    {skillOptions.map((option) => (
-                      <option key={option} value={option}>
-                        {option}
-                      </option>
-                    ))}
-                  </select>
-                  <input
+                  <div className="flex-1">
+                    <Select
+                      value={skill.name}
+                      onValueChange={(v) => handleSkillChange(index, "name", v)}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a skill" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {skillOptions.map((option) => (
+                          <SelectItem key={option} value={option}>
+                            {option}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <Input
                     type="number"
                     value={skill.level}
                     onChange={(e) => handleSkillChange(index, "level", Number.parseInt(e.target.value))}
                     placeholder="Level"
-                    min="0"
-                    max="100"
-                    className="w-24 px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
+                    min={0}
+                    max={100}
+                    className="w-24"
                   />
                   <button
                     type="button"
@@ -314,7 +398,7 @@ export default function ProfileCompletion() {
               <motion.button
                 type="button"
                 onClick={() => setFormData({ ...formData, skills: [...formData.skills, { name: "", level: 0 }] })}
-                className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:bg-blue-500 dark:hover:bg-blue-600"
+                className="flex items-center px-4 py-2 bg-blue-600 text-whitehover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:bg-blue-500 dark:hover:bg-blue-600"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -327,7 +411,7 @@ export default function ProfileCompletion() {
         if (role === "mentee") {
           return (
             <motion.div key="step4-goals" {...fadeInOut}>
-              <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white">Goals</h2>
+              <SectionLabel>Goals</SectionLabel>
               <div className="space-y-4">
                 {formData.goals.map((goal, index) => (
                   <motion.div
@@ -338,12 +422,12 @@ export default function ProfileCompletion() {
                     transition={{ duration: 0.2 }}
                     className="flex space-x-2"
                   >
-                    <input
+                    <Input
                       type="text"
                       value={goal}
                       onChange={(e) => handleGoalChange(index, e.target.value)}
                       placeholder="e.g. Learn React, Land a job at FAANG"
-                      className="flex-1 px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
+                      className="flex-1"
                     />
                     <button
                       type="button"
@@ -361,7 +445,7 @@ export default function ProfileCompletion() {
                 <motion.button
                   type="button"
                   onClick={() => setFormData({ ...formData, goals: [...formData.goals, ""] })}
-                  className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:bg-blue-500 dark:hover:bg-blue-600"
+                  className="flex items-center px-4 py-2 bg-blue-600 text-whitehover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:bg-blue-500 dark:hover:bg-blue-600"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -373,7 +457,7 @@ export default function ProfileCompletion() {
         }
         return (
           <motion.div key="step4" {...fadeInOut}>
-            <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white">Specialties</h2>
+            <SectionLabel>Specialties</SectionLabel>
             <div className="space-y-4">
               {formData.specialties.map((specialty, index) => (
                 <motion.div
@@ -384,18 +468,23 @@ export default function ProfileCompletion() {
                   transition={{ duration: 0.2 }}
                   className="flex space-x-2"
                 >
-                  <select
-                    value={specialty}
-                    onChange={(e) => handleSpecialtyChange(index, e.target.value)}
-                    className="flex-1 px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
-                  >
-                    <option value="">Select a specialty</option>
-                    {specialtyOptions.map((option) => (
-                      <option key={option} value={option}>
-                        {option}
-                      </option>
-                    ))}
-                  </select>
+                  <div className="flex-1">
+                    <Select
+                      value={specialty}
+                      onValueChange={(v) => handleSpecialtyChange(index, v)}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a specialty" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {specialtyOptions.map((option) => (
+                          <SelectItem key={option} value={option}>
+                            {option}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
                   <button
                     type="button"
                     onClick={() => {
@@ -412,7 +501,7 @@ export default function ProfileCompletion() {
               <motion.button
                 type="button"
                 onClick={() => setFormData({ ...formData, specialties: [...formData.specialties, ""] })}
-                className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:bg-blue-500 dark:hover:bg-blue-600"
+                className="flex items-center px-4 py-2 bg-blue-600 text-whitehover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:bg-blue-500 dark:hover:bg-blue-600"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -436,14 +525,14 @@ export default function ProfileCompletion() {
       <label htmlFor={name} className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
         {label}
       </label>
-      <input
+      <Input
         type={type}
         id={name}
         name={name}
         value={formData[name] as string}
         onChange={handleInputChange}
         placeholder={placeholder}
-        className="w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
+        className="w-full"
         required
       />
     </motion.div>
@@ -459,21 +548,23 @@ export default function ProfileCompletion() {
       <label htmlFor={name} className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
         {label}
       </label>
-      <select
-        id={name}
-        name={name}
-        value={formData[name] as string}
-        onChange={handleInputChange}
-        className="w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
-        required
-      >
-        <option value="">Select {label}</option>
-        {options.map((option) => (
-          <option key={option} value={option}>
-            {option}
-          </option>
-        ))}
-      </select>
+      <div className="w-full">
+        <Select
+          value={formData[name] as string}
+          onValueChange={(v) => handleInputChange({ target:{ name, value:v } } as any)}
+        >
+          <SelectTrigger>
+            <SelectValue placeholder={`Select ${label}`} />
+          </SelectTrigger>
+          <SelectContent>
+            {options.map((option) => (
+              <SelectItem key={option} value={option}>
+                {option}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
     </motion.div>
   )
 
@@ -487,58 +578,59 @@ export default function ProfileCompletion() {
       <label htmlFor={name} className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
         {label}
       </label>
-      <textarea
+      <Textarea
         id={name}
         name={name}
         value={formData[name] as string}
         onChange={handleInputChange}
         placeholder={placeholder}
         rows={4}
-        className="w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
-        required
-      ></textarea>
+      />
     </motion.div>
   )
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-3xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-xl overflow-hidden">
-        <div className="px-4 py-5 sm:p-6">
-          <motion.h1
-            className="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            Edit Your Profile
-          </motion.h1>
-          <motion.div
-            className="mb-8"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2, duration: 0.5 }}
-          >
-            <div className="flex justify-between items-center">
-              {[1, 2, 3, 4].map((s) => (
-                <motion.div
-                  key={s}
-                  className={`w-1/4 h-2 ${
-                    s <= step ? "bg-blue-600 dark:bg-blue-400" : "bg-gray-300 dark:bg-gray-600"
-                  } ${s === 1 ? "rounded-l-full" : ""} ${s === 4 ? "rounded-r-full" : ""}`}
-                  initial={{ scaleX: 0 }}
-                  animate={{ scaleX: 1 }}
-                  transition={{ duration: 0.5, delay: s * 0.1 }}
-                ></motion.div>
-              ))}
-            </div>
-            <div className="flex justify-between mt-2 text-xs text-gray-500 dark:text-gray-400">
-              <span>Basic Info</span>
-              <span>Bio</span>
-              <span>Skills</span>
-              <span>{role === "mentee" ? "Goals" : "Specialties"}</span>
-            </div>
-          </motion.div>
-          <form onSubmit={handleSubmit}>
+    <div className="min-h-screen bg-stone-50 dark:bg-gray-950 pt-24 pb-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-xl overflow-hidden">
+        <div className="lg:grid lg:grid-cols-3">
+          <div className="px-6 py-8 border-b lg:border-b-0 lg:border-r border-amber-500/20">
+            <motion.div
+              className="mb-6 text-center lg:text-left"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <SectionTitle className="text-3xl">Edit Your Profile</SectionTitle>
+            </motion.div>
+            <motion.div
+              className="mb-6"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2, duration: 0.5 }}
+            >
+              <div className="flex justify-between items-center">
+                {[1, 2, 3, 4].map((s) => (
+                  <motion.div
+                    key={s}
+                    className={`${
+                      s <= step ? "bg-amber-500 dark:bg-amber-400" : "bg-gray-300 dark:bg-gray-600"
+                    } w-1/4 h-2 ${s === 1 ? "rounded-l-full" : ""} ${s === 4 ? "rounded-r-full" : ""}`}
+                    initial={{ scaleX: 0 }}
+                    animate={{ scaleX: 1 }}
+                    transition={{ duration: 0.5, delay: s * 0.1 }}
+                  ></motion.div>
+                ))}
+              </div>
+              <div className="flex justify-between mt-2 text-xs text-gray-500 dark:text-gray-400">
+                <span>Basic Info</span>
+                <span>Bio</span>
+                <span>Skills</span>
+                <span>{role === "mentee" ? "Goals" : "Specialties"}</span>
+              </div>
+            </motion.div>
+          </div>
+          <div className="px-6 py-8 lg:col-span-2">
+            <form onSubmit={handleSubmit}>
             <AnimatePresence mode="wait">{renderStep()}</AnimatePresence>
             <motion.div
               className="mt-8 flex justify-between"
@@ -550,7 +642,7 @@ export default function ProfileCompletion() {
                 <motion.button
                   type="button"
                   onClick={() => setStep(step - 1)}
-                  className="flex items-center px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 dark:bg-gray-500 dark:hover:bg-gray-600"
+                  className="clip-skew flex items-center px-6 py-3 bg-amber-500 hover:bg-amber-400 text-gray-900 text-xs font-medium tracking-widest uppercase transition-all duration-200"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -561,7 +653,7 @@ export default function ProfileCompletion() {
                 <motion.button
                   type="button"
                   onClick={() => setStep(step + 1)}
-                  className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:bg-blue-500 dark:hover:bg-blue-600"
+                  className="clip-skew flex items-center px-6 py-3 bg-amber-500 hover:bg-amber-400 text-gray-900 text-xs font-medium tracking-widest uppercase transition-all duration-200"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -570,7 +662,7 @@ export default function ProfileCompletion() {
               ) : (
                 <motion.button
                   type="submit"
-                  className="flex items-center px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:bg-green-500 dark:hover:bg-green-600"
+                  className="clip-skew flex items-center px-6 py-3 bg-amber-500 hover:bg-amber-400 text-gray-900 text-xs font-medium tracking-widest uppercase transition-all duration-200"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -579,7 +671,8 @@ export default function ProfileCompletion() {
               )}
             </motion.div>
           </form>
-        </div>
+          </div> {/* end right panel */}
+        </div> {/* end grid */}
       </div>
     </div>
   )

@@ -18,12 +18,11 @@ import MentorChatPage from "./Pages/MentorChat";
 import Article from "./Pages/Articles/[id]";
 import ArticlesPage from "./Pages/Articles";
 import NewArticle from "./Pages/Articles/NewArticle";
+import { Toaster } from "./components/ui/sonner";
 
 import CompleteProfile from './components/ProfileComponents/complete-profile'
-import MenteeProfile from './components/ProfileComponents/mentee'
-import MentorProfile from './components/ProfileComponents/mentor'
-import ViewMenteeProfile from './components/ProfileComponents/ViewMenteeProfile'
-import ViewMentorProfile from './components/ProfileComponents/ViewMentorProfile'
+import ProfilePage from './components/ProfileComponents/ProfilePage'
+import ViewProfilePage from './components/ProfileComponents/ViewProfilePage'
 import axios from 'axios'
 import AllMentors from './Pages/AllMentors'
 import ChatPage from './Pages/chat/ChatPage'
@@ -115,10 +114,12 @@ export default function App() {
               <Route path="/mentor-chat" element={<MentorChatPage />} />
               <Route path="/all/mentors" element={<AllMentors />} />
 
-              <Route path="/profile" element={<MenteeProfile />} />
-              <Route path="/profile/mentor" element={<MentorProfile />} />
-              <Route path="/profile/:id" element={<ViewMenteeProfile />} />
-              <Route path="/profile/mentor/:id" element={<ViewMentorProfile />} />
+              {/* own profile */}
+              <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/profile/mentor" element={<ProfilePage />} />
+              {/* view other users */}
+              <Route path="/profile/:id" element={<ViewProfilePage />} />
+              <Route path="/profile/mentor/:id" element={<ViewProfilePage />} />
 
               <Route path="/call" element={<Call meetingNumber={'6943829690'} password={'4Yjz7F'} />} />
 
@@ -131,6 +132,7 @@ export default function App() {
               <Route path='/chat' element={<ChatPage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
+            <Toaster />
           </main>
           {location.pathname === "/" && <Footer />}
         </div>

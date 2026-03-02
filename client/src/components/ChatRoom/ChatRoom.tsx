@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { Send, Phone, Video, MoreVertical, Paperclip } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { formatMessageTime } from '../formatMessageTime'
 
 interface Message {
   id: string
@@ -107,7 +108,7 @@ export default function ChatRoom({ mentorName, mentorAvatar }: ChatRoomProps) {
           >
             <div className={`flex flex-col gap-1 max-w-xs lg:max-w-md ${message.sender === 'mentee' ? 'items-end' : 'items-start'}`}>
               <time className="text-xs text-gray-400 dark:text-gray-500 px-1">
-                {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                {formatMessageTime(message.timestamp)}
               </time>
               <div className={`px-4 py-2.5 text-sm leading-relaxed ${
                 message.sender === 'mentee'

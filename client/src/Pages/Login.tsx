@@ -1,11 +1,12 @@
 import React, { useState, useContext } from "react";
 import { Eye, EyeOff, LogIn } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "sonner";
 import { AuthContext } from "../context/AuthContext.tsx";
 import { GoogleLogin } from "@react-oauth/google";
+import { Input } from "../components/ui/input";
+import { Button } from "../components/ui/button";
 
-const inputClass = `w-full px-4 py-3 text-sm bg-transparent border border-amber-500/20 text-gray-900 dark:text-stone-100 placeholder:text-gray-400 dark:placeholder:text-gray-600 focus:outline-none focus:border-amber-500 transition-colors duration-200`;
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -64,12 +65,12 @@ const Login: React.FC = () => {
         } else {
           login(token, rest.mentor._id, rest.mentor.email, role);
         }
-        toast.success("Google login successful!", { position: "top-right", autoClose: 4000 });
+        toast.success("Google login successful!");
       } else {
-        toast.error(`Google login failed. Please try again.${await res.text()}`, { position: "top-right", autoClose: 4000 });
+        toast.error(`Google login failed. Please try again.${await res.text()}`);
       }
     } catch (error) {
-      toast.error("An error occurred during Google login.", { position: "top-right", autoClose: 4000 });
+      toast.error("An error occurred during Google login.");
     }
   };
 
@@ -86,18 +87,16 @@ const Login: React.FC = () => {
 
           <div className="flex mb-8 border border-amber-500/20">
             {(["mentee", "mentor"] as const).map((r) => (
-              <button
+              <Button
                 key={r}
-                type="button"
-                onClick={() => setRole(r)}
-                className={`flex-1 py-2.5 text-xs font-medium tracking-widest uppercase transition-all duration-200
-                  ${role === r
-                    ? "bg-amber-500 text-gray-900"
-                    : "bg-transparent text-gray-500 dark:text-gray-400 hover:text-amber-500"
-                  }`}
+                variant={role===r?"default":"ghost"}
+                size="sm"
+                asChild
               >
-                {r}
-              </button>
+                <button type="button" onClick={() => setRole(r)} className="w-full">
+                  {r}
+                </button>
+              </Button>
             ))}
           </div>
 
@@ -106,11 +105,10 @@ const Login: React.FC = () => {
               <label className="block text-xs font-medium tracking-widest uppercase text-gray-500 dark:text-gray-400 mb-2">
                 Email
               </label>
-              <input
+              <Input
                 type="email"
                 autoComplete="email"
                 required
-                className={inputClass}
                 placeholder="you@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -122,11 +120,10 @@ const Login: React.FC = () => {
                 Password
               </label>
               <div className="relative">
-                <input
+                <Input
                   type={showPassword ? "text" : "password"}
                   autoComplete="current-password"
                   required
-                  className={inputClass}
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -143,7 +140,7 @@ const Login: React.FC = () => {
 
             <div className="flex items-center justify-between pt-1">
               <label className="flex items-center gap-2 cursor-pointer">
-                <input
+                <Input
                   type="checkbox"
                   className="w-3.5 h-3.5 border border-amber-500/30 accent-amber-500"
                 />
@@ -154,13 +151,10 @@ const Login: React.FC = () => {
               </a>
             </div>
 
-            <button
-              type="submit"
-              className="clip-skew w-full flex items-center justify-center gap-2 py-3.5 mt-2 bg-amber-500 hover:bg-amber-400 text-gray-900 text-xs font-medium tracking-widest uppercase transition-all duration-200"
-            >
+            <Button variant="default" size="default" className="w-full clip-skew" type="submit">
               <LogIn className="h-3.5 w-3.5" />
               Sign In
-            </button>
+            </Button>
           </form>
 
           <div className="my-8 flex items-center gap-4">
@@ -172,7 +166,7 @@ const Login: React.FC = () => {
           <div className="flex justify-center">
             <GoogleLogin
               onSuccess={handleGoogleLogin}
-              onError={() => toast.error("Google login failed. Please try again.", { position: "top-right", autoClose: 4000 })}
+              onError={() => toast.error("Google login failed. Please try again.")}
               type="standard"
               theme="filled_black"
               size="large"
@@ -188,7 +182,6 @@ const Login: React.FC = () => {
           </p>
         </div>
       </div>
-      <ToastContainer />
     </div>
   );
 };

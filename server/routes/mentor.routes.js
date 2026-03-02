@@ -1,5 +1,4 @@
 import express from "express";
-import { OAuth2Client } from "google-auth-library";
 import { upload } from "../middlewares/multer.js";
 import uploadImage from "../utils/uploadImage.js";
 import { createMentor,getMentorDetails, findMentor, updateMentor, loginMentor, googleLogin, findMentorByEmail, insertBulk, updateRating } from "../controllers/mentor.controllers.js";
@@ -82,6 +81,20 @@ router.post("/:id/uploadAvatar", upload.single("image"), async (req, res) => {
   } 
   catch (error) {
     res.status(500).send({ success: false, message: `Internal server error${error}`, });
+  }
+});
+
+router.post("/:id/uploadCover", upload.single("image"), async (req, res) => {
+  try {
+    const mentorId = req.params.id;
+    const foundMentor = await findMentor(mentorId);
+    if (!foundMentor || !req.file)
+      return res.status(404).send({ success: false, message: "Not found" });
+    foundMentor.coverPhoto = await uploadImage(`uploads/cover_${req.params.id}_${req.file.originalname}`, req.params.id, { width: 1200, height: 300 });
+    await updateMentor(foundMentor);
+    res.status(200).send({success: true, message: "Cover uploaded successfully", newCover: foundMentor.coverPhoto});
+  } catch (error) {
+    res.status(500).send({ success: false, message: `Internal server error${error}` });
   }
 });
 

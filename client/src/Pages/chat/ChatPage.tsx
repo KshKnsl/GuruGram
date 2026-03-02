@@ -7,8 +7,8 @@ import ChatContainer from "../../components/ChatContainer";
 const ChatPage = () => {
   const { selectedUser } = useChat();
   return (
-    <div className="min-h-screen bg-stone-50 dark:bg-gray-950 flex flex-col md:items-center md:justify-center md:px-4 md:py-8">
-      <div className="w-full max-w-7xl md:h-[calc(100vh-5rem)] h-screen border border-amber-500/20 flex overflow-hidden bg-white dark:bg-gray-900">
+    <div className="bg-stone-50 dark:bg-gray-950 flex flex-col md:items-center md:justify-center">
+      <div className="w-full md:h-[calc(100vh-4rem)] h-screen border border-amber-500/20 flex overflow-hidden bg-white dark:bg-gray-900">
         <Sidebar />
         {!selectedUser ? <NoChatSelected /> : <ChatContainer />}
       </div>

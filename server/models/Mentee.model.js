@@ -8,6 +8,7 @@ const menteeSchema = new mongoose.Schema(
     password: { type: String, required: true, select: false },
     dob: { type: Date },
     avatar: { type: String, default: "https://xsgames.co/randomusers/assets/avatars/pixel/10.jpg" },
+    coverPhoto: { type: String, default: "https://via.placeholder.com/1200x300?text=Cover" },
     bio: { type: String, default: "Experienced software engineer with a passion for mentoring. Specialized in distributed systems and machine learning. Committed to helping the next generation of developers excel in their careers." },
     socialLinks: { type: [String], default: [] },
     interests: { type: [String], default: ["Reading"] },

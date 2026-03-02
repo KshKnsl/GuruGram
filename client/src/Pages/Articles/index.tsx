@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Calendar, MessageSquare, Heart, PenLine } from 'lucide-react';
 import MentorName from '../../components/ui/MentorName';
+import { formatDate } from '../../lib/utils';
 
 interface Article {
   id: string;
@@ -58,7 +59,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ id, _id, title, content, auth
         <div className="flex items-center justify-between text-xs text-gray-400 dark:text-gray-500">
           <span className="flex items-center gap-1">
             <Calendar className="w-3.5 h-3.5" />
-            {date}
+            {formatDate(date)}
           </span>
           <div className="flex items-center gap-4">
             <span className="flex items-center gap-1">

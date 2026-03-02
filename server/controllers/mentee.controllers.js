@@ -4,6 +4,11 @@ import jwt from "jsonwebtoken";
 import { OAuth2Client } from "google-auth-library";
 import { sendMail } from "../utils/mail.util.js";
 
+function randomAvatarUrl() {
+  const id = Math.floor(Math.random() * 50) + 1; // 1..50
+  return `https://xsgames.co/randomusers/assets/avatars/pixel/${id}.jpg`;
+}
+
 async function createMentee(data) {
   try {
     const newMentee = new Mentee({
@@ -11,7 +16,8 @@ async function createMentee(data) {
       email: data.email,
       password: data.password,
       dob: data.dob,
-      avatar: data.avatar || "https://xsgames.co/randomusers/assets/avatars/pixel/10.jpg",
+      avatar: data.avatar || randomAvatarUrl(),
+      coverPhoto: data.coverPhoto || "",
       bio: data.bio,
       socialLinks: data.socialLinks,
       interests: data.interests || ["Reading"],
@@ -48,7 +54,8 @@ async function updateMentee(data) {
   const update = {
     name: data.name,
     dob: data.dob,
-    avatar: data.avatar || "https://xsgames.co/randomusers/assets/avatars/pixel/10.jpg",
+    avatar: data.avatar || randomAvatarUrl(),
+    ...(data.coverPhoto !== undefined && { coverPhoto: data.coverPhoto }),
     bio: data.bio,
     socialLinks: data.socialLinks || [],
     interests: data.interests || ["Reading"],

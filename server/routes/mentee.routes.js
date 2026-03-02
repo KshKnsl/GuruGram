@@ -73,6 +73,21 @@ router.post("/:id/uploadAvatar", upload.single("image"), async (req, res) => {
   }
 });
 
+router.post("/:id/uploadCover", upload.single("image"), async (req, res) => {
+  try {
+    const menteeId = req.params.id;
+    const foundMentee = await findMentee(menteeId);
+    if (!foundMentee || !req.file) 
+      return res.status(404).send({ success: false, message: "Not found" });
+    foundMentee.coverPhoto = await uploadImage(`uploads/cover_${req.params.id}_${req.file.originalname}`, req.params.id, { width: 1200, height: 300 });
+    await updateMentee(foundMentee);
+    res.status(200).send({success: true, message: "Cover uploaded successfully", newCover: foundMentee.coverPhoto});
+  } 
+  catch (error) {
+    res.status(500).send({ success: false, message: `Internal server error${error}`, });
+  }
+});
+
 router.post("/google-login", async (req, res) => {
   const { token } = req.body;
   try {

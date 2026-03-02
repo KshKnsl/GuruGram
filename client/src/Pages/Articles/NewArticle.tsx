@@ -3,6 +3,9 @@ import { useState, useEffect, useCallback } from "react"
 import { useNavigate } from "react-router-dom"
 import { Eye, EyeOff, PenLine } from "lucide-react"
 import axios from "axios"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function debounce<F extends (...args: any[]) => void>(fn: F, wait = 0) {
@@ -109,14 +112,12 @@ const NewArticle: React.FC<NewArticleProps> = ({ onSubmit }) => {
             <label htmlFor="title" className="block text-xs font-medium tracking-widest uppercase text-gray-500 dark:text-gray-400 mb-3">
               Title
             </label>
-            <input
+            <Input
               type="text"
               id="title"
               value={title}
               onChange={handleTitleChange}
-              className={`w-full px-4 py-3 text-sm bg-transparent border text-gray-900 dark:text-stone-100 placeholder:text-gray-400 dark:placeholder:text-gray-600 focus:outline-none focus:border-amber-500 transition-colors ${
-                errors.title ? 'border-red-400' : 'border-amber-500/20'
-              }`}
+              className={`${errors.title ? 'border-red-400' : 'border-amber-500/20'}`}
               placeholder="Your article title..."
               required
             />
@@ -130,14 +131,15 @@ const NewArticle: React.FC<NewArticleProps> = ({ onSubmit }) => {
               <label htmlFor="content" className="text-xs font-medium tracking-widest uppercase text-gray-500 dark:text-gray-400">
                 Content
               </label>
-              <button
-                type="button"
+              <Button
+                variant="ghost"
+                size="sm"
                 onClick={() => setIsPreviewMode(!isPreviewMode)}
-                className="flex items-center gap-1.5 text-xs font-medium tracking-widest uppercase text-amber-500 hover:text-amber-400 transition-colors"
+                className="flex items-center gap-1.5 text-xs tracking-widest uppercase"
                 aria-label={isPreviewMode ? 'Edit mode' : 'Preview mode'}
               >
                 {isPreviewMode ? <><EyeOff size={14} /> Edit</> : <><Eye size={14} /> Preview</>}
-              </button>
+              </Button>
             </div>
             {isPreviewMode ? (
               <div
@@ -146,7 +148,7 @@ const NewArticle: React.FC<NewArticleProps> = ({ onSubmit }) => {
                 dangerouslySetInnerHTML={{ __html: content }}
               />
             ) : (
-              <textarea
+              <Textarea
                 id="content"
                 value={content}
                 onChange={(e) => handleContentChange(e.target.value)}
@@ -163,14 +165,15 @@ const NewArticle: React.FC<NewArticleProps> = ({ onSubmit }) => {
           </div>
 
           {isMentor ? (
-            <button
+            <Button
               type="submit"
+              variant="default"
+              className="clip-skew inline-flex items-center gap-2 px-9 py-4 text-xs"
               disabled={isPublishing}
-              className="clip-skew inline-flex items-center gap-2 px-9 py-4 text-xs font-medium tracking-widest uppercase bg-amber-500 hover:bg-amber-400 text-gray-900 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_40px_rgba(201,168,76,0.35)] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
             >
               <PenLine className="w-3.5 h-3.5" />
               {isPublishing ? 'Publishing...' : 'Publish Article'}
-            </button>
+            </Button>
           ) : (
             <div className="px-5 py-4 border border-amber-500/30 bg-amber-500/5">
               <p className="text-xs tracking-widest uppercase text-amber-600 dark:text-amber-400">
